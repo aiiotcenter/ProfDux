@@ -613,8 +613,8 @@ async function generateQuiz(lectureObject, refresh = true){
 
     console.log("courseID: ", courseID);
 
-    const topics = lectureObject.subtopics
-    .map( subtopic => subtopic.title ).join(", ");
+    const topics = lectureObject.title
+    // .map( subtopic => subtopic.title ).join(", ");
 
     let quizQuestions = [];
 

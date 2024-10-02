@@ -19,13 +19,13 @@
                     <input id="imageUploadInput" class="upload-input" type="file" accept="image/*" onchange="loadImageToPopupView(event, '#chosenPhoto')">
                 </label>
 
-                <!-- <label for="videoUploadInput" class="upload-option">
+                <label for="videoUploadInput" class="upload-option">
                     <div class="circular-wrapper">
                         <img src="../assets/icons/fi/fi-rr-clapperboard-play.svg" alt="">
                     </div>
                     <p class="upload-option-description"><text>Video</text></p>
                     <input id="videoUploadInput" class="upload-input" type="file" accept="video/mp4,video/x-m4v" onchange="loadVideoToPopupView(event, '#chosenPhoto')">
-                </label> -->
+                </label>
 
                 <label for="PDFUploadInput" class="upload-option">
                     <div class="circular-wrapper">

@@ -1,5 +1,6 @@
 let globalImageObject;
 let globalPDFObject;
+let globalVideoObject;
 
 function loadImageToPopupView(event, outputElement) {
 
@@ -46,7 +47,28 @@ function loadPDFToPopupView(event, outputElement) {
 
     setUploadPDFObject(event.target.files[0]);
 
-    }
+}
+
+function loadVideoToPopupView(event, outputElement) {
+
+    // const output = document.querySelector(outputElement);
+
+    let uploadContainer = document.querySelector(".upload-options-container");
+    let uploadProgressContainer = document.querySelector(".upload-progress-container");
+    uploadContainer.style.display = "none";
+    uploadProgressContainer.style.display = "grid";
+
+
+    let { name: PDFName, type: fileType } = event.target.files[0];
+
+    let truncatedString = truncateString(PDFName);
+    let truncatedFilename = document.querySelector("#truncatedFilename");
+    truncatedFilename.textContent = truncatedString;
+
+    setUploadVideoObject(event.target.files[0]);
+
+}
+
 
 function revertUploadChoice(){
 
@@ -66,6 +88,7 @@ function startUploading(){
 
     uploadWithObject(globalImageObject);
     uploadWithObject(globalPDFObject);
+    uploadWithObject(globalVideoObject);
 
     async function uploadWithObject(fileObject){
 
@@ -120,6 +143,10 @@ function setUploadImageObject(imageObject) {
 
 function setUploadPDFObject(PDFObject){
     globalPDFObject = PDFObject;
+}
+
+function setUploadVideoObject(VideoObject){
+    globalVideoObject = VideoObject;
 }
 
 function openUploadOverlay(id){
