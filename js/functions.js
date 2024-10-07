@@ -717,24 +717,25 @@ async function generateQuestion(generateQuestionObject, amount){
     } = generateQuestionObject;
 
     let query = 
-    `create for me in valid json format using ISO encoding, ${amount} questions with the keywords 'questions' in the ${languages.map( language => `${language}`).join("and ")} as well as their answers 
-    in the ${languages.map( language => `${language}`).join("and ")} with those exact key names in the topics of ${topics} 
-    for ${educationEnvironment}. 
-
-    The questions should be ${type} with its respective answer choices as well in the languages types ${languages.map( language => `${language}`).join("and ")}
-    as well as the correct answer option in ${languages.map( language => `${language}`).join("and ")}.
-
-    The questions should be ${level}.
-
-    The json format should have the following keys, 
-    "question, answerOptions, answer, type, hardness". 
-
-    question, answerOptions and answer should all come with the ${languages.map( language => `${language}`).join("and ")}
-
-    The answerOptions should only be available if the 
-    question type is multiple choice or true and false.
-
-    Do not add any invalid characters in the result please.`;
+    `Please create ${amount} questions in valid JSON format using ISO encoding, with the keyword 'questions' in the ${languages.join(" and ")} languages, along with their respective answers in those same languages.
+    
+    The questions should focus on the topics of ${topics} and be appropriate for ${educationEnvironment}. 
+    
+    Each question should be in the ${type} format, with corresponding answer choices (if applicable) and the correct answer, all provided in ${languages.join(" and ")}.
+    
+    The difficulty level of the questions should be ${level}.
+    
+    The JSON format must contain the following keys:
+    - "question": The text of the question (in ${languages.join(" and ")}).
+    - "answerOptions": The list of possible answers (only included for multiple choice or true/false questions, in ${languages.join(" and ")}).
+    - "answer": The correct answer (in ${languages.join(" and ")}).
+    - "type": The type of question (e.g., multiple choice, true/false, etc.).
+    - "hardness": The difficulty level (e.g., easy, medium, hard).
+    
+    Ensure that all fields ("question", "answerOptions", and "answer") are written in ${languages.join(" and ")}.
+    
+    Please avoid adding any invalid characters to the result.`;
+    
 
     let unparsedJSONResponse = await generateGPTResponseFor(query);
     let result = await JSON.parse(unparsedJSONResponse);
