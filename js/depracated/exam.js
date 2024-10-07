@@ -535,23 +535,31 @@ async function generateExam(e) {
   let mediumQuestionsCount = mediumInput.value;
   let easyQuestionsCount = easyInput.value;
 
-  let query = `create for me in valid json format using ISO encoding,
-    a series of new questions in the ${language} language as well as their answers
-    in the ${language} language in the topics of ${topic}
-    for ${educationEnvironment}.
-    There should be ${multipleChoiceCount} choice questions
-    with a minimum of 4 answers that do not include letters
-    at the beginning.
-    There should be ${matchingCount} matching questions, ${fillInTheBlankCount} fill in the blank questions and
-    ${trueAndFalseCount} true and false questions with their answer options.
-    ${hardQuestionsCount} of those questions should be hard,
-    ${mediumQuestionsCount} should be medium and
-    ${easyQuestionsCount} should be easy.
-    The json format should have the following keys,
-    "question, answerOptions, answer, type, hardness".
-    The answerOptions should only be available if the
-    question type is multiple choice or true and false.
-    Do not add any invalid characters in the result.`;
+  let query = `
+Create a series of questions in valid JSON format using ISO encoding. 
+Both the questions and their answers should be written in ${language}. 
+The topics should focus on ${topic} and be suitable for ${educationEnvironment}.
+
+The series should include:
+- ${multipleChoiceCount} multiple-choice questions, each with at least 4 answer options. Note: The answer options should not have letters at the beginning.
+- ${matchingCount} matching questions.
+- ${fillInTheBlankCount} fill-in-the-blank questions.
+- ${trueAndFalseCount} true/false questions with answer options.
+
+Regarding difficulty:
+- ${hardQuestionsCount} questions should be hard.
+- ${mediumQuestionsCount} questions should be of medium difficulty.
+- ${easyQuestionsCount} questions should be easy.
+
+Each question in the JSON format must include the following keys:
+- "question": The text of the question.
+- "answerOptions": Available answer choices (only for multiple choice or true/false questions).
+- "answer": The correct answer to the question.
+- "type": The type of the question (multiple choice, matching, fill-in-the-blank, or true/false).
+- "hardness": The difficulty level (hard, medium, or easy).
+
+Ensure there are no invalid characters in the result.`;
+
 
   let unparsedJSONResponse = await generateGPTResponseFor(query);
   let questions = await JSON.parse(unparsedJSONResponse);
