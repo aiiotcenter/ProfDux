@@ -465,8 +465,18 @@ class Course {
         // TODO: HERE
 
         let generatePDFButton = document.createElement("div");
-        generatePDFButton.className = "generate-pdf-button";
+        generatePDFButton.className = "generate-button";
         generatePDFButton.innerHTML = `<img src="../assets/icons/fi/arrows-rotate.svg" alt="">`;
+
+        let generateVideoButton = document.createElement("div");
+        generateVideoButton.className = "generate-button";
+        generateVideoButton.innerHTML = `<img src="../assets/icons/video-icon.png" alt="">`;
+
+        generateVideoButton.addEventListener("click", () => {
+
+            // Cliff
+
+        });
 
         deleteButton.addEventListener("click", () => {
 
@@ -493,6 +503,7 @@ class Course {
         inputElementContainer.appendChild(makeShiftInputWrapper);
         inputElementContainer.appendChild(this.createAttachButton(id));
         if (title.length > 0 ) inputElementContainer.appendChild(generatePDFButton);
+        inputElementContainer.appendChild(generateVideoButton);
         inputElementContainer.appendChild(deleteButton);
 
         return { inputElementContainer, makeShiftInputWrapper };

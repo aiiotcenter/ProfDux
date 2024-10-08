@@ -42,7 +42,7 @@
 
 .lecture-inner-container .input-element {
     display: grid;
-    grid-template-columns: 1fr auto auto auto;
+    grid-template-columns: 1fr auto auto auto auto;
     grid-gap: 20px;
     align-items: center;
     position: relative;
@@ -114,7 +114,7 @@
     display: none;
 }
 
-.generate-pdf-button, .attachments-button {
+.generate-button, .attachments-button {
     background: var(--accent);
     height: 40px;
     width: 40px;
@@ -124,7 +124,7 @@
     margin-left: 50px;
 }
 
-.delete-button, .generate-pdf-button, .attachments-button {
+.delete-button, .generate-button, .attachments-button {
     margin-left: 0px;
     justify-self: unset;
     background: var(--accent);
@@ -134,7 +134,7 @@
     cursor: pointer;
 }
 
-.delete-button img, .generate-pdf-button img, .attachments-button img{
+.delete-button img, .generate-button img, .attachments-button img{
     height: 15px;
     width: 15px;
     filter: invert(100%); 
