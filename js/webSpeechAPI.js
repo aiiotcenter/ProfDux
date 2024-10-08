@@ -54,13 +54,13 @@ var first_char = /\S/;
   var recognizing = false;
   var ignore_onend;
   var start_timestamp;
-  var recognition;
+  let recognition;
   
   if (!('webkitSpeechRecognition' in window)) {
       upgrade();
     } else {
 
-      start_button.style.display = 'grid';
+      // start_button.style.display = 'grid';
       recognition = new webkitSpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;

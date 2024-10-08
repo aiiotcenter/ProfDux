@@ -7,7 +7,7 @@
         <page data-id="Classroom"></page> 
 
         <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.10.111/build/pdf.min.js"></script>
-        <script src="../js/webSpeechAPI.js"></script>
+        <script src="../js/webSpeechAPI.js" defer></script>
 
         <?php include '../include/studentImports.php'; ?>
         <script src="https://code.responsivevoice.org/responsivevoice.js?key=NVbGYm7d"></script>

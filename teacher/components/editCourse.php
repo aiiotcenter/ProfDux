@@ -13,14 +13,6 @@
     </div>
 
     <div class="simple-grid">
-        <label for="excelCourseFileUpload" class="button" id="excelUploadButton">
-            <div>
-                <input type="file" id="excelCourseFileUpload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-                <img src="../assets/icons/excel.png" alt="">
-                <text>Excel Upload</text>
-            </div>
-        </label>
-
         <div class="button" id="saveCourseDetails">
             <text>Save</text>
         </div>

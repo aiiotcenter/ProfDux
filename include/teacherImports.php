@@ -36,7 +36,6 @@
         "../js/functions.js",
         "../js/localize.js",
         "../js/Schedules.js",
-        "../js/excelParser.js",
         "../js/Objectives.js",
         "../js/Messaging.js",
         "../js/GPTPDF.js",

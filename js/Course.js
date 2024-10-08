@@ -591,8 +591,9 @@ async function generateQuiz(lectureObject, refresh = true){
 
     console.log("courseID: ", courseID);
 
-    const topics = lectureObject.subtopics
-    .map( subtopic => subtopic.title ).join(", ");
+    const topics = lectureObject.title;
+
+    //TODO: fetch objectives and join to topics ...
 
     let quizQuestions = [];
 
@@ -603,7 +604,6 @@ async function generateQuiz(lectureObject, refresh = true){
         const generateQuestionObject = { 
             type,
             languages,
-            subtopics: lectureObject.subtopics,
             educationEnvironment,
             topics,
             level: getRandomElement(levels)

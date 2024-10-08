@@ -41,11 +41,9 @@ class DuxClassChat {
         this.title = title;
         this.courseCode = courseCode;
         this.lectureQueue = lectures;
-        this.subtopicQueue = [];
         this.resourceQueue = [];
         this.quizQueue = [];
         this.currentLecture = null;
-        this.currentSubtopic = null;
         this.currentQuiz = null;
         this.hasQuiz = false;
         this.courseObject = courseObject;
@@ -82,10 +80,6 @@ class DuxClassChat {
                 console.log("lecture");
                 this.getCurrentLecture()
             break;
-            case "subtopic":
-                console.log("subtopic");
-                this.getCurrentSubtopic()
-            break;
             case "resource":
                 console.log("resource");
                 this.getCurrentResource()
@@ -111,34 +105,12 @@ class DuxClassChat {
             }
             else this.hasQuiz = false; 
 
-            this.subtopicQueue = this.currentLecture.subtopics;
-            this.currentStep = "subtopic";
             this.next()
         } else {
             this.currentStep = "finished"
             // showThatThereAreNoLecturesToStudy()
             // showThatTheLecturesAreFinished()
             return;
-        }
-
-    }
-
-    getCurrentSubtopic(){
-
-        if(this.subtopicQueue.length > 0){
-            this.currentSubtopic = this.subtopicQueue.shift();
-
-            this.renderSubtopicTitle(this.currentSubtopic.title);
-
-            this.resourceQueue = this.currentSubtopic.resources;
-            this.currentStep = "resource";
-            this.next()
-
-        } else {
-
-            if (this.hasQuiz == true) this.currentStep = "quiz";
-            else this.currentStep = "lecture";  
-            this.next();
         }
 
     }
@@ -165,7 +137,6 @@ class DuxClassChat {
         }
 
         else {
-            this.currentStep = "subtopic";
             this.next();
         }
 
@@ -199,14 +170,6 @@ class DuxClassChat {
         leftMessageOuterContainer.className = "left-container";
         leftMessageOuterContainer.textContent = title;
         leftMessageOuterContainer.style.marginLeft = "30px";
-        this.messagesView.append(leftMessageOuterContainer);
-    }
-
-    renderSubtopicTitle(title){
-        const leftMessageOuterContainer = document.createElement("li")
-        leftMessageOuterContainer.className = "left-container";
-        leftMessageOuterContainer.textContent = title;
-        leftMessageOuterContainer.style.marginLeft = "60px";
         this.messagesView.append(leftMessageOuterContainer);
     }
 

@@ -32,11 +32,9 @@ class ClassView {
         this.title = title;
         this.courseCode = courseCode;
         this.lectureQueue = lectures;
-        this.subtopicQueue = [];
         this.resourceQueue = [];
         this.quizQueue = [];
         this.currentLecture = null;
-        this.currentSubtopic = null;
         this.currentQuiz = null;
         this.hasQuiz = false;
         this.courseObject = courseObject;
@@ -54,10 +52,6 @@ class ClassView {
                 console.log("lecture");
                 this.getCurrentLecture()
             break;
-            case "subtopic":
-                console.log("subtopic");
-                this.getCurrentSubtopic()
-            break;
             case "resource":
                 console.log("resource");
                 this.getCurrentResource()
@@ -74,6 +68,10 @@ class ClassView {
         if(this.lectureQueue.length > 0){
             this.currentLecture = this.lectureQueue.shift();
             this.currentHierarchy = this.currentLecture.hierarchy;
+
+            this.resourceQueue = this.currentLecture.resources;
+            this.currentStep = "resource";
+            this.next()
             
             if(this.currentLecture.quizzes.length > 0){
                 this.hasQuiz = true 
@@ -81,8 +79,10 @@ class ClassView {
             }
             else this.hasQuiz = false; 
 
-            this.subtopicQueue = this.currentLecture.subtopics;
-            this.currentStep = "subtopic";
+            // if (this.hasQuiz == true) this.currentStep = "quiz";
+            // else this.currentStep = "lecture";  
+            // this.next();
+
             this.next()
         } else {
             this.currentStep = "finished"
@@ -93,30 +93,11 @@ class ClassView {
 
     }
 
-    getCurrentSubtopic(){
-
-        if(this.subtopicQueue.length > 0){
-            this.currentSubtopic = this.subtopicQueue.shift();
-
-            this.resourceQueue = this.currentSubtopic.resources;
-            this.currentStep = "resource";
-            this.next()
-
-        } else {
-
-            if (this.hasQuiz == true) this.currentStep = "quiz";
-            else this.currentStep = "lecture";  
-            this.next();
-        }
-
-    }
-
     getCurrentResource(){
 
         if(this.resourceQueue.length > 0)
             this.currentResource = this.resourceQueue.shift();
         else {
-            this.currentStep = "subtopic";
             this.next();
         }
 

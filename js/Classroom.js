@@ -59,24 +59,22 @@ class Classroom {
             mainClassroomLectureHeader.appendChild(lectureTitleContainer);
             mainClassroomLectureHeader.appendChild(lectureTime);
 
-            lecture.subtopics.forEach( subtopic => {
+            lecture.resources.forEach( resource => {
 
                 let mainClassroomSubtopicContainer = createElement("div", "main-classroom-subtopic-container");
                 let mainClassroomSubtopicHeader = createElement("div", "main-classroom-subtopic-header");
 
-                mainClassroomSubtopicHeader.textContent = subtopic.title;
+                mainClassroomSubtopicHeader.textContent = lecture.title;
                 mainClassroomSubtopicContainer.appendChild(mainClassroomSubtopicHeader);
 
-                subtopic.resources.forEach( resource => {
+                let mainClassroomSubtopicItem = this.createSubtopicItem(resource, isTimeReadyForLecture);
+                mainClassroomSubtopicContainer.appendChild(mainClassroomSubtopicItem);
 
-                    let mainClassroomSubtopicItem = this.createSubtopicItem(resource, isTimeReadyForLecture);
-                    mainClassroomSubtopicContainer.appendChild(mainClassroomSubtopicItem);
-
-                })
 
                 mainClassroomLectureInnerContainer.appendChild(mainClassroomSubtopicContainer);
 
-            });
+            })
+
 
             lecture.quizzes.forEach( async (quiz,index) => {
 

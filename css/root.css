@@ -52,6 +52,7 @@ a {
 .simple-grid {
     display: grid;
     grid-gap: 20px;
+    align-items: start;
 }
 
 .outer-container {

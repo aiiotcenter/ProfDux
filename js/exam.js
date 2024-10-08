@@ -13,8 +13,7 @@ async function generateExam(lectureObject, refresh = true, language="english"){
 
     console.log("courseID: ", courseID);
 
-    const topics = lectureObject.subtopics
-    .map( subtopic => subtopic.title ).join(", ");
+    const topics = lectureObject.title;
 
     let quizQuestions = [];
 
@@ -25,7 +24,6 @@ async function generateExam(lectureObject, refresh = true, language="english"){
         const generateQuestionObject = { 
             type,
             languages,
-            subtopics: lectureObject.subtopics,
             educationEnvironment,
             topics,
             level: getRandomElement(levels)
@@ -273,11 +271,7 @@ class CreateExam {
 
         let topics = [];
 
-        result.forEach( lecture => {
-            lecture.subtopics.forEach( subtopic => {
-                topics.push(subtopic.title);
-            })
-        })
+        result.forEach(lecture => topics.push(lecture.title))
 
         this.topics = topics.join(", ");
         console.log("topics: ", this.topics);
