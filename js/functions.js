@@ -674,7 +674,6 @@ async function fetchCourseWithID(givenID){
 
         let addNewLectureButton = clearEventListenersFor(findElement("#addNewLecture"));
         let saveCourseDetailsButton = clearEventListenersFor(findElement("#saveCourseDetails"));
-        let excelCourseFileUploadButton = clearEventListenersFor(findElement("#excelCourseFileUpload"));
 
         addNewLectureButton.addEventListener("click", () => 
             course.addLectureElement()
@@ -683,24 +682,6 @@ async function fetchCourseWithID(givenID){
         saveCourseDetailsButton.addEventListener("click", async () => 
             courseItemObjectLooper(course)
         )
-
-        excelCourseFileUploadButton.addEventListener("change", async (event) => { 
-
-            console.log("clickeddddd");
-
-            try{
-                let file = event.target.files[0];
-                const objectURL = window.URL.createObjectURL(file);
-                let result = await parseExcelForCourseObject(objectURL);
-                course.markAllForDeletion()
-                course.eraseForExcelUpload(result);
-                findElement("#excelCourseFileUpload").value = "";
-            }
-            catch(error){
-                console.log(error);
-            }
-
-        });
 
     }, 2000);
 

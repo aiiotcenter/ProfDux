@@ -14,17 +14,6 @@ class Course {
         });
     }
 
-    eraseForExcelUpload(lectures){
-        this.lectureIndex = 0;
-        this.lectureUpdates,
-        this.newLectures,
-        this.newResources = {}
-        this.lectures = lectures;
-        
-        this.renderLectureSection("excel")
-        this.forceNewCourseDataAsNew()
-    }
-
     constructor(courseObject){
         
         let {
@@ -125,10 +114,6 @@ class Course {
                switch(from){
                 case "object": 
                     generateQuiz({ courseID: this.id, ...lecture });
-                    break;
-                case "excel": 
-                    generateQuiz({ courseID: this.id, ...lecture }, false);
-                    this.save();
                     break;
                }
             });
