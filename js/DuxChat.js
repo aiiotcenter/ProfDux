@@ -92,9 +92,12 @@ class DuxChat {
         const duxMessageContainer = document.createElement("li");
         duxMessageContainer.className = "foreign foreign-a";
 
+
+        const silentGif = "../assets/images/secoSpritesilent.gif";
+
         const duxIcon = document.createElement("div");
         duxIcon.className = "name-tag";
-        duxIcon.textContent = "DU";
+        duxIcon.textContent = silentGif;
 
         const duxMessageText = document.createElement("div");
         duxMessageText.className = "message-text";

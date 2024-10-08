@@ -73,6 +73,9 @@
                         <h2 class="classchatroom-course-title">__Course_Title__</h2>
                         <div class="classchatroom-course-code">__Course_Code__</div>
 
+                        <div id="subtitles"></div>
+
+
                         <div class="outer-main-classchatroom-container">
 
                             <div class="dux-class-chat-outer-container">
@@ -120,6 +123,7 @@
             </div>
         </div>
 
+        
         <?php include 'components/quizOverlay.php'; ?>
         <?php include 'components/quizResultOverlay.php'; ?>
 

@@ -342,9 +342,16 @@ class DuxClassChat {
         //     <p>Hello</p>
         // </li>
 
+        let { role, name, image } = globalUserDetails;
+ 
         const myIcon = document.createElement("div");
         myIcon.className = "name-tag";
-        myIcon.textContent = "ME";
+
+        const imageElement = document.createElement("img");
+        imageElement.className = "img-tag";
+        imageElement.src = "../uploads/"+image;
+
+        myIcon.append(imageElement);
 
         const myMessageText = document.createElement("div");
         myMessageText.className = "message-text";
@@ -384,7 +391,7 @@ class DuxClassChat {
 
 
     // }
-    async  playVoice(text, _) {
+    async playVoice(text, _) {
         // Detect language for the main text
         const language = detectLanguage(text);
         let introText = introTextEnglish; // Default to English intro
@@ -396,17 +403,26 @@ class DuxClassChat {
         }
     
         // Split the main text into sentences based on punctuation marks
-        let sentences = text.split(/(?<=[.!?])/).filter(sentence => sentence.trim() !== '');
+        let sentences = text.split(/\.|\?|\!|:|,/).filter(sentence => sentence.trim() !== '');
     
+
+    
+
+
         console.log('Detected language:', language);
         console.log('Selected voice:', introVoice);
     
         return new Promise(resolve => {
+            const subtitlesDiv = document.getElementById('subtitles'); // Get the subtitles div
+    
             const speakMainText = () => {
                 const speakNextSentence = (index) => {
                     if (index < sentences.length) {
                         isLastSentenceSpoken = false;
                         currentSentenceIndex = index;
+    
+                        // Update the subtitles div with the current sentence
+                        subtitlesDiv.innerHTML = sentences[index].trim();
     
                         responsiveVoice.speak(sentences[index].trim(), introVoice, {
                             onstart: function() {
@@ -418,6 +434,7 @@ class DuxClassChat {
                                 if (isLastSentenceSpoken) {
                                     setTimeout(() => {
                                         speakButton.src = silentGif;
+                                        subtitlesDiv.innerHTML = ''; // Clear subtitles after speech ends
                                         resolve(); // Resolve the promise when the last sentence is done
                                     }, 500); // Adjust the delay as needed
                                 } else {
@@ -432,6 +449,7 @@ class DuxClassChat {
                         });
                     } else {
                         speakButton.src = silentGif; // Set the silent GIF after all sentences are spoken
+                        subtitlesDiv.innerHTML = ''; // Clear subtitles after all sentences
                         resolve();
                     }
                 };
@@ -453,7 +471,8 @@ class DuxClassChat {
                 speakMainText(); // Skip the intro and directly speak the main text
             }
         });
-    };
+    }
+    
 
     renderDuxMessageFor(message, promptMessage, type){
 
@@ -471,9 +490,10 @@ class DuxClassChat {
         const duxMessageContainer = document.createElement("li");
         duxMessageContainer.className = "foreign foreign-a";
 
-        const duxIcon = document.createElement("div");
+        const duxIcon = document.createElement("img");
         duxIcon.className = "name-tag";
-        duxIcon.textContent = "DU";
+        duxIcon.src = silentGif;
+        duxIcon.alt = "DU"; // add alt text for accessibility
 
         const duxMessageText = document.createElement("div");
         duxMessageText.className = "message-text";
@@ -490,7 +510,7 @@ class DuxClassChat {
         responseBadge.className = "response-badge";
         responseBadge.textContent = "from books";
 
-        if(type == "free-response") responseBadge.textContent = "free response";
+        if(type == "free-response") responseBadge.textContent = "Prof Dux response";
 
         duxMessageText.innerHTML = loader;
 
@@ -628,8 +648,8 @@ const silentGif = "../assets/images/secoSpritesilent.gif";
 const speakButton = document.getElementById('speakButton');
 
 // Define the intro text and voice
-const introTextEnglish = 'Hello, I will read the text for you.';
-const introTextTurkish = 'Merhaba, metni size okuyacağım.';
+const introTextEnglish = 'Hello, I am prof dux,  I will read the text for you.';
+const introTextTurkish = 'Merhaba, ben prof dux metni size okuyacağım.';
 const introVoiceEnglish = 'UK English Male';
 const introVoiceTurkish = 'Turkish Male';
 
