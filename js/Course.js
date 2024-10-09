@@ -1,3 +1,4 @@
+
 class Course {
 
     lectureUpdates = {}
@@ -69,7 +70,7 @@ class Course {
         this.lectures.forEach( (lecture, index) => {
 
             console.log("lectures object: ", JSON.stringify(lecture));
-
+      
             this.lectureIndex = lecture.hierarchy;
             this.itemizationIndex = index + 1;
 
@@ -97,6 +98,7 @@ class Course {
             lectureInnerContainer.appendChild(lectureInputElement);
 
             console.log("lecture view: ", lecture);
+            
             // BADGE FOR SHOWING UPLOADS
             let resourcesCount = lecture.resources == null ? 0 : lecture.resources.length;
 
@@ -220,9 +222,14 @@ class Course {
                 rowItemAction.textContent = "view";
                 rowItemAction.addEventListener("click", () => openPDFViewer(`../uploads/${value}`))
                 break;
-            //TODO: Video
+           case "video":
+            imageElement.src = "../assets/icons/play.png";
+            rowItemAction.textContent = "view";
+            rowItemAction.addEventListener("click", () =>openyyoutubeViewer(`${value}`))
+           
+            break;
             default:
-                throw new Error("Type has not been created yet!");
+                throw new Error("Type has not been created yet!"+resourceType);
                 break;
         }
 
@@ -471,12 +478,27 @@ class Course {
         let generateVideoButton = document.createElement("div");
         generateVideoButton.className = "generate-button";
         generateVideoButton.innerHTML = `<img src="../assets/icons/video-icon.png" alt="">`;
-
-        generateVideoButton.addEventListener("click", () => {
-
-            // Cliff
+        //jeries / video 
+        
+        generateVideoButton.addEventListener("click", async() => {
+            const loader = showLoader("Recominding a video...");
+            const {videoUrl} = await recommendVideo({ courseName: this.title, lectureTitle: title });
+            loadVideoIntoPopup(videoUrl);
+            removeLoader(loader);
 
         });
+
+        function loadVideoIntoPopup(videoUrl) {
+            const embedUrl = videoUrl.replace('watch?v=', 'embed/')+"?autoplay=1";
+            globalCache.save("savevideo",videoUrl)
+            globalCache.save("lectureid",id)
+            globalCache.save("title",title)
+            document.getElementById('videoFrame').src = embedUrl
+            openPopup('.video-overlay')
+        }
+
+        
+        
 
         deleteButton.addEventListener("click", () => {
 
@@ -818,4 +840,43 @@ async function deleteResourceWith(resourceObject){
 
     })
 
+}
+
+async function saveVideo() {
+    try {
+      
+
+        const value = globalCache.get("savevideo");
+        const type='video';
+        const id = uniqueID(1);
+    const lectureID=globalCache.get("lectureid");
+    const title =globalCache.get("title");
+
+        const params = {
+            id: id,
+            type: type,
+            value: value,
+            lectureID: lectureID,
+            title: title,
+        };
+
+   
+        const response = await AJAXCall({
+            phpFilePath: "../include/course/addNewResource.php", 
+            rejectMessage: "Saving video failed",
+            params: createParametersFrom(params),
+            type: "post"
+        });
+
+        console.log("Save Response: ", response);
+
+        if (response === 'success') {
+            alert('Video saved successfully!');
+        } else {
+            alert('Failed to save video.');
+        }
+    } catch (error) {
+        console.error("Error saving video: ", error);
+        alert('Error occurred while saving the video.');
+    }
 }

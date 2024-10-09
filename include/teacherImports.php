@@ -26,7 +26,8 @@
         "../css/exam.css",
         "../css/classroom.css",
         "../css/image-viewer.css",
-        "../css/messaging.css"
+        "../css/messaging.css",
+        "../css/video-viewer.css"
     );
 
     // These are for javascript files that you want
@@ -39,6 +40,8 @@
         "../js/Objectives.js",
         "../js/Messaging.js",
         "../js/GPTPDF.js",
+        "../js/videoRecommendation.js",
+        "../js/videoViewer.js"
     );
 
     // These are for javascript files that you want
@@ -58,6 +61,8 @@
         "../js/Question.js",
         "../js/Quiz.js",
         "../js/EditAssessment.js",
+        "../js/GlobalCache.js",
+
     );
 
     foreach ($cssPaths as $path) {

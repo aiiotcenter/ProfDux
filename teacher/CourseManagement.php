@@ -14,6 +14,36 @@
 </head>
 
 <body>
+<div class="overlay video-overlay" style="display: none;">
+    <!-- <div class="popup"> -->
+        <div class="popup-header">
+            <div class="close-button" onclick="closePopup('.video-overlay')">
+                <img src="../assets/icons/close.png" alt="Close">
+            </div>
+            <h1 class="pop-up-title">Watch Video</h1>
+        </div>
+
+        <!-- <div class="popup-body"> -->
+            <!-- <div class="video-container"> -->
+                <iframe id="videoFrame" src=""  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <!-- </div> -->
+        <!-- </div> -->
+
+        <div class="popup-footer">
+            <div class="button-group">
+                <div class="button secondary-button" onclick="closePopup('.video-overlay')">
+                    <text>Close</text>
+                </div>
+                <div class="button" onclick="saveVideo()">
+                  <text>Save</text>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
 
     <?php include 'components/header.php'; ?>
 
@@ -156,6 +186,7 @@
             courseCodeElement.value = "";
             courseTitleElement.value = "";
         }
+        
     </script>
 
     <?php include 'components/uploadCourseMaterialOverlay.php'; ?>

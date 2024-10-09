@@ -116,6 +116,14 @@
     display: grid;
     place-items: center;
     position: absolute;
+    overflow: hidden;
+}
+.img-tag{
+
+    height: 50px;
+    width: 50px;
+
+
 }
 
 .mine > .name-tag { right: -48px; background: var(--my-message-color); }

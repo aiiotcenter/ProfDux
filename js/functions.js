@@ -548,6 +548,8 @@ function extractType(type){
             return "image";
         case "application/pdf":
             return "pdf";
+            case"video":
+            return "video"
     }
 }
 

@@ -163,6 +163,7 @@ class EditMultipleChoice extends Question {
 
         question.addEventListener("input", event => {
             this.question[language] = event.target.textContent;
+            console.log("editted question");
         })
 
         let answerOptionsList = document.createElement("div");
@@ -195,8 +196,9 @@ class EditMultipleChoice extends Question {
             })
 
             answerOptionContainer.addEventListener("click", () => {
-
                 disableOtherOptions();
+                this.answer[language] = this.answerOptions[language][index];
+                console.log(this.answer[language], " == ", this.answerOptions[language][index]);
                 answerOptionContainer.className = "answer-option-container active";
 
             });
