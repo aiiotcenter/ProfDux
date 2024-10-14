@@ -64,7 +64,7 @@ class Classroom {
                 let mainClassroomSubtopicContainer = createElement("div", "main-classroom-subtopic-container");
                 let mainClassroomSubtopicHeader = createElement("div", "main-classroom-subtopic-header");
 
-                mainClassroomSubtopicHeader.textContent = lecture.title;
+                mainClassroomSubtopicHeader.textContent = resource.title;
                 mainClassroomSubtopicContainer.appendChild(mainClassroomSubtopicHeader);
 
                 let mainClassroomSubtopicItem = this.createSubtopicItem(resource, isTimeReadyForLecture);
