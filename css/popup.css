@@ -68,6 +68,7 @@
 .popup .close-button {
     right: 20px;
     top: unset;
+    position: absolute;
 }
 
 .popup-header, .popup-body, .popup-footer{

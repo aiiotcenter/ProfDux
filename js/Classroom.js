@@ -206,6 +206,8 @@ async function viewQuizResults(studentQuizFilename){
 
     let reviewQuizOverlay = document.querySelector(".review-quiz-overlay");
 
+    const language = extrapolateLanguage();
+
     let reviewQuizLoader = reviewQuizOverlay.querySelector(".review-quiz-loader");
     reviewQuizLoader.style.display = "grid";
 
@@ -216,9 +218,7 @@ async function viewQuizResults(studentQuizFilename){
     let quizFileResponse = await fetch(correctPath, {cache: "reload"});
     let questions = await quizFileResponse.json();
 
-    mark(questions);
-
-    let { result, totalMarks } = mark(questions);
+    let { result, totalMarks } = mark(questions, language);
 
     let totalResultPlaceholder = reviewQuizOverlay.querySelector(".total-quiz-mark-placeholder");
     let scoreResultPlaceholder = reviewQuizOverlay.querySelector(".earned-quiz-mark-placeholder");

@@ -8,9 +8,6 @@
     <page data-id="Exam"></page>
 
     <?php include '../include/teacherImports.php'; ?>
-    <script src="../js/UILoaders.js?3"></script>
-    <script src="../js/exam.js?4"></script>
-    <script src="../js/BatchGenerator.js?1"></script>
 
 </head>
 

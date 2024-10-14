@@ -600,7 +600,11 @@ async function generateQuiz(lectureObject, refresh = true){
 
     const languages = ["english", "turkish"];
     const educationEnvironment = "university students";
-    const types = ["multiple choice questions", "fill in the blanks", "true and false"];
+    const types = [
+        "MultipleChoiceQuestion",
+        "FillInTheBlankQuestion",
+        "TrueAndFalseQuestion",
+    ];
     const levels = ["easy", "medium", "hard", "difficult", "extremely difficult"];
 
     const lectureID = lectureObject.id;
@@ -617,23 +621,28 @@ async function generateQuiz(lectureObject, refresh = true){
 
 
     for await(const type of types){
-        console.log("type: ", type);
-
-        const generateQuestionObject = { 
-            type,
-            languages,
-            educationEnvironment,
-            topics,
-            level: getRandomElement(levels)
-        };
-
-        console.log("generateQuestionObject: ", generateQuestionObject)
-
-        let result = await generateQuestion(generateQuestionObject, 2);
-        console.log("result: ", result);
-        quizQuestions = [ ...quizQuestions, ...result ];
-
+        try{
+            console.log("type: ", type);
+            const generateQuestionObject = {
+              type,
+              languages,
+              subtopics: lectureObject.subtopics,
+              educationEnvironment,
+              topics,
+              level: getRandomElement(levels),
+            };
+        
+            console.log("generateQuestionObject: ", generateQuestionObject);
+        
+            let result = await generateQuestion(generateQuestionObject, 4);
+            console.log("result: ", result);
+            quizQuestions = [...quizQuestions, ...result];
+          }catch(error){
+              continue;
+          }
     }
+      
+    shuffle(quizQuestions);
 
     console.log("quizQuestions: ", quizQuestions);
 
