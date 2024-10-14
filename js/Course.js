@@ -225,8 +225,7 @@ class Course {
            case "video":
             imageElement.src = "../assets/icons/play.png";
             rowItemAction.textContent = "view";
-            rowItemAction.addEventListener("click", () =>openyyoutubeViewer(`${value}`))
-           
+            rowItemAction.addEventListener("click", () =>openyyoutubeViewer(`${value}`))        
             break;
             default:
                 throw new Error("Type has not been created yet!"+resourceType);

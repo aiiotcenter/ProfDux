@@ -159,6 +159,11 @@ class Classroom {
                 rowItemAction.textContent = "view";
                 isTimeReadyForLecture && rowItemAction.addEventListener("click", () => openPDFViewer(`../uploads/${value}`))
                 break;
+            case "video":
+                imageElement.src = "../assets/icons/play.png";
+                rowItemAction.textContent = "view";
+                rowItemAction.addEventListener("click", () =>openyyoutubeViewer(`${value}`))        
+                break;
             //TODO: Video
             default:
                 throw new Error("Type has not been created yet!");
