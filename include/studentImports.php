@@ -31,7 +31,8 @@
         "../css/examStudent.css",
         "../css/scheduling.css",
         "../css/grades.css",
-        "../css/messaging.css"
+        "../css/messaging.css",
+        "../css/video-viewer.css"
 
     );
 
@@ -46,7 +47,8 @@
         "../js/dictionary.js",
         "../js/UILoaders.js",
         "../js/courseManagement.js",
-        "../js/Classroom.js"
+        "../js/Classroom.js",
+        "../js/videoViewer.js",
     );
 
     // These are for javascript files that you want
