@@ -22,6 +22,7 @@
 
 .pdf-frame{
   border: none;
+  max-width: unset;
 }
 
 .close-button {
