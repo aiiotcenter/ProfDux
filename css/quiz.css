@@ -43,9 +43,9 @@
 .answer-options-list .active {
     color: var(--accent);
 }
-.answer-options-list .inactive .letter-option{
+/* .answer-options-list .inactive .letter-option{
     border-color: var(--accent);
-}
+} */
 
 .answer-option-container {
     display: grid;
@@ -59,7 +59,9 @@
     opacity: 1;
     transform: scale(0.99);
     transition: 0.3s all;
-}.answer-option-container:hover .letter-option{ border-color: var(--accent);}
+}
+
+/* .answer-option-container:hover .letter-option{ border-color: var(--accent);} */
 
 .letter-option {
     display: grid;

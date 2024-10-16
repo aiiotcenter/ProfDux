@@ -1,75 +1,3 @@
-async function generateExam(lectureObject, refresh = true, language="english"){
-
-    let loader = loadLoader("Generating Quiz");
-
-    const languages = ["english", "turkish"];
-    const educationEnvironment = "college students";
-    const types = ["multiple choice questions", "fill in the blanks", "true and false"];
-    const levels = ["easy", "medium", "hard", "difficult", "extremely difficult"];
-
-    const lectureID = lectureObject.id;
-    const lectureTitle = lectureObject.title;
-    const courseID = lectureObject.courseID;
-
-    console.log("courseID: ", courseID);
-
-    const topics = lectureObject.title;
-
-    let quizQuestions = [];
-
-
-    for await(const type of types){
-        console.log("type: ", type);
-
-        const generateQuestionObject = { 
-            type,
-            languages,
-            educationEnvironment,
-            topics,
-            level: getRandomElement(levels)
-        };
-
-        console.log("generateQuestionObject: ", generateQuestionObject)
-
-        let result = await generateQuestion(generateQuestionObject, 2);
-        console.log("result: ", result);
-        quizQuestions = [ ...quizQuestions, ...result ];
-
-    }
-
-    console.log("quizQuestions: ", quizQuestions);
-
-
-    let filename = `Quiz-${uniqueID(2)}.json`;
-    saveAssessmentAsJSON(filename, quizQuestions,"quiz","generated");
-
-    let quizID = uniqueID(1);
-    let name = `Quiz on ${topics}`; // ...
-    let dateGenerated = getCurrentTimeInJSONFormat();
-    let hierarchy = ""; // ...
-    let totalMarks = quizQuestions.length; //TODO: figure out the marks properly...
-
-    console.log("hierarchy: ", lectureObject.hierarchy);
-    
-    let params = `id=${quizID}&&courseID=${courseID}&&lectureID=${lectureID}&&name=${name}`+
-    `&&dateGenerated=${dateGenerated}&&filename=${filename}&&totalMarks=${totalMarks}&&hierarchy=${lectureObject.hierarchy}`;
-
-    let response = await AJAXCall({
-        phpFilePath: "../include/quiz/addNewQuiz.php",
-        rejectMessage: "New Quiz Failed To Add",
-        params,
-        type: "post"
-    });
-
-    console.log("quiz generation response: ", response);
-
-    setTimeout(() => {
-        if(refresh) refreshTeacherCourseOutline(); //Bugs???
-        removeLoader(loader);
-    }, 2000);
-    
-}
-
 class ExamsView{
 
     constructor(metadata){
@@ -326,109 +254,116 @@ class CreateExam {
         }
     }
 
-    async createExam(examCreationDetails){
-
+    async createExam(examCreationDetails) {
         this.loader.style.display = "grid";
-
+    
         const {
-            multipleChoiceQuestions,
-            fillInTheBlanks,
-            trueAndFalse,
-            examDuration,
-            hardnessLevel,
-            courseID,
-            name,
-            hierarchy,
-            minutes
+          multipleChoiceQuestions,
+          fillInTheBlanks,
+          trueAndFalse,
+          examDuration,
+          hardnessLevel,
+          courseID,
+          name,
+          hierarchy,
+          minutes,
         } = examCreationDetails;
-
-        this.totalQuestions = Number(multipleChoiceQuestions) + Number(fillInTheBlanks) + Number(trueAndFalse);
-
+    
+        this.totalQuestions =
+          Number(multipleChoiceQuestions) +
+          Number(fillInTheBlanks) +
+          Number(trueAndFalse);
+    
         console.log("totalQuestions: ", this.totalQuestions);
-
+    
         const languages = ["english", "turkish"];
         const educationEnvironment = "college students";
         const topics = this.topics;
-
+    
         const mcqObject = {
-            type: "multiple choice questions",
-            languages,
-            educationEnvironment,
-            topics,
-            amount: multipleChoiceQuestions
-        }
-
+          type: "MultipleChoiceQuestion",
+          languages,
+          educationEnvironment,
+          topics,
+          amount: multipleChoiceQuestions,
+        };
+    
         const fitbObject = {
-            type: "fill-in-the-blanks",
-            languages,
-            educationEnvironment,
-            topics,
-            amount: fillInTheBlanks
-        }
-
+          type: "FillInTheBlankQuestion",
+          languages,
+          educationEnvironment,
+          topics,
+          amount: fillInTheBlanks,
+        };
+    
         const tfObject = {
-            type: "true-and-false",
-            languages,
-            educationEnvironment,
-            topics,
-            amount: trueAndFalse
-        }
-
-        let batchGenerators = [ 
-            new BatchGenerator(mcqObject, {this: this, callback: this.updateLoader}),
-            new BatchGenerator(fitbObject, {this: this, callback: this.updateLoader}),
-            new BatchGenerator(tfObject, {this: this, callback: this.updateLoader})
+          type: "TrueAndFalseQuestion",
+          languages,
+          educationEnvironment,
+          topics,
+          amount: trueAndFalse,
+        };
+    
+        let batchGenerators = [
+          new BatchGenerator(mcqObject, {
+            this: this,
+            callback: this.updateLoader,
+          }),
+          new BatchGenerator(fitbObject, {
+            this: this,
+            callback: this.updateLoader,
+          }),
+          new BatchGenerator(tfObject, { this: this, callback: this.updateLoader }),
         ];
-
+    
         let generatorResults = [];
-
-        for await(const generators of batchGenerators){
-            generatorResults.push(... await generators.start());
+    
+        for await (const generators of batchGenerators) {
+          generatorResults.push(...(await generators.start()));
         }
-
+    
         console.log("we are here: ", generatorResults);
-
+    
         let filename = `Exam-${uniqueID(2)}.json`;
-        saveAssessmentAsJSON(filename, generatorResults, "exam","generated");
-
+        saveAssessmentAsJSON(filename, generatorResults, "exam", "generated");
+    
         let examID = uniqueID(1);
         let dateGenerated = getCurrentTimeInJSONFormat();
         let totalMarks = generatorResults.length; //TODO: figure out the marks properly...
-        
+    
         const examObject = {
-            courseID,
-            id: examID,
-            name,
-            filename,
-            minutes,
-            dateGenerated,
-            date: "",
-            hierarchy,
-            languages: languages.join(", "),
-            totalQuestions: this.totalQuestions,
-            totalMarks
-        }
-
+          courseID,
+          id: examID,
+          name,
+          filename,
+          minutes,
+          dateGenerated,
+          date: "",
+          hierarchy,
+          languages: languages.join(", "),
+          totalQuestions: this.totalQuestions,
+          totalMarks,
+        };
+    
         const params = createParametersFrom(examObject);
-
+    
         let response = await AJAXCall({
-            phpFilePath: "../include/exam/addNewExam.php",
-            rejectMessage: "New Exam Failed To Add",
-            params,
-            type: "post"
+          phpFilePath: "../include/exam/addNewExam.php",
+          rejectMessage: "New Exam Failed To Add",
+          params,
+          type: "post",
         });
-
+    
         console.log("exam generation response: ", response);
-
+    
         return new Promise((resolve, _) => {
-            this.rootElement.style.display = "none";
-            this.loader.style.display = "none";
-            resolve();
-        })
-
+          this.rootElement.style.display = "none";
+          this.loader.style.display = "none";
+          resolve();
+        });
+    
         //TODO: reset UI
-
-    }
+      }
 
 
 }

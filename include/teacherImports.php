@@ -41,7 +41,12 @@
         "../js/Messaging.js",
         "../js/GPTPDF.js",
         "../js/videoRecommendation.js",
-        "../js/videoViewer.js"
+        "../js/videoViewer.js",
+        "../js/ExcelObjective.js",
+        "../js/dictionary.js",
+        "../js/UILoaders.js",
+        "../js/exam.js",
+        "../js/BatchGenerator.js"
     );
 
     // These are for javascript files that you want

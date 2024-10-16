@@ -11,7 +11,6 @@
         <link rel="stylesheet" href="../css/grid-table.css?4">
         <script src="../js/StatsView.js?3" defer></script>
         <script src="../js/Stats.js?1"></script>
-        <script src="../js/UILoaders.js?3"></script>
 
     </head>
     <body>

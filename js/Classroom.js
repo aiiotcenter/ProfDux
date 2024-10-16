@@ -64,7 +64,7 @@ class Classroom {
                 let mainClassroomSubtopicContainer = createElement("div", "main-classroom-subtopic-container");
                 let mainClassroomSubtopicHeader = createElement("div", "main-classroom-subtopic-header");
 
-                mainClassroomSubtopicHeader.textContent = lecture.title;
+                mainClassroomSubtopicHeader.textContent = resource.title;
                 mainClassroomSubtopicContainer.appendChild(mainClassroomSubtopicHeader);
 
                 let mainClassroomSubtopicItem = this.createSubtopicItem(resource, isTimeReadyForLecture);
@@ -159,6 +159,11 @@ class Classroom {
                 rowItemAction.textContent = "view";
                 isTimeReadyForLecture && rowItemAction.addEventListener("click", () => openPDFViewer(`../uploads/${value}`))
                 break;
+            case "video":
+                imageElement.src = "../assets/icons/play.png";
+                rowItemAction.textContent = "view";
+                rowItemAction.addEventListener("click", () =>openyyoutubeViewer(`${value}`))        
+                break;
             //TODO: Video
             default:
                 throw new Error("Type has not been created yet!");
@@ -206,6 +211,8 @@ async function viewQuizResults(studentQuizFilename){
 
     let reviewQuizOverlay = document.querySelector(".review-quiz-overlay");
 
+    const language = extrapolateLanguage();
+
     let reviewQuizLoader = reviewQuizOverlay.querySelector(".review-quiz-loader");
     reviewQuizLoader.style.display = "grid";
 
@@ -216,9 +223,7 @@ async function viewQuizResults(studentQuizFilename){
     let quizFileResponse = await fetch(correctPath, {cache: "reload"});
     let questions = await quizFileResponse.json();
 
-    mark(questions);
-
-    let { result, totalMarks } = mark(questions);
+    let { result, totalMarks } = mark(questions, language);
 
     let totalResultPlaceholder = reviewQuizOverlay.querySelector(".total-quiz-mark-placeholder");
     let scoreResultPlaceholder = reviewQuizOverlay.querySelector(".earned-quiz-mark-placeholder");
