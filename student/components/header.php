@@ -67,3 +67,4 @@
     <div class="circle dux-icon" onclick="startDuxChat()">
         <img src="../assets/images/dux-male.jpg" alt="">
     </div>
+<!-- jeries -->
