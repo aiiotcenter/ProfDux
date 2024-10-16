@@ -30,7 +30,7 @@ function setHeaderInfo(userObject){
     let usernameInnerContainer = createLocalizedTextElement(name);
     let roleAsTextElement = createLocalizedTextElement(writtenRole);
     
-
+//jeries
     usernameFields.forEach( username => {
 
         username.innerHTML = "";
