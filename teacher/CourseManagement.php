@@ -134,8 +134,8 @@
 
     console.log(result);
 
-    // objectives.
-    await saveLearningObjectivesInDatabase(id);
+    
+
 
     loadCourses();
 

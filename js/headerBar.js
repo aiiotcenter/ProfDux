@@ -21,9 +21,9 @@ function setHeaderInfo(userObject){
 
     let currentPath = window.location.pathname.includes("student");
 
-    // if (currentPath){
-    //     writtenRole = "student"
-    // }
+    if (currentPath){
+        writtenRole = "student"
+    }
     
     let usernameFields = document.querySelectorAll(".username");
     let imageFields = document.querySelectorAll(".user-image img");
