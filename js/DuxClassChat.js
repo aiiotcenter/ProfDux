@@ -641,8 +641,12 @@ async function playAudioFileFromResponse({ audioCtx, buffer }){
 
 
 // Define the talking and silent GIF URLs
-const talkingGif = "../assets/images/DuxTalk3B-unscreen.gif";
-const silentGif = "../assets/images/secoSpritesilentE.gif";
+// const talkingGif = "../assets/images/ezgif-4-7ea1f4354f.gif";
+// const silentGif = "../assets/images/secoSpritesilentE.gif";
+
+
+const talkingGif = "../assets/images/DuxTalk3Pro.gif";
+const silentGif = "../assets/images/secoSpritesilentpro.gif";
 
 // Get the speak button element
 const speakButton = document.getElementById('speakButton');
