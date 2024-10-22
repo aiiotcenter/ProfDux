@@ -436,14 +436,14 @@ class DuxClassChat {
                                         speakButton.src = silentGif;
                                         subtitlesDiv.innerHTML = ''; // Clear subtitles after speech ends
                                         resolve(); // Resolve the promise when the last sentence is done
-                                    }, 500); // Adjust the delay as needed
+                                    }, 0); // Adjust the delay as needed
                                 } else {
                                     setTimeout(() => {
                                         speakButton.src = silentGif;
                                         setTimeout(() => {
                                             speakNextSentence(index + 1); // Speak the next sentence
                                         }, 700); // Delay before starting the next sentence
-                                    }, 100); // Short delay to handle GIF change
+                                    }, 10); // Short delay to handle GIF change
                                 }
                             }
                         });
@@ -641,8 +641,8 @@ async function playAudioFileFromResponse({ audioCtx, buffer }){
 
 
 // Define the talking and silent GIF URLs
-const talkingGif = "../assets/images/DuxTalk3.gif";
-const silentGif = "../assets/images/secoSpritesilent.gif";
+const talkingGif = "../assets/images/DuxTalk3B-unscreen.gif";
+const silentGif = "../assets/images/secoSpritesilentE.gif";
 
 // Get the speak button element
 const speakButton = document.getElementById('speakButton');
@@ -674,6 +674,28 @@ function detectLanguage(text) {
 
 // Function to play the voice
 
+
+
+function changeSubtitle(language) {
+    var subtitleElement = document.getElementById("subtitles");
+    
+    if (language === 'EN') {
+        console.log("ENG");
+        subtitleElement.textContent = "English Subtitle"; // Change this to the desired subtitle text in English
+    } else if (language === 'TR') {
+        subtitleElement.textContent = "Turkish Subtitle"; // Change this to the desired subtitle text in Turkish
+    console.log("TR");
+    }
+}
+
+// Add event listeners to the buttons
+document.getElementById("switchsub-en").addEventListener("click", function() {
+    changeSubtitle('EN');
+});
+
+document.getElementById("switchsub-tr").addEventListener("click", function() {
+    changeSubtitle('TR');
+});
 
 // Function to create delay using Promise
 const delay = (ms) => {

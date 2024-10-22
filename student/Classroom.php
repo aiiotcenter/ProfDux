@@ -71,9 +71,13 @@
                     <div class="classchatroom-outer-container">
                         
                         <h2 class="classchatroom-course-title">__Course_Title__</h2>
-                        <div class="classchatroom-course-code">__Course_Code__</div>
+                        <div id="subtitles"  class="classchatroom-course-code">__Course_Code__</div>
 
-                        <div id="subtitles"></div>
+                        <!-- <div id="subtitles"></div> -->
+
+                        
+                        <!-- <button id="switchsub-en" class="switchsub">EN</button> 
+                        <button id="switchsub-tr" class="switchsub">Tr</button>  -->
 
 
                         <div class="outer-main-classchatroom-container">
@@ -112,7 +116,7 @@
 
                             <div class="dux-right-side-pane">
                                 <div class="dux-image-box" >
-                                    <img id="speakButton" src="../assets/images/secoSpritesilent.gif" alt="">
+                                    <img id="speakButton" src="../assets/images/secoSpritesilentE.gif" alt="">
                                 </div>
                             </div>
                         </div>

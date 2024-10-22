@@ -1,0 +1,78 @@
+if the select is english is not showing english version is only in turkinsh
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page Title</title>
+</head>
+<body>
+
+  <!-- Textbox for input -->
+  <textarea id="input-text" rows="5" cols="50"></textarea>
+
+  <!-- Language Selector -->
+  <select id="language-selector">
+    <option value="en">English</option>
+    <option value="tr">Turkish</option>
+  </select>
+
+  <!-- Google Translator dropdown -->
+  <div id="google_translate_element" style="display:none;"></div>
+
+  <!-- Include Google Translator script -->
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+
+  <script type="text/javascript">
+    // Initialize the Google Translate Element
+    function googleTranslateElementInit2() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,tr',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+
+    // Function to trigger Google Translate on the input text
+    function translateText(language) {
+      const inputText = document.getElementById("input-text").value;
+      const translatedText = document.getElementById("translated-text");
+
+      // Create a temporary language switch in Google Translate
+      const iframe = document.querySelector("iframe.goog-te-banner-frame");
+      if (iframe) {
+        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+        const langSelector = innerDoc.querySelector(".goog-te-combo");
+        if (langSelector) {
+          langSelector.value = language;
+          langSelector.dispatchEvent(new Event('change')); // Trigger the language change
+        }
+      }
+
+      // Update the translated text
+      translatedText.innerText = inputText;
+    }
+
+    // Event listener for language selector
+    document.getElementById("language-selector").addEventListener("change", function() {
+      const selectedLanguage = this.value;
+      translateText(selectedLanguage); // Translate text to selected language
+    });
+
+    // Event listener for textarea input
+    document.getElementById("input-text").addEventListener("input", function() {
+      const selectedLanguage = document.getElementById("language-selector").value;
+      translateText(selectedLanguage); // Translate text to selected language
+    });
+
+    // Initialize the translation when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+      const selectedLanguage = document.getElementById("language-selector").value;
+      translateText(selectedLanguage); // Translate text to selected language
+    });
+  </script>
+
+  <!-- Display the translated text -->
+  <div id="translated-text"></div>
+
+</body>
+</html>
