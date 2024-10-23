@@ -433,7 +433,7 @@ class DuxClassChat {
                                 // Ensure the silent GIF shows only after all sentences are spoken and voice has stopped
                                 if (isLastSentenceSpoken) {
                                     setTimeout(() => {
-                                        speakButton.src = silentGif;
+                                        speakButton.src = HiddleGif;
                                         subtitlesDiv.innerHTML = ''; // Clear subtitles after speech ends
                                         resolve(); // Resolve the promise when the last sentence is done
                                     }, 0); // Adjust the delay as needed
@@ -442,8 +442,8 @@ class DuxClassChat {
                                         speakButton.src = silentGif;
                                         setTimeout(() => {
                                             speakNextSentence(index + 1); // Speak the next sentence
-                                        }, 700); // Delay before starting the next sentence
-                                    }, 10); // Short delay to handle GIF change
+                                        }, 600); // Delay before starting the next sentence
+                                    }, 200); // Short delay to handle GIF change
                                 }
                             }
                         });
@@ -645,9 +645,10 @@ async function playAudioFileFromResponse({ audioCtx, buffer }){
 // const silentGif = "../assets/images/secoSpritesilentE.gif";
 
 
-const talkingGif = "../assets/images/DuxTalk3Pro.gif";
-const silentGif = "../assets/images/secoSpritesilentpro.gif";
+const talkingGif = "../assets/images/DuxNeuTalk.gif";
+const silentGif = "../assets/images/DuxProSilent.gif";
 
+const HiddleGif="../assets/images/DuxProHiddle.gif";
 // Get the speak button element
 const speakButton = document.getElementById('speakButton');
 

@@ -116,7 +116,7 @@
 
                             <div class="dux-right-side-pane">
                                 <div class="dux-image-box" >
-                                    <img id="speakButton" src="../assets/images/secoSpritesilentE.gif" alt="">
+                                    <img id="speakButton" src="../assets/images/DuxProHiddle.gif" alt="">
                                 </div>
                             </div>
                         </div>
