@@ -42,7 +42,8 @@ class MultipleChoice extends Question {
   render(language) {
     let question = document.createElement("div");
     question.className = "question";
-    question.textContent = this.question[language];
+    const lockedQuestion = createLocalizedTextElement(this.question[language]);
+    question.append(lockedQuestion);
 
     let answerOptionsList = document.createElement("div");
     answerOptionsList.className = "answer-options-list";
@@ -62,7 +63,8 @@ class MultipleChoice extends Question {
 
       let answerOption = document.createElement("div");
       answerOption.className = "answer-option";
-      answerOption.textContent = option;
+      const safeAnswerOption = createLocalizedTextElement(option);
+      answerOption.append(safeAnswerOption);
 
       answerOptionContainer.addEventListener("click", () => {
         disableOtherOptions();
@@ -96,7 +98,8 @@ class TrueAndFalse extends Question {
   render(language) {
     let question = document.createElement("div");
     question.className = "question";
-    question.textContent = this.question[language];
+    const lockedQuestion = createLocalizedTextElement(this.question[language]);
+    question.append(lockedQuestion);
 
     let answerOptions = this.answerOptions[language] || [];
 
@@ -108,7 +111,8 @@ class TrueAndFalse extends Question {
       answerOptionContainer.className = "tf-answer-option-container";
 
       let answerOption = document.createElement("div");
-      answerOption.textContent = option;
+      const safeAnswerOption = createLocalizedTextElement(option);
+      answerOption.append(safeAnswerOption);
 
       if (this.inputAnswer == answerOptions[index]) {
         answerOption.className = "button tf-answer-option active";
@@ -119,7 +123,6 @@ class TrueAndFalse extends Question {
       answerOption.addEventListener("click", () => {
         disableOtherOptions();
         answerOption.className = "button tf-answer-option active";
-
         this.inputAnswer = option;
       });
 
@@ -147,7 +150,8 @@ class FillInTheBlank extends Question {
   render(language) {
     let question = document.createElement("div");
     question.className = "question";
-    question.textContent = this.question[language];
+    const lockedQuestion = createLocalizedTextElement(this.question[language]);
+    question.append(lockedQuestion);
 
     let blankTextContainer = document.createElement("div");
     blankTextContainer.className = "fitb-answer-option-container";
@@ -161,6 +165,8 @@ class FillInTheBlank extends Question {
     if (this.inputAnswer) {
       blankTextEditableField.className = "fitb-answer-input active";
       blankTextEditableField.value = this.inputAnswer;
+    }else{
+      blankTextEditableField.value = "";
     }
 
     blankTextEditableField.addEventListener("input", () => {
@@ -187,6 +193,7 @@ function mark(questions, language) {
     console.log("correct answer: ", question.answer[language]);
     console.log("inputted answer: ", question.inputAnswer);
 
+    //TODO: Check Later Comparison For ....toLowerCase()
     if (
       question.answer[language].toLowerCase() ==
       question.inputAnswer.toLowerCase()

@@ -118,34 +118,41 @@
         let resultObjectArray = [];
         let currentObject = {};
 
-        let userInsertSQL = "INSERT INTO `users`(`uid`, `name`, `email`, `password`, `phone`, `stdnumber`, `photo`, `address`, `department`, `status`, `utype`) VALUES";
+        let userInsertSQL = "INSERT INTO `users`(`id`,`email`, `password`, `role`, `timestamp`) VALUES";
+        let userDetailsInsertSQL = "INSERT INTO `users`(`id`,`name`, `address`, `image`, `phone`, `institutionID`, `department`) VALUES";
 
         let userSQLArray = []
         let userDetailsSQLArray = [];
         let passwords = []
+        
+        let timestamp = new Date().toJSON();
 
         lessonStructuredObjects.forEach( rowObject => {
 
             let id = "U" + getUniquePassword(1);
             let password = getUniquePassword(-1);
             let timestamp = new Date().toJSON();
-            let photo = "uploads/default.jpg"
+            let image = "uploads/default.jpg";
+            let address = "Lefkoşa";
+            let phone = '5330000000';
+            let institutionID = '000000000';
+            let department = 'Seymen College';
             let {
-                name,
-                surname,
-                stdnumber,
-                email,
-                department
+                Name,
+                Mail,
             } = rowObject;
 
-            userSQLArray.push(`('${id}','${name} ${surname}', '${email}', '${password}', '000000000', '${stdnumber}', '${photo}', 'unset', '${department}', 'Inactive', 'student')`);
+            userSQLArray.push(`('${id}', '${Mail}', '${password}', 'teacher', '${timestamp}')`);
+            userDetailsSQLArray.push(`('${id}', '${Name}', '${address}', '${image}', '${phone}', '${institutionID}', '${department}')`);
             passwords.push(password);
 
         });
         
         userInsertSQL += userSQLArray.join(",") + ";";
+        userDetailsInsertSQL += userDetailsSQLArray.join(",") + ";";
 
         document.querySelector(".statement-a").textContent = userInsertSQL;
+        document.querySelector(".statement-b").textContent = userDetailsInsertSQL;
         document.querySelector(".passwords").innerHTML = passwords.join("<br>");
 
     };

@@ -1,0 +1,244 @@
+[
+    {
+        "id": "m2op0sre",
+        "question": {
+            "english": "Serverless Computing is a management strategy in Cloud Computing Architectures.",
+            "turkish": "Sunucusuz Bili\u015fim, Bulut Bili\u015fim Mimarilerinde bir y\u00f6netim stratejisidir."
+        },
+        "answerOptions": {
+            "english": [
+                "True",
+                "False"
+            ],
+            "turkish": [
+                "Do\u011fru",
+                "Yanl\u0131\u015f"
+            ]
+        },
+        "answer": {
+            "english": "True",
+            "turkish": "Do\u011fru"
+        },
+        "type": "TrueAndFalseQuestion",
+        "hardness": "medium",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0qiu",
+        "question": {
+            "english": "Multi-tenancy is a key security concern in Cloud Computing Architectures.",
+            "turkish": "\u00c7ok kirac\u0131l\u0131l\u0131k, Bulut Bili\u015fim Mimarilerinde \u00f6nemli bir g\u00fcvenlik endi\u015fesidir."
+        },
+        "answerOptions": {
+            "english": [
+                "True",
+                "False"
+            ],
+            "turkish": [
+                "Do\u011fru",
+                "Yanl\u0131\u015f"
+            ]
+        },
+        "answer": {
+            "english": "True",
+            "turkish": "Do\u011fru"
+        },
+        "type": "TrueAndFalseQuestion",
+        "hardness": "medium",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0kwx",
+        "question": {
+            "english": "____ is crucial in Cloud Computing Architectures to protect data and systems from unauthorized access.",
+            "turkish": "Verileri ve sistemleri yetkisiz eri\u015fimlere kar\u015f\u0131 korumak i\u00e7in ___ Cloud Computing Mimarilerinde son derece \u00f6nemlidir."
+        },
+        "answer": {
+            "english": "Security",
+            "turkish": "G\u00fcvenlik"
+        },
+        "type": "FillInTheBlankQuestion",
+        "hardness": "extremely difficult",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0j5n",
+        "question": {
+            "english": "What is an advantage of Cloud Computing Architectures in terms of scalability?",
+            "turkish": "Bulut Bili\u015fim Mimarileri a\u00e7\u0131s\u0131ndan \u00f6l\u00e7eklenebilirlik bak\u0131m\u0131ndan bir avantaj nedir?"
+        },
+        "answerOptions": {
+            "english": [
+                "A. Ability to quickly adjust resources based on demand",
+                "B. Static resource allocation",
+                "C. Limited scalability options"
+            ],
+            "turkish": [
+                "A. Talebe g\u00f6re h\u0131zl\u0131 bir \u015fekilde kaynaklar\u0131 ayarlayabilme yetene\u011fi",
+                "B. Statik kaynak tahsisi",
+                "C. S\u0131n\u0131rl\u0131 \u00f6l\u00e7eklenebilirlik se\u00e7enekleri"
+            ]
+        },
+        "answer": {
+            "english": "A. Ability to quickly adjust resources based on demand",
+            "turkish": "A. Talebe g\u00f6re h\u0131zl\u0131 bir \u015fekilde kaynaklar\u0131 ayarlayabilme yetene\u011fi"
+        },
+        "type": "MultipleChoiceQuestion",
+        "hardness": "medium",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0p8l",
+        "question": {
+            "english": "One of the key challenges in Cloud Computing Architectures is ___ as the demand for resources can fluctuate significantly.",
+            "turkish": "Bulut Bili\u015fim Mimarilerindeki temel zorluklardan biri ___ \u00e7\u00fcnk\u00fc kaynak talebi \u00f6nemli \u00f6l\u00e7\u00fcde de\u011fi\u015febilir."
+        },
+        "answer": {
+            "english": "Scalability",
+            "turkish": "\u00d6l\u00e7eklenebilirlik"
+        },
+        "type": "FillInTheBlankQuestion",
+        "hardness": "extremely difficult",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0lz1",
+        "question": {
+            "english": "Which factor is essential for ensuring security in Cloud Computing Architectures?",
+            "turkish": "Bulut Bili\u015fim Mimarilerinde g\u00fcvenli\u011fi sa\u011flamak i\u00e7in hangi fakt\u00f6r \u00f6nemlidir?"
+        },
+        "answerOptions": {
+            "english": [
+                "A. Encryption of data in transit and at rest",
+                "B. Public sharing of access credentials",
+                "C. Lack of authentication measures"
+            ],
+            "turkish": [
+                "A. Verilerin aktar\u0131m ve dinlenme s\u0131ras\u0131nda \u015fifrelenmesi",
+                "B. Eri\u015fim kimlik bilgilerinin kamuoyu ile payla\u015f\u0131lmas\u0131",
+                "C. Kimlik do\u011frulama \u00f6nlemlerinin olmamas\u0131"
+            ]
+        },
+        "answer": {
+            "english": "A. Encryption of data in transit and at rest",
+            "turkish": "A. Verilerin aktar\u0131m ve dinlenme s\u0131ras\u0131nda \u015fifrelenmesi"
+        },
+        "type": "MultipleChoiceQuestion",
+        "hardness": "medium",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0mjo",
+        "question": {
+            "english": "What is a characteristic of scalability in Cloud Computing Architectures?",
+            "turkish": "Bulut Bili\u015fim Mimarilerinde \u00f6l\u00e7eklenebilirlik \u00f6zelli\u011fi nedir?"
+        },
+        "answerOptions": {
+            "english": [
+                "A. Ability to handle increasing workload",
+                "B. Limited storage capacity",
+                "C. Single point of failure"
+            ],
+            "turkish": [
+                "A. Artan i\u015f y\u00fck\u00fcn\u00fc y\u00f6netme kabiliyeti",
+                "B. S\u0131n\u0131rl\u0131 depolama kapasitesi",
+                "C. Tek nokta ar\u0131zas\u0131"
+            ]
+        },
+        "answer": {
+            "english": "A. Ability to handle increasing workload",
+            "turkish": "A. Artan i\u015f y\u00fck\u00fcn\u00fc y\u00f6netme kabiliyeti"
+        },
+        "type": "MultipleChoiceQuestion",
+        "hardness": "medium",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0p4y",
+        "question": {
+            "english": "Cloud Computing Architectures are inherently not scalable.",
+            "turkish": "Bulut Bili\u015fim Mimarileri do\u011fas\u0131 gere\u011fi \u00f6l\u00e7eklenebilir de\u011fildir."
+        },
+        "answerOptions": {
+            "english": [
+                "True",
+                "False"
+            ],
+            "turkish": [
+                "Do\u011fru",
+                "Yanl\u0131\u015f"
+            ]
+        },
+        "answer": {
+            "english": "False",
+            "turkish": "Yanl\u0131\u015f"
+        },
+        "type": "TrueAndFalseQuestion",
+        "hardness": "medium",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0s3u",
+        "question": {
+            "english": "Encryption can be used to enhance security in Cloud Computing Architectures.",
+            "turkish": "\u015eifreleme, Bulut Bili\u015fim Mimarilerinde g\u00fcvenli\u011fi art\u0131rmak i\u00e7in kullan\u0131labilir."
+        },
+        "answerOptions": {
+            "english": [
+                "True",
+                "False"
+            ],
+            "turkish": [
+                "Do\u011fru",
+                "Yanl\u0131\u015f"
+            ]
+        },
+        "answer": {
+            "english": "True",
+            "turkish": "Do\u011fru"
+        },
+        "type": "TrueAndFalseQuestion",
+        "hardness": "medium",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0njg",
+        "question": {
+            "english": "Effective ____ is essential in Cloud Computing Architectures to ensure smooth operations and resource utilization.",
+            "turkish": "D\u00fczg\u00fcn i\u015fleyi\u015f ve kaynak kullan\u0131m\u0131n\u0131n sa\u011flanmas\u0131 i\u00e7in etkili ___ Bulut Bili\u015fim Mimarilerinde \u00f6nemlidir."
+        },
+        "answer": {
+            "english": "Management",
+            "turkish": "Y\u00f6netim"
+        },
+        "type": "FillInTheBlankQuestion",
+        "hardness": "extremely difficult",
+        "marksWorth": 1
+    },
+    {
+        "id": "m2op0hrq",
+        "question": {
+            "english": "Which aspect is crucial for effective management in Cloud Computing Architectures?",
+            "turkish": "Bulut Bili\u015fim Mimarilerinde etkili y\u00f6netim i\u00e7in hangi y\u00f6n kritiktir?"
+        },
+        "answerOptions": {
+            "english": [
+                "A. Continuous monitoring and optimization",
+                "B. Ignoring performance metrics",
+                "C. Manual configuration of all resources"
+            ],
+            "turkish": [
+                "A. S\u00fcrekli izleme ve optimize etme",
+                "B. Performans metriklerini dikkate almama",
+                "C. T\u00fcm kaynaklar\u0131n man\u00fcel yap\u0131land\u0131rmas\u0131"
+            ]
+        },
+        "answer": {
+            "english": "A. Continuous monitoring and optimization",
+            "turkish": "A. S\u00fcrekli izleme ve optimize etme"
+        },
+        "type": "MultipleChoiceQuestion",
+        "hardness": "medium",
+        "marksWorth": 1
+    }
+]

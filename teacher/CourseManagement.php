@@ -14,8 +14,8 @@
 </head>
 
 <body>
-<div class="overlay video-overlay" style="display: none;">
-    <!-- <div class="popup"> -->
+    <div class="overlay video-overlay" style="display: none;">
+        <!-- <div class="popup"> -->
         <div class="popup-header">
             <div class="close-button" onclick="closePopup('.video-overlay')">
                 <img src="../assets/icons/close.png" alt="Close">
@@ -24,9 +24,9 @@
         </div>
 
         <!-- <div class="popup-body"> -->
-            <!-- <div class="video-container"> -->
-                <iframe id="videoFrame" src=""  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            <!-- </div> -->
+        <!-- <div class="video-container"> -->
+        <iframe id="videoFrame" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <!-- </div> -->
         <!-- </div> -->
 
         <div class="popup-footer">
@@ -35,14 +35,14 @@
                     <text>Close</text>
                 </div>
                 <div class="button" onclick="saveVideo()">
-                  <text>Save</text>
+                    <text>Save</text>
                 </div>
 
-                </div>
             </div>
         </div>
+    </div>
     <!-- </div> -->
-</div>
+    </div>
 
 
     <?php include 'components/header.php'; ?>
@@ -89,61 +89,58 @@
     <?php include 'components/editLearningObjectivesOverlay.php' ?>
 
     <script>
-        
-        window.addEventListener("load", function() {
+
+        window.addEventListener("load", function () {
             loadCourses("id");
         })
 
         let courseImageObject;
 
         async function createCourse(event) {
-    // Prevent the default form submission
-    event.preventDefault();
+            // Prevent the default form submission
+            event.preventDefault();
 
-    let createCourseLoader = loadLoader("Creating Course");
+            let createCourseLoader = loadLoader("Creating Course");
 
-    let courseCode = document.querySelector(".course-code").value;
-    let courseName = document.querySelector(".course-name").value;
-    let courseLanguage = document.querySelector(".course-language").value;
-    let courseIsLanguage = document.querySelector(".course-is-language").value;
+            let courseCode = document.querySelector(".course-code").value;
+            let courseName = document.querySelector(".course-name").value;
+            let courseLanguage = document.querySelector(".course-language").value;
+            let courseIsLanguage = document.querySelector(".course-is-language").value;
 
-    let isLanguageCourse = (courseIsLanguage === "yes") ? "true" : "false";
+            let isLanguageCourse = (courseIsLanguage === "yes") ? "true" : "false";
 
-    let id = uniqueID(1);
+            let id = uniqueID(1);
 
-    let { id: creatorID } = await getGlobalDetails();
+            let { id: creatorID } = await getGlobalDetails();
 
-    let params = `id=${id}&&courseCode=${courseCode}&&title=${courseName}&&language=${courseLanguage}&&isLanguage=${isLanguageCourse}&&creatorID=${creatorID}&&image=''`;
+            let params = `id=${id}&&courseCode=${courseCode}&&title=${courseName}&&language=${courseLanguage}&&isLanguage=${isLanguageCourse}&&creatorID=${creatorID}&&image=''`;
 
-    if (courseImageObject) {
-        try {
-            let { newFileName } = await uploadFile(courseImageObject);
-            if (newFileName) params = `id=${id}&&courseCode=${courseCode}&&title=${courseName}&&language=${courseLanguage}&&isLanguage=${isLanguageCourse}&&creatorID=${creatorID}&&image=${newFileName}`;
-            console.log(params);
-        } catch (error) {
-            console.log(error);
+            if (courseImageObject) {
+                try {
+                    let { newFileName } = await uploadFile(courseImageObject);
+                    if (newFileName) params = `id=${id}&&courseCode=${courseCode}&&title=${courseName}&&language=${courseLanguage}&&isLanguage=${isLanguageCourse}&&creatorID=${creatorID}&&image=${newFileName}`;
+                    console.log(params);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+
+            let result = await AJAXCall({
+                phpFilePath: "../include/course/addNewCourse.php",
+                rejectMessage: "course error",
+                params,
+                type: "post"
+            });
+
+            console.log(result);
+
+            loadCourses();
+
+            setTimeout(() => {
+                closeCreateCourseOverlay();
+                removeLoader(createCourseLoader);
+            }, 2000);
         }
-    }
-
-    let result = await AJAXCall({
-        phpFilePath: "../include/course/addNewCourse.php",
-        rejectMessage: "course error",
-        params,
-        type: "post"
-    });
-
-    console.log(result);
-
-    
-
-
-    loadCourses();
-
-    setTimeout(() => {
-        closeCreateCourseOverlay();
-        removeLoader(createCourseLoader);
-    }, 2000);
-}
 
 
         function openCreateCourseOverlay() {
@@ -167,7 +164,7 @@
             courseImageObject = event.target.files[0];
 
             output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function() {
+            output.onload = function () {
                 URL.revokeObjectURL(output.src) // free memory
             }
         }
@@ -186,7 +183,7 @@
             courseCodeElement.value = "";
             courseTitleElement.value = "";
         }
-        
+
     </script>
 
     <?php include 'components/uploadCourseMaterialOverlay.php'; ?>

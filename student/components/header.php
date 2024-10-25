@@ -16,6 +16,8 @@
     <div class="header-action-bar">
         <?php
 
+            echo $_SESSION["role"];
+
             if($_SESSION["role"] != "student"){
                 echo "
                 <a href='../teacher' class='switch-button'>
