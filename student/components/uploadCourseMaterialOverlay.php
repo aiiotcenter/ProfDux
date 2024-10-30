@@ -36,14 +36,36 @@
                     <input id="PDFUploadInput" class="upload-input" type="file" accept="application/pdf" onchange="loadPDFToPopupView(event, '#chosenPhoto')">
                 </label>
 
+
+
+
+                <label for="videoUploadInput" class="upload-option">
+                    <div class="circular-wrapper">
+                        <img src="../assets/icons/fi/fi-rr-clapperboard-play.svg" alt="">
+                    </div>
+                    <p class="upload-option-description"><text>Video</text></p>
+                    <input id="videoUploadInput" class="upload-input" type="file" accept="video/mp4,video/x-m4v" onchange="loadVideoToPopupView(event, '#chosenPhoto')">
+                </label>
+
+
                 <!-- <label class="upload-option">
                     <div class="circular-wrapper">
                         <img src="../assets/icons/fi/fi-rr-world.svg" alt="">
                     </div>
                     <p class="upload-option-description"><text>Link</text></p>
                 </label> -->
+                     
+                   <!-- Video Preview Container -->
+                   <!-- <div id="videoPreviewContainer" style="display: none;">
+                    <video id="videoPreview" width="320" height="240" controls></video>
+                </div> -->
+
 
             </div>
+
+                        
+
+
 
             <div class="upload-progress-container">
                 <div class="filename-container">

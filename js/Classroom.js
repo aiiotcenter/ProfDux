@@ -152,24 +152,27 @@ class Classroom {
                 imageElement.src = "../assets/icons/image.png";
                 //TODO: change this textContent to a localizedTranslatableElement
                 rowItemAction.textContent = "view";
-                isTimeReadyForLecture && rowItemAction.addEventListener("click", () => openImageViewer(`../uploads/${value}`))
+                rowItemAction.addEventListener("click", () => openImageViewer(`../uploads/${value}`))
                 break;
             case "pdf":
                 imageElement.src = "../assets/icons/pdf.png";
                 rowItemAction.textContent = "view";
-                isTimeReadyForLecture && rowItemAction.addEventListener("click", () => openPDFViewer(`../uploads/${value}`))
+                rowItemAction.addEventListener("click", () => openPDFViewer(`../uploads/${value}`))
                 break;
-            case "video":
+           case "video":
+            imageElement.src = "../assets/icons/play.png";
+            rowItemAction.textContent = "view";
+            rowItemAction.addEventListener("click", () =>openyyoutubeViewer(`${value}`))        
+            break;
+            case "player":
                 imageElement.src = "../assets/icons/play.png";
                 rowItemAction.textContent = "view";
-                rowItemAction.addEventListener("click", () =>openyyoutubeViewer(`${value}`))        
+                rowItemAction.addEventListener("click", () =>openVideoViewer(`${value}`))   
                 break;
-            //TODO: Video
             default:
-                throw new Error("Type has not been created yet!");
+                throw new Error("Type has not been created yet!"+resourceType);
                 break;
         }
-
         //TODO: This should be changed to the title of the resource;
         rowItemText.textContent = value;
 

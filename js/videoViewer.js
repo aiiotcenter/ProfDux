@@ -1,36 +1,40 @@
 function openVideoViewer(videoURL, type = "video/mp4") {
+  // Ensure videoURL is just the filename, e.g., "1730281064.mp4"
+  let body = document.querySelector("body");
 
-    let body = document.querySelector("body");
+  let videoViewerOverlay = document.createElement("div");
+  videoViewerOverlay.className = "video-viewer-overlay";
 
-    let videoViewerOverlay = document.createElement("div");
-    videoViewerOverlay.className = "video-viewer-overlay";
+  let closeButton = document.createElement("div");
+  closeButton.className = "close-button";
 
-    let closeButton = document.createElement("div");
-    closeButton.className = "close-button";
+  let closeButtonIcon = document.createElement("img");
+  closeButtonIcon.src = "../assets/icons/close.png";
+  closeButton.addEventListener("click", () => closeVideoViewer());
 
-    let closeButtonIcon = document.createElement("img");
-    closeButtonIcon.src = "../assets/icons/close.png";
-    closeButton.addEventListener("click", () => closeVideoViewer());
+  let videoElement = document.createElement("video");
+  videoElement.setAttribute("controls", "");
+  videoElement.setAttribute("preload", "auto");
+  videoElement.setAttribute("data-setup", "{}");
 
-    let videoElement = document.createElement("video");
-    videoElement.setAttribute("controls", "");
-    videoElement.setAttribute("preload", "auto");
-    videoElement.setAttribute("data-setup", "{}");
+  // Construct the source URL correctly
+  let source = document.createElement("source");
+  source.src = "../uploads/" + videoURL; // Ensure videoURL is just the filename
+  source.type = type;
 
-    let source = document.createElement("source");
-    source.src = videoURL
-    source.type = type;
+  console.log("Video URL:", source.src); // Log the complete video URL for debugging
 
-    videoElement.appendChild(source);
+  // Correctly append the source element
+  videoElement.appendChild(source);
 
-    closeButton.appendChild(closeButtonIcon);
+  closeButton.appendChild(closeButtonIcon);
 
-    videoViewerOverlay.appendChild(videoElement);
-    videoViewerOverlay.appendChild(closeButton);
-    videoViewerOverlay.style.display = "grid";
-    body.appendChild(videoViewerOverlay);
-
+  videoViewerOverlay.appendChild(videoElement);
+  videoViewerOverlay.appendChild(closeButton);
+  videoViewerOverlay.style.display = "grid";
+  body.appendChild(videoViewerOverlay);
 }
+
 
 function openyyoutubeViewer(videoURL) {
 

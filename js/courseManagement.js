@@ -1,5 +1,6 @@
 let globalImageObject;
 let globalPDFObject;
+let globalVideoObject;
 
 function loadImageToPopupView(event, outputElement) {
 
@@ -28,6 +29,51 @@ function loadImageToPopupView(event, outputElement) {
     // }
 }
 
+function loadVideoToPopupView(event, outputElement) {
+    console.log("video is needed");
+
+    let uploadContainer = document.querySelector(".upload-options-container");
+    let uploadProgressContainer = document.querySelector(".upload-progress-container");
+    // let uploadvideo = document.querySelector(".videoPreviewContainer");
+    uploadContainer.style.display = "none";
+    uploadProgressContainer.style.display = "grid";
+    // uploadvideo.style.display = "grid"; // Make sure the video container is displayed
+
+    console.log("Run Video 1")
+    // Get the selected file
+    const file = event.target.files[0];
+    
+    if (file && file.type.startsWith('video/')) {
+        // Create a URL for the video file
+        const videoUrl = URL.createObjectURL(file);
+
+    console.log("Run Video 2")
+
+        // Get the video element and set its source
+        const videoPreview = document.getElementById('videoPreview');
+        videoPreview.src = videoUrl;
+
+    console.log("Run Video 3")
+
+        // Show the video preview container
+        const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+        videoPreviewContainer.style.display = "block";
+    } else {
+    console.log("Run Video 4")
+
+        console.error("Selected file is not a video.");
+    }
+
+    let { name: VideoName, type: fileType } = event.target.files[0];
+    
+    let truncatedString = truncateString(VideoName);
+    let truncatedFilename = document.querySelector("#truncatedFilename");
+    truncatedFilename.textContent = truncatedString;
+
+    setUploadVideoObject(event.target.files[0]);
+}
+
+
 function loadPDFToPopupView(event, outputElement) {
 
     // const output = document.querySelector(outputElement);
@@ -46,16 +92,27 @@ function loadPDFToPopupView(event, outputElement) {
 
     setUploadPDFObject(event.target.files[0]);
 
+    
+
     }
 
-function revertUploadChoice(){
+    function revertUploadChoice() {
+        let uploadContainer = document.querySelector(".upload-options-container");
+        let uploadProgressContainer = document.querySelector(".upload-progress-container");
+        uploadContainer.style.display = "grid";
+        uploadProgressContainer.style.display = "none";
+    
+        let uploadvideo = document.querySelector(".videoPreviewContainer");
+        uploadvideo.style.display = "none";
+    
+        // Clear the video preview source
+        const videoPreview = document.getElementById('videoPreview');
+        videoPreview.src = ""; // Reset the src attribute to clear the preview
 
-    let uploadContainer = document.querySelector(".upload-options-container");
-    let uploadProgressContainer = document.querySelector(".upload-progress-container");
-    uploadContainer.style.display = "grid";
-    uploadProgressContainer.style.display = "none";
-
-}
+        const input = document.getElementById("videoUploadInput");
+        // Clear the input value after a file is selected or canceled
+        input.value = "";
+    }
 
 function startUploading(){
 
@@ -66,6 +123,8 @@ function startUploading(){
 
     uploadWithObject(globalImageObject);
     uploadWithObject(globalPDFObject);
+    uploadWithObject(globalVideoObject);
+
 
     async function uploadWithObject(fileObject){
 
@@ -120,6 +179,13 @@ function setUploadImageObject(imageObject) {
 
 function setUploadPDFObject(PDFObject){
     globalPDFObject = PDFObject;
+}
+
+function setUploadVideoObject(VideoObject){
+
+    globalVideoObject=VideoObject;
+
+
 }
 
 function openUploadOverlay(id){

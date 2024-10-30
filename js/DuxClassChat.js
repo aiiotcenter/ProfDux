@@ -645,7 +645,7 @@ async function playAudioFileFromResponse({ audioCtx, buffer }){
 // const silentGif = "../assets/images/secoSpritesilentE.gif";
 
 
-const talkingGif = "../assets/images/DuxNeuTalk.gif";
+const talkingGif = "../assets/images/DuxNeuTalkGood.gif";
 const silentGif = "../assets/images/DuxProSilent.gif";
 
 const HiddleGif="../assets/images/DuxProHiddle.gif";

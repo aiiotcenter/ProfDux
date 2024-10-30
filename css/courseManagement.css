@@ -157,9 +157,9 @@
 }
 
 .upload-options-container{
-    border: 1px solid red;
+    /* border: 1px solid red; */
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto;
     grid-gap: 20px;
 }
 
@@ -176,6 +176,7 @@
     display: grid;
     place-items: center;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .upload-option img {
@@ -369,4 +370,10 @@
 
 .objective-container .delete-button {
     opacity: 1;
+}
+
+video,iframe{
+height:
+
+
 }

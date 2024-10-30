@@ -522,6 +522,20 @@ function extractType(type) {
       return "pdf";
     case "video":
       return "video";
+    case "video/mp4":
+    case "video/webm":
+    case "video/ogg":
+    case "video/quicktime":
+    case "video/x-msvideo":
+    case "video/x-ms-wmv":
+    case "video/x-flv":
+    case "video/3gpp":
+    case "video/3gpp2":
+    case "video/mpeg":
+    case "video/x-matroska":
+    case "video/x-f4v":
+      return "player";
+      
   }
 }
 
