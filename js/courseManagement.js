@@ -1,6 +1,7 @@
 let globalImageObject;
 let globalPDFObject;
 let globalVideoObject;
+let EditTextObject;
 
 function loadImageToPopupView(event, outputElement) {
 
@@ -28,6 +29,33 @@ function loadImageToPopupView(event, outputElement) {
     // URL.revokeObjectURL(output.src) // free memory
     // }
 }
+
+
+
+
+function loadtextToPopupView(event, outputElement) {
+
+    // const output = document.querySelector(outputElement);
+
+    let uploadContainer = document.querySelector(".upload-options-container");
+    let uploadProgressContainer = document.querySelector(".upload-progress-container");
+    let textupload=document.getElementById("textviewer");
+  
+    uploadContainer.style.display = "none";
+    uploadProgressContainer.style.display = "grid";
+
+    textupload.style.display = "grid";
+
+    let TextToUpload=document.getElementById("TextToUpload")
+    
+    setUploadTextObject({
+        value: TextToUpload.value,
+        type: "text"
+    })
+
+
+}
+
 
 function loadVideoToPopupView(event, outputElement) {
     console.log("video is needed");
@@ -112,6 +140,9 @@ function loadPDFToPopupView(event, outputElement) {
         const input = document.getElementById("videoUploadInput");
         // Clear the input value after a file is selected or canceled
         input.value = "";
+
+        let textupload=document.getElementById("textviewer");
+        textupload.style.display="none"
     }
 
 function startUploading(){
@@ -124,19 +155,29 @@ function startUploading(){
     uploadWithObject(globalImageObject);
     uploadWithObject(globalPDFObject);
     uploadWithObject(globalVideoObject);
-
+    uploadWithObject(EditTextObject);
 
     async function uploadWithObject(fileObject){
+
+        console.log("object", fileObject)
 
         if(fileObject && lectureID){
 
             let {type} = fileObject;
             const id = uniqueID(1);
-
+;
             try{
-                const { newFileName: value, oldFileName } = await uploadFile(fileObject);
-                if(value) await sendResourceToDatabase({id, value, type, lectureID, oldFileName});
-                else throw new Error("Upload Failed");
+                if(type != "text") {
+                    let { newFileName: value, oldFileName } = await uploadFile(fileObject);
+                    if(value) await sendResourceToDatabase({id, value, type, lectureID, oldFileName});
+                    else throw new Error("Upload Failed");
+                }else{
+                    let TextToUpload=document.getElementById("TextToUpload")
+                    let value = TextToUpload.value
+                    console.log("value:", value)
+                    await sendResourceToDatabase({id, value, type, lectureID, oldFileName: ""});
+                }
+
                 
                 setTimeout(() => {
                     // TODO: animateSuccess();
@@ -170,6 +211,11 @@ async function sendResourceToDatabase(resourceObject){
         params,
         type: "post"
     });
+
+}
+
+function setUploadTextObject(textObject){
+    EditTextObject=textObject
 
 }
 

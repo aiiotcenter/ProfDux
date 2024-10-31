@@ -372,8 +372,30 @@
     opacity: 1;
 }
 
-video,iframe{
-height:
+.textviewer{
 
 
 }
+
+
+#textviewer{
+
+    border: 2px solid var(--border-shade);
+    font-size: 13px;
+    color: var(--accent);
+    display: grid;
+    width:90%;
+
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    
+
+}
+
+#textviewer input {
+padding: 13px ;
+height: 100%;
+width:100%;
+}
+

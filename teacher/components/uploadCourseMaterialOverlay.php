@@ -60,7 +60,22 @@
                 </label>
 
 
+
+
+
+                <label for="Text-option" class="upload-option">
+                    <div class="circular-wrapper">
+                        <img src="../assets/icons/fi/fi-rr-pen-clip.svg" alt="" onclick="loadtextToPopupView()">
+                    </div>
+                    <p class="upload-option-description" onchange="">Text</p>
+
+
+
+                    
+                </label>
+
                                
+
 
 
                 <!-- <label for="PDFUploadInput" class="upload-option">
@@ -88,6 +103,13 @@
          <div id="videoPreviewContainer" class="videoPreviewContainer" style="display: none;">
                     <video id="videoPreview" width="120px" height="90px" controls></video>
                 </div>
+
+
+                <div id="textviewer" class="textviewer" style="display: none; ">
+
+                <p class="upload-option-description">Add text or Announcement</p>
+                <input type="text" id="TextToUpload"></div>
+                
 
         <div class="popup-footer">
             <div class="button-group">

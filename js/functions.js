@@ -535,6 +535,8 @@ function extractType(type) {
     case "video/x-matroska":
     case "video/x-f4v":
       return "player";
+      case "text":
+        return "text";
       
   }
 }

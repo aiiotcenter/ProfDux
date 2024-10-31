@@ -232,6 +232,10 @@ class Course {
                 rowItemAction.textContent = "view";
                 rowItemAction.addEventListener("click", () =>openVideoViewer(`${value}`))   
                 break;
+            case "text":
+                imageElement.src = "../assets/icons/fi/fi-rr-pen-clip.svg";
+                // rowItemAction.textContent = value;
+                break;
             default:
                 throw new Error("Type has not been created yet!"+resourceType);
                 break;
@@ -243,7 +247,7 @@ class Course {
         rowItemIcon.appendChild(imageElement);
         mainClassroomSubtopicItem.appendChild(rowItemIcon)
         mainClassroomSubtopicItem.appendChild(rowItemText)
-        mainClassroomSubtopicItem.appendChild(rowItemAction)
+        if(resourceType != "text") mainClassroomSubtopicItem.appendChild(rowItemAction)
         mainClassroomSubtopicItem.appendChild(deleteButton)
 
         return mainClassroomSubtopicItem;
