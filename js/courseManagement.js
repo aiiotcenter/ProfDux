@@ -42,7 +42,7 @@ function loadtextToPopupView(event, outputElement) {
     let textupload=document.getElementById("textviewer");
   
     uploadContainer.style.display = "none";
-    uploadProgressContainer.style.display = "grid";
+    uploadProgressContainer.style.display = "none";
 
     textupload.style.display = "grid";
 
