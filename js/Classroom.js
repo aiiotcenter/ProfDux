@@ -183,9 +183,12 @@ class Classroom {
         rowItemIcon.appendChild(imageElement);
         mainClassroomSubtopicItem.appendChild(rowItemIcon)
         mainClassroomSubtopicItem.appendChild(rowItemText)
-        mainClassroomSubtopicItem.appendChild(rowItemAction)
+        if(resourceType != "text") mainClassroomSubtopicItem.appendChild(rowItemAction)
 
         return mainClassroomSubtopicItem;
+
+
+         
 
     }
 
