@@ -369,7 +369,7 @@ async function handleEndExam(examObject){
 
     saveAssessmentAsJSON(filename, questions, "exam", type);
 
-    let { result, totalMarks } = mark(questions, language);
+    let { result, totalMarks } = await mark(questions, language);
 
     console.log(`result: ${result}, totalMarks: ${totalMarks}`);
 

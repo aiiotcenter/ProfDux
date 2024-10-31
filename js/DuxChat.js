@@ -122,7 +122,7 @@ class DuxChat {
 
         if(type != "forced") ( async() => {
 
-            let responseMessage = await generateGPTResponseFor(message, this.apiKey);
+            let responseMessage = await generateGPTResponseFor(message);
             console.log(responseMessage);
 
             setTimeout(() => {
@@ -147,42 +147,6 @@ duxChat.addMessagesView(messagesView);
 
 duxChat.startChatEngine();
 
-async function generateGPTResponseFor(prompt, apiKey) {
-
-    const endpoint = 'https://api.openai.com/v1/chat/completions';
-
-    try {
-
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [
-                    {
-                    role: 'system',
-                    content: 'You are a helpful assistant.'
-                    },
-                    {
-                    role: 'user',
-                    content: prompt
-                    }
-                ]
-            })
-        });
-
-        const data = await response.json();
-        console.log('HERE IS DATA FROM GPT: ', data);
-        return data.choices[0].message.content;
-
-    } catch (error) {
-        console.error('Error fetching response:', error);
-        return null;
-    }
-}
 
         function startDuxChat(){
 

@@ -606,8 +606,8 @@ async function generateQuiz(lectureObject, refresh = true){
 
     console.log("lecture data for quiz generation: ", lectureObject);
 
-    const languages = ["english", "turkish"];
-    const educationEnvironment = "university students";
+    const languages = fetchGlobalAvailableLanguages();
+    const educationEnvironment = extrapolateEducationEnvironment();
     const types = [
         "MultipleChoiceQuestion",
         "FillInTheBlankQuestion",

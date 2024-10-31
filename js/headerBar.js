@@ -57,6 +57,14 @@ function getCurrentLanguageFromLocalStorage(){
     return window.localStorage.getItem("lang");
 }
 
+function fetchGlobalAvailableLanguages(){
+    return ["english", "turkish"];
+}
+
+function extrapolateEducationEnvironment(){
+    return "university students";
+}
+
 function extrapolateLanguage(){
     let language = getCurrentLanguageFromLocalStorage();
 

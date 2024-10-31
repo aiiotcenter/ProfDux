@@ -276,8 +276,8 @@ class CreateExam {
     
         console.log("totalQuestions: ", this.totalQuestions);
     
-        const languages = ["english", "turkish"];
-        const educationEnvironment = "college students";
+        const languages = fetchGlobalAvailableLanguages();
+        const educationEnvironment = extrapolateEducationEnvironment();
         const topics = this.topics;
     
         const mcqObject = {

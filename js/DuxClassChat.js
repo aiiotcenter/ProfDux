@@ -52,17 +52,6 @@ class DuxClassChat {
         this.courseID = courseID;
         this.currentHierarchy = 0;
 
-        ( async() => {
-            try{
-                let response = await fetchOpenAIKey();
-                console.log(response[0].value);
-                this.apiKey = response[0].value;
-            }
-            catch(error){
-                console.log(error);
-            }
-        })();
-
     }
 
     startChatEngine(){
@@ -527,7 +516,7 @@ class DuxClassChat {
             
             console.log("message sent: ", message);
 
-            let responseMessage = await generateGPTResponseFor(message, this.apiKey);
+            let responseMessage = await generateGPTResponseFor(message);
             duxListenButton.addEventListener("click", () => this.playVoice(responseMessage))
             console.log(responseMessage);
 
@@ -545,48 +534,14 @@ class DuxClassChat {
     }
 }
 
-async function generateGPTResponseFor(prompt, apiKey) {
-
-    const endpoint = 'https://api.openai.com/v1/chat/completions';
-
-    try {
-
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [
-                    {
-                    role: 'system',
-                    content: 'You are a helpful assistant.'
-                    },
-                    {
-                    role: 'user',
-                    content: prompt
-                    }
-                ]
-            })
-        });
-
-        const data = await response.json();
-        console.log('HERE IS DATA FROM GPT: ', data);
-        return data.choices[0].message.content;
-
-    } catch (error) {
-        console.error('Error fetching response:', error);
-        return null;
-    }
-}
-
 // voice
 
-function generateTextToAudioFor(input, apiKey) {
+function generateTextToAudioFor(input) {
 
     return new Promise( async(resolve, reject) => {
+
+        const response = await fetchOpenAIKey();
+        let apiKey = response[0].value;
 
         const endpoint = 'https://api.openai.com/v1/audio/speech';
 
