@@ -359,7 +359,7 @@ class DuxClassChat {
         let results = performSearch(message,this.PDFCorpus);
         let joinedResults = joinSearchResult(results);
 
-        const promptMessage = `From the following PDF Extract ${joinedResults}, give me a response to the input ${message} with a limit of 50 words.`;
+        const promptMessage = `From the following PDF Extract ${joinedResults}, give me a response in json to the input ${message} with a limit of 50 words.`;
         
         this.renderMyMessage(message);
         this.textInput.textContent = "";
@@ -367,7 +367,7 @@ class DuxClassChat {
         if(message.length > 0 && results.length > 0){
             this.renderDuxMessageFor(message, promptMessage);
         }else{
-            this.renderDuxMessageFor(message, `Give me a response to the input ${message} with a limit of 50 words`, 'free-response')
+            this.renderDuxMessageFor(message, `Give me a response in json to the input ${message} with a limit of 50 words`, 'free-response')
         }
 
     }
