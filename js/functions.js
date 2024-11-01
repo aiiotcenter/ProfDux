@@ -328,12 +328,27 @@ async function fetchOpenAIKey(phpFilePath = "../include/openAIKey.php") {
 }
 
 async function generateGPTResponseFor(prompt) {
-  const response = await fetchOpenAIKey();
-  let apiKey = response[0].value;
-
-  const endpoint = "https://api.openai.com/v1/chat/completions";
-
   try {
+    // Fetch API key
+    const keyResponse = await fetchOpenAIKey();
+    if (!keyResponse || !keyResponse[0] || !keyResponse[0].value) {
+      throw new Error('Invalid API key configuration');
+    }
+    const apiKey = keyResponse[0].value;
+
+    const endpoint = "https://api.openai.com/v1/chat/completions";
+
+    // Ensure the prompt includes JSON format instruction
+    const systemMessage = {
+      role: "system",
+      content: "You are a helpful assistant. Always respond in JSON format with a 'response' key containing your message.",
+    };
+
+    const userMessage = {
+      role: "user",
+      content: typeof prompt === 'string' ? prompt : prompt.content,
+    };
+
     const response = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -341,27 +356,32 @@ async function generateGPTResponseFor(prompt) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "system",
-            content: "You are a helpful assistant.",
-          },
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
+        model: "gpt-3.5-turbo-1106", // Updated to a version that supports JSON response format
+        messages: [systemMessage, userMessage],
         response_format: { type: "json_object" },
+        temperature: 0.7,
+        max_tokens: 150,
       }),
     });
 
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+
     const data = await response.json();
-    console.log("HERE IS DATA FROM GPT: ", data);
-    return data.choices[0].message.content;
+    // console.log("GPT Response Data:", data);
+
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error('Invalid response structure from API');
+    }
+
+    // Parse the JSON response
+    const parsedContent = JSON.parse(data.choices[0].message.content);
+    return parsedContent.response || "No response content available";
+
   } catch (error) {
-    console.error("Error fetching response:", error);
-    return null;
+    console.error("Error in generateGPTResponseFor:", error);
+    return "I apologize, but I encountered an error processing your request.";
   }
 }
 

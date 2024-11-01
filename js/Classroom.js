@@ -174,7 +174,7 @@ class Classroom {
                 // rowItemAction.textContent = value;
                 break;
             default:
-                throw new Error("Type has not been created yet!"+resourceType);
+                throw new Error("Type has not been created yet  "+resourceType);
                 break;
         }
         //TODO: This should be changed to the title of the resource;

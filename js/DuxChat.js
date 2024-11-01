@@ -8,7 +8,7 @@ class DuxChat {
         ( async() => {
             try{
                 let response = await fetchOpenAIKey();
-                console.log(response[0].value);
+                // console.log(response[0].value);
                 this.apiKey = response[0].value;
             }
             catch(error){

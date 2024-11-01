@@ -44,6 +44,7 @@ function loadtextToPopupView(event, outputElement) {
     uploadContainer.style.display = "none";
     uploadProgressContainer.style.display = "none";
 
+
     textupload.style.display = "grid";
 
     let TextToUpload=document.getElementById("TextToUpload")
