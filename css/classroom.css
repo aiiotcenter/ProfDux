@@ -101,6 +101,19 @@
     border: 1.5px solid #A02748;
 }
 
+.row-item-action a {
+    display:grid;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+}
+
+.red {
+    filter: invert(11%) sepia(63%) saturate(7384%) hue-rotate(358deg) brightness(126%) contrast(112%);
+}
+
 .quiz-action {
     background-color: #1E883E;
     border-color: #1E883E ;

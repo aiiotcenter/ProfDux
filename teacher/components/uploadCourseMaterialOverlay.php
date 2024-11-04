@@ -4,7 +4,7 @@
             <div class="close-button" onclick="closeUploadOverlay()">
                 <img src="../assets/icons/close.png" alt="">
             </div>
-            <h1 class="pop-up-title"><text>Upload Resource</text></h1> 
+            <h1 class="pop-up-title"><text>Upload Resource</text></h1>
         </div>
 
         <div class="popup-body">
@@ -23,7 +23,7 @@
 
 
 
-              
+
 
 
 
@@ -41,9 +41,9 @@
                     <input id="PDFUploadInput" class="upload-input" type="file" accept="application/pdf" onchange="loadPDFToPopupView(event, '#chosenPhoto')">
                 </label>
 
-                <label class="upload-option">
+                <label class="upload-option" style="width:100%;">
                     <div class="circular-wrapper">
-                        <img src="../assets/icons/fi/fi-rr-world.svg" alt="">
+                        <img src="../assets/icons/fi/fi-rr-world.svg" alt="" onclick="loadLinkToPopupView()">
                     </div>
                     <p class="upload-option-description"><text>Link</text></p>
                 </label>
@@ -71,10 +71,14 @@
 
 
 
-                    
+
                 </label>
 
-                               
+
+
+
+
+
 
 
 
@@ -91,25 +95,36 @@
                 </label> -->
             </div>
 
-            <div class="upload-progress-container" style="display: none";>
+            <div class="upload-progress-container" style="display: none" ;>
                 <div class="filename-container">
                     <p id="truncatedFilename"></p>
                     <div class="progress" id="global-progress-bar"></div>
                 </div>
             </div>
-        </div>
-
-         <!-- Video Preview Container -->
-         <div id="videoPreviewContainer" class="videoPreviewContainer" style="display: none;">
-                    <video id="videoPreview" width="120px" height="90px" controls></video>
-                </div>
 
 
-                <div id="textviewer" class="textviewer" style="display: none; ">
+
+            <!-- Video Preview Container -->
+            <div id="videoPreviewContainer" class="videoPreviewContainer" style="display: none;">
+                <video id="videoPreview" width="120px" height="90px" controls></video>
+            </div>
+
+
+            <div id="textviewer" class="textviewer" style="display: none; ">
 
                 <p class="upload-option-description">Add text or Announcement</p>
-                <input type="text" id="TextToUpload"></div>
-                
+                <input type="text" id="TextToUpload">
+            </div>
+
+
+            <div class="LinkViewer" id="LinkViewer" style="display: none;">
+                <p class="upload-option-description">Add URL</p>
+                <input type="text" id="LinkToUpload" class="LinkToUpload" placeholder="Enter a link" oninput="showLinkPreview()">
+                <div id="preview" style="display: none;"></div>
+            </div>
+
+        </div>
+
 
         <div class="popup-footer">
             <div class="button-group">
@@ -125,5 +140,5 @@
 
     <!-- <div class="upload-view">
         <img src="" alt="">
-    </div> --> 
+    </div> -->
 </div>

@@ -144,6 +144,7 @@ class Classroom {
         let rowItemIcon = createElement("div", "row-item-icon")
         let rowItemText = createElement("div", "row-item-text")
         let rowItemAction = createElement("div", "row-item-action");
+        let preview = createElement("div", "row-item-action");
 
         let imageElement = document.createElement("img");
 
@@ -173,6 +174,11 @@ class Classroom {
                 imageElement.src = "../assets/icons/fi/fi-rr-pen-clip.svg";
                 // rowItemAction.textContent = value;
                 break;
+                case "link":
+                    imageElement.src = "../assets/icons/globe1.png";
+                    imageElement.className = 'red'
+                    rowItemAction.innerHTML = `<a href="${value}" target="_blank">Go</a>`;
+                    break;
             default:
                 throw new Error("Type has not been created yet  "+resourceType);
                 break;

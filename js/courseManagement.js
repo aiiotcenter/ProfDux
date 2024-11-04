@@ -2,6 +2,7 @@ let globalImageObject;
 let globalPDFObject;
 let globalVideoObject;
 let EditTextObject;
+let globalLinkView;
 
 function loadImageToPopupView(event, outputElement) {
 
@@ -57,6 +58,31 @@ function loadtextToPopupView(event, outputElement) {
 
 }
 
+
+function loadLinkToPopupView(event,outputElement){
+    let uploadContainer = document.querySelector(".upload-options-container");
+    let uploadProgressContainer = document.querySelector(".upload-progress-container");
+    let Linkupload=document.getElementById("LinkViewer");
+    let LinkPreview = document.getElementById("preview")
+  
+    uploadContainer.style.display = "none";
+    uploadProgressContainer.style.display = "none";
+
+
+    Linkupload.style.display = "grid";
+    LinkPreview.style.display = "grid";
+
+    let LinkToupload=document.getElementById("LinkToUpload")
+
+    setUploadLinkObject({
+        value:LinkToupload.value,
+        type:"link"
+
+    })
+    
+    
+
+}
 
 function loadVideoToPopupView(event, outputElement) {
     console.log("video is needed");
@@ -144,6 +170,11 @@ function loadPDFToPopupView(event, outputElement) {
 
         let textupload=document.getElementById("textviewer");
         textupload.style.display="none"
+
+        let Linkupload=document.getElementById("LinkViewer");
+        Linkupload.style.display = "none";
+        let LinkPreview = document.getElementById("preview")
+        LinkPreview.style.display = "none";
     }
 
 function startUploading(){
@@ -157,6 +188,7 @@ function startUploading(){
     uploadWithObject(globalPDFObject);
     uploadWithObject(globalVideoObject);
     uploadWithObject(EditTextObject);
+    uploadWithObject(globalLinkView);
 
     async function uploadWithObject(fileObject){
 
@@ -168,15 +200,21 @@ function startUploading(){
             const id = uniqueID(1);
 ;
             try{
-                if(type != "text") {
-                    let { newFileName: value, oldFileName } = await uploadFile(fileObject);
-                    if(value) await sendResourceToDatabase({id, value, type, lectureID, oldFileName});
-                    else throw new Error("Upload Failed");
-                }else{
+                if(type == "text"){
                     let TextToUpload=document.getElementById("TextToUpload")
                     let value = TextToUpload.value
                     console.log("value:", value)
                     await sendResourceToDatabase({id, value, type, lectureID, oldFileName: ""});
+                }else if(type == "link") {
+                    
+                    let LinkToupload=document.getElementById("LinkToUpload")
+                    let value = LinkToupload.value
+                    console.log("value:", value)
+                    await sendResourceToDatabase({id, value, type, lectureID, oldFileName: ""});
+                }else {
+                    let { newFileName: value, oldFileName } = await uploadFile(fileObject);
+                    if(value) await sendResourceToDatabase({id, value, type, lectureID, oldFileName});
+                    else throw new Error("Upload Failed");
                 }
 
                 
@@ -231,6 +269,13 @@ function setUploadPDFObject(PDFObject){
 function setUploadVideoObject(VideoObject){
 
     globalVideoObject=VideoObject;
+
+
+}
+
+function setUploadLinkObject(linkObject){
+
+    globalLinkView=linkObject;
 
 
 }
@@ -572,4 +617,52 @@ async function checkImage(imagePath){
     catch(error){
         return `../assets/images/courseDefault.jpg`;
     }
+}
+
+
+
+
+function showLinkPreview() {
+    const linkInput = document.getElementById('LinkToUpload').value;
+    const previewDiv = document.getElementById('preview');
+    previewDiv.innerHTML = ''; // Clear previous content
+
+    // Check if the link is a YouTube URL
+    if (linkInput.includes('youtube.com/watch?v=') || linkInput.includes('youtu.be/')) {
+        let videoId;
+        if (linkInput.includes('youtube.com/watch?v=')) {
+            videoId = linkInput.split('v=')[1].split('&')[0];
+        } else if (linkInput.includes('youtu.be/')) {
+            videoId = linkInput.split('youtu.be/')[1];
+        }
+        const iframe = `<iframe width="500" height="300" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+        previewDiv.innerHTML = iframe;
+    } else {
+        // For general web links
+        const linkPreview = `<a href="${linkInput}" target="_blank">${linkInput}</a>`;
+        previewDiv.innerHTML = linkPreview;
+    }
+}
+
+function createLinkPreview(linkInput) {
+
+    let finalUI;
+
+    // Check if the link is a YouTube URL
+    if (linkInput.includes('youtube.com/watch?v=') || linkInput.includes('youtu.be/')) {
+        let videoId;
+        if (linkInput.includes('youtube.com/watch?v=')) {
+            videoId = linkInput.split('v=')[1].split('&')[0];
+        } else if (linkInput.includes('youtu.be/')) {
+            videoId = linkInput.split('youtu.be/')[1];
+        }
+        const iframe = `<iframe width="500" height="300" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+        finalUI = iframe;
+    } else {
+        // For general web links
+        const linkPreview = `<a href="${linkInput}" target="_blank">${linkInput}</a>`;
+        finalUI = linkPreview;
+    }
+
+    return finalUI;
 }

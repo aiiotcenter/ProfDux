@@ -199,6 +199,11 @@ class Course {
         let rowItemText = createElement("div", "row-item-text")
         let rowItemAction = createElement("div", "row-item-action");
         
+
+        let previewElement=createElement("div")
+        previewElement.className="preview";
+        previewElement.innerHTML = createLinkPreview(value)
+        
         let deleteButton = document.createElement("div");
         deleteButton.className = "delete-button";
         deleteButton.innerHTML = `<img src="../assets/icons/delete.png" alt="">`;
@@ -236,6 +241,11 @@ class Course {
                 imageElement.src = "../assets/icons/fi/fi-rr-pen-clip.svg";
                 // rowItemAction.textContent = value;
                 break;
+            case "link":
+                    imageElement.src = "../assets/icons/globe1.png";
+                    imageElement.className = 'red'
+                    rowItemAction.innerHTML = `<a href="${value}" target="_blank">Go</a>`;
+                    break;
             default:
                 throw new Error("Type has not been created yet!"+resourceType);
                 break;
@@ -246,7 +256,8 @@ class Course {
 
         rowItemIcon.appendChild(imageElement);
         mainClassroomSubtopicItem.appendChild(rowItemIcon)
-        mainClassroomSubtopicItem.appendChild(rowItemText)
+        if(resourceType != "link") mainClassroomSubtopicItem.appendChild(rowItemText)
+        if(resourceType == "link") mainClassroomSubtopicItem.appendChild(previewElement)
         if(resourceType != "text") mainClassroomSubtopicItem.appendChild(rowItemAction)
         mainClassroomSubtopicItem.appendChild(deleteButton)
 

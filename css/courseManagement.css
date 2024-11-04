@@ -372,10 +372,6 @@
     opacity: 1;
 }
 
-.textviewer{
-
-
-}
 
 
 #textviewer{
@@ -397,5 +393,47 @@
 padding: 13px ;
 height: 100%;
 width:100%;
+border: #6F2036 1px dashed  ;
+}
+
+
+
+#LinkViewer{
+
+    border: 2px solid var(--border-shade);
+    font-size: 13px;
+    color: var(--accent);
+    display: grid;
+    width:98%;
+    grid-gap: 20px;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    
+
+}
+
+#LinkViewer input {
+padding: 13px ;
+height: 100%;
+width:100%;
+border: #6F2036 1px solid  ;
+
+}
+
+#LinkViewer input:hover{
+border: #6F2036 1px dashed; 
+}
+
+#LinkViewer input:focus {
+    outline:none;
+}
+
+
+#preview iframe, .preview iframe{
+    
+    height: 300px !important;
+
+ 
 }
 

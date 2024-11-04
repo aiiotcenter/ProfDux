@@ -557,6 +557,8 @@ function extractType(type) {
       return "player";
       case "text":
         return "text";
+        case "link":
+          return "link";
       
   }
 }
