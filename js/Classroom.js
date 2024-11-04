@@ -144,7 +144,9 @@ class Classroom {
         let rowItemIcon = createElement("div", "row-item-icon")
         let rowItemText = createElement("div", "row-item-text")
         let rowItemAction = createElement("div", "row-item-action");
-        let preview = createElement("div", "row-item-action");
+        let previewElement=createElement("div")
+        previewElement.className="preview";
+        previewElement.innerHTML = createLinkPreview(value)
 
         let imageElement = document.createElement("img");
 
@@ -188,7 +190,8 @@ class Classroom {
 
         rowItemIcon.appendChild(imageElement);
         mainClassroomSubtopicItem.appendChild(rowItemIcon)
-        mainClassroomSubtopicItem.appendChild(rowItemText)
+        if(resourceType != "link") mainClassroomSubtopicItem.appendChild(rowItemText)
+        if(resourceType == "link") mainClassroomSubtopicItem.appendChild(previewElement)
         if(resourceType != "text") mainClassroomSubtopicItem.appendChild(rowItemAction)
 
         return mainClassroomSubtopicItem;
