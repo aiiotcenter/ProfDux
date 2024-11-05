@@ -22,19 +22,9 @@
                         <img src="../assets/icons/fi/fi-rr-images.svg" alt="">
                     </div>
                     <p class="upload-option-description"><text>Image</text></p>
-                    <input id="imageUploadInput" class="upload-input" type="file" accept="image/*" onchange="loadImageToPopupView(event, '#chosenPhoto')">
+                    <input id="imageUploadInput" class="upload-input" type="file" accept="image/*"
+                        onchange="loadImageToPopupView(event, '#chosenPhoto')">
                 </label>
-
-
-
-
-
-
-
-
-
-
-
 
                 <label for="PDFUploadInput" class="upload-option">
                     <div class="circular-wrapper">
@@ -42,9 +32,8 @@
                     </div>
                     <p class="upload-option-description">PDF</p>
 
-
-
-                    <input id="PDFUploadInput" class="upload-input" type="file" accept="application/pdf" onchange="loadPDFToPopupView(event, '#chosenPhoto')">
+                    <input id="PDFUploadInput" class="upload-input" type="file" accept="application/pdf"
+                        onchange="loadPDFToPopupView(event, '#chosenPhoto')">
                 </label>
 
                 <label class="upload-option" style="width:100%;">
@@ -54,54 +43,21 @@
                     <p class="upload-option-description"><text>Link</text></p>
                 </label>
 
-
-
-
                 <label for="videoUploadInput" class="upload-option">
                     <div class="circular-wrapper">
                         <img src="../assets/icons/fi/fi-rr-clapperboard-play.svg" alt="">
                     </div>
                     <p class="upload-option-description"><text>Video</text></p>
-                    <input id="videoUploadInput" class="upload-input" type="file" accept="video/mp4,video/x-m4v" onchange="loadVideoToPopupView(event, '#chosenPhoto')">
+                    <input id="videoUploadInput" class="upload-input" type="file" accept="video/mp4,video/x-m4v"
+                        onchange="loadVideoToPopupView(event, '#chosenPhoto')">
                 </label>
-
-
-
-
 
                 <label for="Text-option" class="upload-option">
                     <div class="circular-wrapper">
                         <img src="../assets/icons/fi/fi-rr-pen-clip.svg" alt="" onclick="loadtextToPopupView()">
                     </div>
                     <p class="upload-option-description" onchange="">Text</p>
-
-
-     
-
-
-
                 </label>
-       
-
-              
-
-
-
-
-
-
-
-                <!-- <label for="PDFUploadInput" class="upload-option">
-                    
-                    <div class="circular-wrapper">
-                        <img src="../assets/icons/fi/fi-rr-file-video.svg" alt="">
-                    </div>
-                    <p class="upload-option-description">VIDEO</p>
-
-
-                    
-                    <input id="VIDEOUploadInput" class="upload-input" type="file"  accept="video/mp4,video/x-m4v" onchange="loadPDFToPopupView(event, '#chosenPhoto')">
-                </label> -->
             </div>
 
             <div class="upload-progress-container" style="display: none" ;>
@@ -110,8 +66,6 @@
                     <div class="progress" id="global-progress-bar"></div>
                 </div>
             </div>
-
-
 
             <!-- Video Preview Container -->
             <div id="videoPreviewContainer" class="videoPreviewContainer" style="display: none;">
@@ -128,7 +82,8 @@
 
             <div class="LinkViewer" id="LinkViewer" style="display: none;">
                 <p class="upload-option-description">Add URL</p>
-                <input type="text" id="LinkToUpload" class="LinkToUpload" placeholder="Enter a link" oninput="showLinkPreview()">
+                <input type="text" id="LinkToUpload" class="LinkToUpload" placeholder="Enter a link"
+                    oninput="showLinkPreview()">
                 <div id="preview" style="display: none;"></div>
             </div>
 
@@ -146,8 +101,4 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="upload-view">
-        <img src="" alt="">
-    </div> -->
 </div>

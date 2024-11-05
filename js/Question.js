@@ -17,6 +17,7 @@ class Question {
     this.answer = answer;
     this.type = type;
     this.hardness = hardness;
+    this.marksWorth = questionObject.marksWorth ? questionObject.marksWorth : getMarksForQuestion(type);
 
     if (questionObject.inputAnswer != null)
       this.inputAnswer = questionObject.inputAnswer;
@@ -169,30 +170,38 @@ class FillInTheBlank extends Question {
 }
 
 async function markFITBQuestion(questionObject, language) {
+  const { question, marksWorth, hardness: level, inputAnswer } = questionObject;
 
-  const {question, marksWorth, hardness:level, inputAnswer } = questionObject;
+  const educationEnvironment = extrapolateEducationEnvironment();
 
-  const educationEnvironment =  extrapolateEducationEnvironment();
+  console.log("question: ", question[language]);
 
   let query =
     `
-        Evaluate the following question and answer, and provide a fair score rounded to the nearest integer. For short answers (1-3 words), award partial marks if the response demonstrates relevant understanding, even if it’s not fully comprehensive.
+        Evaluate the following question and answer, and provide a fair score rounded to the nearest integer. For short answers (1-3 words), award partial marks if the response demonstrates relevant understanding, even if it’s not fully comprehensive and case insensitive.
             - Question: "${question[language]}"
             - Answer: "${inputAnswer}"
             - Maximum Marks: ${marksWorth}
             - Audience: ${educationEnvironment} students
             - Difficulty Level: ${level}
 
-            Return only the score as a JSON object with a single key, ` + `mark` + `, in the format: { "mark": <score> }. Ensure there are no nested objects or extra fields.
+            Return only the score as a JSON object with a 'response' key, ` +
+    `mark` +
+    `, in the format: { "mark": <score> }. Ensure there are no nested objects or extra fields.
     `;
 
-  let unparsedJSONResponse = await generateGPTResponseFor(query);
-  let result = await JSON.parse(unparsedJSONResponse);
+
+  // let unparsedJSONResponse = await generateGPTResponseFor(query);
+  // console.log("result before marking: ", unparsedJSONResponse);
+  // let result = await JSON.parse(unparsedJSONResponse);
+  // console.log("result from marking: ", result);
+
+  let result = await generateGPTResponseFor(query);
+  console.log("marking: ", result);
 
   try {
     if (result.mark >= 0) return result.mark;
-    else if(result.mark.mark >= 0) return result.mark.mark;
-    else return result
+    else return 0;
   } catch (error) {
     console.log(error);
   }

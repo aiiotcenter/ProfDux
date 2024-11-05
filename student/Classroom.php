@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="inner-overlay classroom-inner-overlay">
-                    <div class="back-arrow" onclick="closePopup('.classroom-inner-overlay')">
+                <div class="back-arrow" onclick="closePopup('.classroom-inner-overlay'); openPopup('.course-view-container','back');">
                         <img class="icon" src="../assets/icons/fi/fi-rr-arrow-alt-left.svg" alt="">
                     </div>
 

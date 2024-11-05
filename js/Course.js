@@ -855,7 +855,7 @@ async function deleteQuiz(id){
 function refreshTeacherCourseOutline(){
     let mainContainer = document.querySelector(".main-container");
     let id = mainContainer.getAttribute("data-id");
-    editCourseWith(id);
+    editCourseWith({id});
 }
 
 async function deleteResourceWith(resourceObject){

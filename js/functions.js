@@ -103,67 +103,24 @@ function cascadingDateChanges() {
   });
 }
 
-// function showBatchSelectContainerView(){
+function makeUnique(strength) {
+  let cache = {};
+  let n = uniqueID(strength);
+  while (!n in cache) {
+    n = uniqueID(strength);
+  }
+  cache[n] = n;
+}
 
-//     let view;
-//     let container = document.querySelector("#studentsListAll");
-//     let batchSelectContainer = document.querySelector(".batch-select-container");
-//     let studentCheckboxes = container.querySelectorAll('input[type="checkbox"]');
-
-//     let count = 0;
-
-//     studentCheckboxes.forEach( checkbox => {
-//         if(!checkbox.checked){
-//             count++;
-//         }
-//     });
-
-//     let textRequest = count == 1 ? "Request" : "Requests";
-//     let areIs = count == 1 ? "is" : "are";
-
-//     if(count > 0){
-//         view = `
-//             <p>There ${areIs} ( <b>${count}</b> ) new ${textRequest}</p>
-//             <button onclick="SelectAllCheckboxes()">Approve ${count} ${textRequest}</button>
-//         `;
-//     }
-//     else{
-//         view = `<p class="stretch-x">There are no new requests</p>`
-//     }
-
-//     batchSelectContainer.innerHTML = view;
-
-// }
-
-// function SelectAllCheckboxes(){
-
-//     let container = document.querySelector("#studentsListAll");
-//     let studentCheckboxes = container.querySelectorAll('input[type="checkbox"]');
-
-//     studentCheckboxes.forEach( checkbox => {
-//         if( !checkbox.checked ){
-//             checkbox.checked = true;
-
-//             // Create a new 'change' event
-//             var event = new Event('change');
-
-//             // Dispatch it.
-//             checkbox.dispatchEvent(event);
-//         }
-//     });
-
-//     showBatchSelectContainerView();
-
-// }
-
-function uniqueID(stregth = 2) {
-  const date = Date.now() + getRandomArbitrary(0, 9999);
-  const dateReversed = parseInt(String(date).split("").reverse().join(""));
+function uniqueID(strength = 1) {
+  const date = Date.now() + getRandomArbitrary(3000, 9999);
+  const dateReversed =
+    getRandomArbitrary(3000, 9999) +
+    parseInt(String(date).split("").reverse().join(""));
   const base36 = (number) => number.toString(36);
-  if (stregth == 1) return base36(date);
-  if (stregth == -1) return base36(dateReversed);
+  if (strength == 1) return base36(date);
+  if (strength == -1) return base36(dateReversed);
   return base36(dateReversed) + base36(date);
-
   // return crypto.randomUUID().split("-").join("");
 }
 
@@ -277,6 +234,16 @@ function openPopup(selector) {
   popup.style.display = "grid";
 }
 
+// function openPopup(selector, going="forward") {
+//   let popup = document.querySelector(selector);
+//   popup.style.display = "grid";
+
+//   try{
+//     if( going == "back")
+//       removeURLParameter("id");
+//   }catch(error){}
+// }
+
 function closePopup(selector) {
   let popup = document.querySelector(selector);
   popup.style.display = "none";
@@ -332,7 +299,7 @@ async function generateGPTResponseFor(prompt) {
     // Fetch API key
     const keyResponse = await fetchOpenAIKey();
     if (!keyResponse || !keyResponse[0] || !keyResponse[0].value) {
-      throw new Error('Invalid API key configuration');
+      throw new Error("Invalid API key configuration");
     }
     const apiKey = keyResponse[0].value;
 
@@ -341,12 +308,13 @@ async function generateGPTResponseFor(prompt) {
     // Ensure the prompt includes JSON format instruction
     const systemMessage = {
       role: "system",
-      content: "You are a helpful assistant. Always respond in JSON format with a 'response' key containing your message.",
+      content:
+        "You are a helpful assistant. Always respond in JSON format with a 'response' key containing your message.",
     };
 
     const userMessage = {
       role: "user",
-      content: typeof prompt === 'string' ? prompt : prompt.content,
+      content: typeof prompt === "string" ? prompt : prompt.content,
     };
 
     const response = await fetch(endpoint, {
@@ -372,13 +340,12 @@ async function generateGPTResponseFor(prompt) {
     // console.log("GPT Response Data:", data);
 
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      throw new Error('Invalid response structure from API');
+      throw new Error("Invalid response structure from API");
     }
 
     // Parse the JSON response
     const parsedContent = JSON.parse(data.choices[0].message.content);
     return parsedContent.response || "No response content available";
-
   } catch (error) {
     console.error("Error in generateGPTResponseFor:", error);
     return "I apologize, but I encountered an error processing your request.";
@@ -555,11 +522,10 @@ function extractType(type) {
     case "video/x-matroska":
     case "video/x-f4v":
       return "player";
-      case "text":
-        return "text";
-        case "link":
-          return "link";
-      
+    case "text":
+      return "text";
+    case "link":
+      return "link";
   }
 }
 
@@ -707,5 +673,45 @@ function shuffle(array) {
       array[randomIndex],
       array[currentIndex],
     ];
+  }
+}
+
+function setURLParameter(name, value) {
+  let url = new URL(window.location);
+  let urlSearchParams = new URLSearchParams(url.search);
+
+  urlSearchParams.set(name, value);
+  url.search = urlSearchParams.toString();
+  window.history.pushState(null, null, url.toString());
+}
+
+function getURLParameter(identifier) {
+  let searchParams = new URLSearchParams(window.location.search);
+  const hasIdentifier = searchParams.has(identifier);
+  return hasIdentifier ? searchParams.get(identifier) : null;
+}
+
+function removeURLParameter(identifier) {
+  let url = new URL(window.location);
+  let searchParams = new URLSearchParams(url.search);
+  const hasIdentifier = searchParams.has(identifier);
+  hasIdentifier ? searchParams.delete(identifier) : false;
+
+  console.log("search params: ", searchParams);
+
+  url.search = searchParams.toString();
+  window.history.pushState(null, null, url.toString());
+}
+
+function getMarksForQuestion(type) {
+  switch (type.toLowerCase()) {
+    case "multiplechoicequestion":
+      return 1;
+    case "trueandfalsequestion":
+      return 1;
+    case "fillintheblankquestion":
+      return 1;
+    default:
+      return 1;
   }
 }
