@@ -175,14 +175,28 @@ function loadPDFToPopupView(event, outputElement) {
         Linkupload.style.display = "none";
         let LinkPreview = document.getElementById("preview")
         LinkPreview.style.display = "none";
+
+    let loaderes=document.getElementById("loaderesClass")
+    loaderes.style.display="none"
     }
 
 function startUploading(){
+
+    let loadingText = document.getElementById("loaderesClass");
+loadingText.style.display="grid"
 
     let uploadOverlay = document.querySelector(".upload-overlay");
     let lectureID = uploadOverlay.getAttribute("data-id");
 
     console.log("lectureID for uploading: ", lectureID);
+
+    
+   
+    let attachButton=document.getElementById("attachButton")
+    attachButton.style.display="none"   
+ 
+
+
 
     uploadWithObject(globalImageObject);
     uploadWithObject(globalPDFObject);
@@ -221,6 +235,9 @@ function startUploading(){
                 setTimeout(() => {
                     // TODO: animateSuccess();
                     closeUploadOverlay();
+                    attachButton.style.display="grid"
+                    loaderesClass.style.display="none"
+
                     // TODO: resetUploadOverlay();
                 },5000)
             }
@@ -666,3 +683,19 @@ function createLinkPreview(linkInput) {
 
     return finalUI;
 }
+
+
+//dux text loading
+
+let loadingText = document.getElementById("loaderes");
+
+
+        let baseText = "Saving Data";
+        let dots = "";
+        let maxDots = 3;
+        let intervalTime = 500; // Time in milliseconds for each change
+
+        setInterval(() => {
+            dots = dots.length < maxDots ? dots + "." : ""; // Add a dot or reset
+            loadingText.textContent = baseText + dots;
+        }, intervalTime);

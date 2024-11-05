@@ -5,6 +5,12 @@
                 <img src="../assets/icons/close.png" alt="">
             </div>
             <h1 class="pop-up-title"><text>Upload Resource</text></h1>
+
+            <label>
+                    <div class="loaderesClass" id="loaderesClass" style="display:none"> 
+                <p  id="loaderes">Dux Saving Data... </p>
+                </div>
+                </label>
         </div>
 
         <div class="popup-body">
@@ -70,11 +76,14 @@
                     <p class="upload-option-description" onchange="">Text</p>
 
 
+     
+
 
 
                 </label>
+       
 
-
+              
 
 
 
@@ -127,11 +136,11 @@
 
 
         <div class="popup-footer">
-            <div class="button-group">
-                <div class="button secondary-button" onclick="revertUploadChoice()">
+            <div class="button-group" id="attachButton">
+                <div class="button secondary-button"  onclick="revertUploadChoice()">
                     <text>Cancel</text>
                 </div>
-                <div class="button" onclick="startUploading()">
+                <div class="button"  onclick="startUploading()">
                     <text>Attach</text>
                 </div>
             </div>

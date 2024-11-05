@@ -207,11 +207,24 @@ class Course {
         let deleteButton = document.createElement("div");
         deleteButton.className = "delete-button";
         deleteButton.innerHTML = `<img src="../assets/icons/delete.png" alt="">`;
+       
         deleteButton.addEventListener("click", async () => {
             const loader = showLoader("Deleting Resource...");
-            await deleteResourceWith(resourceObject);
-            removeLoader(loader);
+            try {
+                await deleteResourceWith(resourceObject);
+                // Optionally, you can remove the resource from the UI here if deletion is successful
+            } catch (error) {
+                console.error("Error deleting resource:", error);
+              
+            } finally {
+                setTimeout(() => {
+                    removeLoader(loader);
+                }, 5000);
+            }
         });
+            
+        
+      
 
         let imageElement = document.createElement("img");
 
