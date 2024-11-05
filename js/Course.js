@@ -219,6 +219,7 @@ class Course {
             } finally {
                 setTimeout(() => {
                     removeLoader(loader);
+                    refreshTeacherCourseOutline();
                 }, 5000);
             }
         });

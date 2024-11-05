@@ -237,6 +237,7 @@ loadingText.style.display="grid"
                     closeUploadOverlay();
                     attachButton.style.display="grid"
                     loaderesClass.style.display="none"
+                    refreshTeacherCourseOutline()
 
                     // TODO: resetUploadOverlay();
                 },5000)
