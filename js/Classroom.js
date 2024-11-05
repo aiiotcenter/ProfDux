@@ -224,37 +224,54 @@ function refreshCourseOutline(){
     renderCourseOutline(id);
 }
 
-async function viewQuizResults(studentQuizFilename){
+async function viewQuizResults({ studentQuizFilename, quizID }){
 
     openPopup('.review-quiz-overlay');
-
+  
     let reviewQuizOverlay = document.querySelector(".review-quiz-overlay");
-
+  
     const language = extrapolateLanguage();
-
+  
     let reviewQuizLoader = reviewQuizOverlay.querySelector(".review-quiz-loader");
     reviewQuizLoader.style.display = "grid";
-
+  
     let quizResultsBody = reviewQuizOverlay.querySelector(".quiz-results-body");
     quizResultsBody.style.display = "none";
-
+  
     let correctPath = `../quiz/taken/${studentQuizFilename}`;
     let quizFileResponse = await fetch(correctPath, {cache: "reload"});
     let questions = await quizFileResponse.json();
-
-    let { result, totalMarks } = mark(questions, language);
-
-    let totalResultPlaceholder = reviewQuizOverlay.querySelector(".total-quiz-mark-placeholder");
-    let scoreResultPlaceholder = reviewQuizOverlay.querySelector(".earned-quiz-mark-placeholder");
-
-    totalResultPlaceholder.textContent = totalMarks;
-    scoreResultPlaceholder.textContent = result;
-
-    setTimeout(() => {
-        quizResultsBody.style.display = "grid";
-        reviewQuizLoader.style.display = "none";
-    }, 1000);
-}
+  
+    let { id: globalUserID } = await getUserDetails();
+  
+    console.log("id: ",globalUserID, "quizID", quizID)
+  
+    const quizResponse = await AJAXCall({
+        phpFilePath: "../include/quiz/getPersonalQuizGrades.php",
+        rejectMessage: "Quiz Grades Failed To Be Fetched",
+        params: `userID=${globalUserID}&&quizID=${quizID}`,
+        type: "fetch",
+    });
+  
+    console.log("quizResponse values: ", quizResponse)
+  
+    if(quizResponse.length > 0){
+      let { value: result, totalMarks } = quizResponse[0];
+  
+      let totalResultPlaceholder = reviewQuizOverlay.querySelector(".total-quiz-mark-placeholder");
+      let scoreResultPlaceholder = reviewQuizOverlay.querySelector(".earned-quiz-mark-placeholder");
+  
+      totalResultPlaceholder.textContent = totalMarks;
+      scoreResultPlaceholder.textContent = result;
+  
+      setTimeout(() => {
+          quizResultsBody.style.display = "grid";
+          reviewQuizLoader.style.display = "none";
+      }, 1000);
+    }else{
+      closePopup('.review-quiz-overlay');
+    }
+  }
 
 function testIfTimeIsReady(lectureStartTime){
 

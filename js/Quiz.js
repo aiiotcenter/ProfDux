@@ -359,7 +359,7 @@ async function handleQuiz(quiz, quizButton, mode){
             case "done":
                 quizButton.textContent = "Review Results"; // TODO: Localize
                 quizButton.addEventListener("click", () => {
-                    viewQuizResults(studentQuizFilename); // View Results
+                    viewQuizResults({studentQuizFilename, quizID}); // View Results
                 });
             break;
         }
