@@ -184,6 +184,21 @@
             courseTitleElement.value = "";
         }
 
+        //dux text loading
+
+        let loadingText = document.getElementById("loaderes");
+
+
+        let baseText = "Saving Data";
+        let dots = "";
+        let maxDots = 3;
+        let intervalTime = 500; // Time in milliseconds for each change
+
+        setInterval(() => {
+            dots = dots.length < maxDots ? dots + "." : ""; // Add a dot or reset
+            loadingText.textContent = baseText + dots;
+        }, intervalTime);
+
     </script>
 
     <?php include 'components/uploadCourseMaterialOverlay.php'; ?>

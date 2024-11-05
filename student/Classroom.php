@@ -179,6 +179,14 @@
                 // output.onload = function() { URL.revokeObjectURL(objectURL) }
             }
 
+            // Add event listeners to the buttons
+            document.getElementById("switchsub-en").addEventListener("click", function() {
+                changeSubtitle('EN');
+            });
+
+            document.getElementById("switchsub-tr").addEventListener("click", function() {
+                changeSubtitle('TR');
+            });
 
         </script>
     </body>
