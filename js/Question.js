@@ -321,6 +321,7 @@ async function generateQuestion(generateQuestionObject, amount = 1) {
           Do not add any invalid characters in the result please.`;
 
   let result = await generateGPTResponseFor(query);
+  console.log("result ++++: ", result);
 
   try {
     if (result.questions) result = result.questions;
