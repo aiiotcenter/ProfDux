@@ -125,10 +125,9 @@ class Objectives {
       `;
   
     const objectivesResponse = await generateGPTResponseFor(prompt);
-    const objectivesJSON = await JSON.parse(objectivesResponse);
-    const objectivesList = objectivesJSON.learningObjectives;
+    console.log("objectivesResponse: ", objectivesResponse);
+    const objectivesList = objectivesResponse.learningObjectives;
   
-    console.log("objectiveList: ", objectivesJSON);
     console.log("objectiveList: ", objectivesList);
   
     const objectives = objectivesList.map((objective, index) => {

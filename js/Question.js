@@ -190,12 +190,6 @@ async function markFITBQuestion(questionObject, language) {
     `, in the format: { "mark": <score> }. Ensure there are no nested objects or extra fields.
     `;
 
-
-  // let unparsedJSONResponse = await generateGPTResponseFor(query);
-  // console.log("result before marking: ", unparsedJSONResponse);
-  // let result = await JSON.parse(unparsedJSONResponse);
-  // console.log("result from marking: ", result);
-
   let result = await generateGPTResponseFor(query);
   console.log("marking: ", result);
 
@@ -326,8 +320,7 @@ async function generateQuestion(generateQuestionObject, amount = 1) {
       
           Do not add any invalid characters in the result please.`;
 
-  let unparsedJSONResponse = await generateGPTResponseFor(query);
-  let result = await JSON.parse(unparsedJSONResponse);
+  let result = await generateGPTResponseFor(query);
 
   try {
     if (result.questions) result = result.questions;
