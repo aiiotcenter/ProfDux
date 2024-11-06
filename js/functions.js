@@ -613,52 +613,6 @@ async function fetchCourseWithID(givenID) {
   }, 2000);
 }
 
-async function generateQuestion(generateQuestionObject, amount) {
-  const { type, languages, educationEnvironment, level, topics } =
-    generateQuestionObject;
-
-  let query = `Please create ${amount} questions in valid JSON format using ISO encoding, with the keyword 'questions' in the ${languages.join(
-    " and "
-  )} languages, along with their respective answers in those same languages.
-
-The questions should focus on the topics of ${topics} and be appropriate for ${educationEnvironment}. 
-
-Each question must be in the ${type} format, and it is mandatory to include both the question and its correct answer for every question. If the question type requires answer options (e.g., multiple choice or true/false), those options must also be included in ${languages.join(
-    " and "
-  )}.
-
-The difficulty level of the questions should be ${level}.
-
-The JSON format must contain the following keys:
-- "question": The text of the question (in ${languages.join(" and ")}).
-- "answerOptions": The list of possible answers (required only for multiple choice or true/false questions, in ${languages.join(
-    " and "
-  )}).
-- "answer": The correct answer (required for every question, in ${languages.join(
-    " and "
-  )}).
-- "type": The type of question (e.g., multiple choice, true/false, etc.).
-- "hardness": The difficulty level (e.g., easy, medium, hard).
-
-Ensure that all fields ("question", "answerOptions" (if applicable), and "answer") are always included, and each field must be written in ${languages.join(
-    " and "
-  )}.
-
-Do not add any invalid characters to the result, and ensure that every question has a corresponding correct answer.`;
-
-  let unparsedJSONResponse = await generateGPTResponseFor(query);
-  let result = await JSON.parse(unparsedJSONResponse);
-
-  try {
-    if (result.questions) return result.questions;
-    else if (result.question) return result.question;
-    else if (result.questions.questions) return result.questions.questions;
-    else return result;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 function shuffle(array) {
   let currentIndex = array.length;
 

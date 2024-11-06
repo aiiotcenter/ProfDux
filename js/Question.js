@@ -17,7 +17,9 @@ class Question {
     this.answer = answer;
     this.type = type;
     this.hardness = hardness;
-    this.marksWorth = questionObject.marksWorth ? questionObject.marksWorth : getMarksForQuestion(type);
+    this.marksWorth = questionObject.marksWorth
+      ? questionObject.marksWorth
+      : getMarksForQuestion(type);
 
     if (questionObject.inputAnswer != null)
       this.inputAnswer = questionObject.inputAnswer;
@@ -136,7 +138,6 @@ class TrueAndFalse extends Question {
 class FillInTheBlank extends Question {
   constructor(questionObject) {
     super(questionObject);
-
   }
 
   render(language) {
@@ -154,7 +155,7 @@ class FillInTheBlank extends Question {
     if (this.inputAnswer) {
       blankTextEditableField.className = "fitb-answer-input active";
       blankTextEditableField.value = this.inputAnswer;
-    }else{
+    } else {
       blankTextEditableField.value = "";
     }
 
@@ -201,20 +202,16 @@ async function markFITBQuestion(questionObject, language) {
   }
 }
 
-function markTrueAndFalse(questionObject, language){
-
-  const {marksWorth, inputAnswer, answer } = questionObject;
-  if(inputAnswer == answer[language]) return Number(marksWorth);
+function markTrueAndFalse(questionObject, language) {
+  const { marksWorth, inputAnswer, answer } = questionObject;
+  if (inputAnswer == answer[language]) return Number(marksWorth);
   else return 0;
-
 }
 
-function markMultipleChoiceQuestion(questionObject, language){
-
-  const {marksWorth, inputAnswer, answer } = questionObject;
-  if(inputAnswer == answer[language]) return Number(marksWorth);
+function markMultipleChoiceQuestion(questionObject, language) {
+  const { marksWorth, inputAnswer, answer } = questionObject;
+  if (inputAnswer == answer[language]) return Number(marksWorth);
   else return 0;
-
 }
 
 async function mark(questions, language) {
@@ -227,7 +224,6 @@ async function mark(questions, language) {
   console.log("language: ", language);
 
   for await (const question of questions) {
-
     totalMarks += question.marksWorth;
 
     switch (question.type.toLowerCase()) {
@@ -245,11 +241,9 @@ async function mark(questions, language) {
       default:
         throw new Error(`Not Made Yet: ${question.type.toLowerCase()}`);
     }
-
-    
   }
 
-    console.log(`{ result: ${result}, totalMarks: ${totalMarks} }`);
+  console.log(`{ result: ${result}, totalMarks: ${totalMarks} }`);
   return { result, totalMarks };
 }
 
@@ -259,11 +253,7 @@ async function generateQuestion(generateQuestionObject, amount = 1) {
   const { type, languages, educationEnvironment, level, topics } =
     generateQuestionObject;
 
-  console.log("generateQuestionObject: ", generateQuestionObject);
-
   const shortHandLanguages = getShortHandsFor(languages);
-
-  console.log("shortHandLanguages: ", shortHandLanguages);
 
   // TODO: Mickey #1
   // Everything can be generated, but it will go through a validator
@@ -320,63 +310,62 @@ async function generateQuestion(generateQuestionObject, amount = 1) {
       
           Do not add any invalid characters in the result please.`;
 
-          async function generateLegacyGPTResponseFor(prompt) {
+  async function generateLegacyGPTResponseFor(prompt) {
+    const response = await fetchOpenAIKey();
+    let apiKey = response[0].value;
 
-            const response = await fetchOpenAIKey();
-            let apiKey = response[0].value;
-        
-            const endpoint = 'https://api.openai.com/v1/chat/completions';
-        
-            try {
-        
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: 'gpt-3.5-turbo',
-                        messages: [
-                            {
-                            role: 'system',
-                            content: 'You are a helpful assistant.'
-                            },
-                            {
-                            role: 'user',
-                            content: prompt
-                            }
-                        ],
-                        response_format: {"type": "json_object"}
-                    })
-                });
-        
-                const data = await response.json();
-                console.log('HERE IS DATA FROM GPT: ', data);
-                return data.choices[0].message.content;
-        
-            } catch (error) {
-                console.error('Error fetching response:', error);
-                return null;
-            }
-        }
+    const endpoint = "https://api.openai.com/v1/chat/completions";
 
-  let unparsedJSONResponse = await generateLegacyGPTResponseFor(query);
-  let result = await unparsedJSONResponse.json();
-  console.log("result ++++: ", result);
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [
+            {
+              role: "system",
+              content: "You are a helpful assistant.",
+            },
+            {
+              role: "user",
+              content: prompt,
+            },
+          ],
+          response_format: { type: "json_object" },
+        }),
+      });
 
-  try {
-    if (result.questions) result = result.questions;
-    else if (result.question) result = result.question;
-    else if (result.questions.questions) result = result.questions.questions;
-    else result = result;
-  } catch (error) {
-    console.log(error);
+      const data = await response.json();
+      console.log("HERE IS DATA FROM GPT: ", data);
+      return data.choices[0].message.content;
+    } catch (error) {
+      console.error("Error fetching response:", error);
+      return null;
+    }
   }
 
   // FROM HERE WE ARE VALIDATING;
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async(resolve, reject) => {
+
+    console.log("running...");
+    let result = await generateLegacyGPTResponseFor(query);
+  
+    try {
+      result = JSON.parse(result);
+      console.log("result ++++: ", result);
+      if (result.questions) result = result.questions;
+      else if (result.question) result = result.question;
+      else if (result.questions.questions) result = result.questions.questions;
+      else result = result;
+    } catch (error) {
+      console.log(error);
+    }
+
     let conformedResults = [];
 
     if (result == null || result == undefined || result.length < 1) {
@@ -748,10 +737,10 @@ class ReviewMultipleChoice extends Question {
   }
 }
 
-function renderQuestion(questionText){
-    const question = document.createElement("div");
-    question.className = "question";
-    const lockedQuestion = createLocalizedTextElement(questionText);
-    question.append(lockedQuestion);
-    return question;
+function renderQuestion(questionText) {
+  const question = document.createElement("div");
+  question.className = "question";
+  const lockedQuestion = createLocalizedTextElement(questionText);
+  question.append(lockedQuestion);
+  return question;
 }
