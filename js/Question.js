@@ -320,7 +320,49 @@ async function generateQuestion(generateQuestionObject, amount = 1) {
       
           Do not add any invalid characters in the result please.`;
 
-  let result = await generateGPTResponseFor(query);
+          async function generateLegacyGPTResponseFor(prompt) {
+
+            const response = await fetchOpenAIKey();
+            let apiKey = response[0].value;
+        
+            const endpoint = 'https://api.openai.com/v1/chat/completions';
+        
+            try {
+        
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-3.5-turbo',
+                        messages: [
+                            {
+                            role: 'system',
+                            content: 'You are a helpful assistant.'
+                            },
+                            {
+                            role: 'user',
+                            content: prompt
+                            }
+                        ],
+                        response_format: {"type": "json_object"}
+                    })
+                });
+        
+                const data = await response.json();
+                console.log('HERE IS DATA FROM GPT: ', data);
+                return data.choices[0].message.content;
+        
+            } catch (error) {
+                console.error('Error fetching response:', error);
+                return null;
+            }
+        }
+
+  let unparsedJSONResponse = await generateLegacyGPTResponseFor(query);
+  let result = await unparsedJSONResponse.json();
   console.log("result ++++: ", result);
 
   try {

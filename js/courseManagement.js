@@ -173,7 +173,7 @@ function revertUploadChoice() {
 function startUploading(){
 
     let loadingText = document.getElementById("loaderesClass");
-loadingText.style.display="grid"
+    loadingText.style.display="grid"
 
     let uploadOverlay = document.querySelector(".upload-overlay");
     let lectureID = uploadOverlay.getAttribute("data-id");
