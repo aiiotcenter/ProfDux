@@ -48,7 +48,10 @@
             <img src="../assets/icons/fi/fi-rr-mailbox.svg" alt="">
             <p><text>Messaging</text></p>
         </a>
-
+        <a class="sidebar-link" data-id="special" href="special.php">
+            <img src="../assets/icons/fi/fi-rr-wheelchair-move.svg" alt="">
+            <p><text>special needs accessibility</text></p>
+        </a>
         <a class="sidebar-link" data-id="Settings" href="Settings.php">
             <img src="../assets/icons/fi/fi-rr-settings.svg" alt="">
             <p><text>Settings</text></p>
