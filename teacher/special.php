@@ -30,49 +30,73 @@
 
         /* Title and description */
         .header-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: #6F2036;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
-        .description {
-            font-size: 18px;
-            color: #555;
-            line-height: 1.8;
-            margin-bottom: 30px;
+    /* Description container styling */
+.description-container {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+/* Title styling */
+.description-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #6F2036;
+    margin-bottom: 15px;
+}
+
+/* List styling */
+.description-list {
+    list-style: disc inside; /* Adds bullet points inside the container */
+    padding: 0; /* Removes default padding for UL */
+    margin: 0; /* Removes default margin for UL */
+    font-size: 18px;
+    line-height: 1.8;
+    color: #333; /* Dark gray text for readability */
+}
+
+.description-list li {
+    margin-bottom: 10px; /* Space between list items */
+}
+
+
+        .listen-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #6F2036;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border: none;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-  
-.listen-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #6F2036;
-    color: #fff;
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: none;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    gap: 10px; 
+        .listen-btn:hover {
+            background-color: #8A3B50
+            ;
+        }
+        .listen-icon {
+    width: 20px; /* Icon width */
+    height: 20px; /* Icon height */
+    flex-shrink: 0; /* Prevent icon from resizing */
+    filter: invert(100%) brightness(200%); /* Ensures white icon for better visibility */
 }
 
-.listen-btn:hover {
-    background-color: #8E24AA;
-}
-
-.listen-icon {
-    width: 20px;
-    height: 20px;
-}
-
-
-      
         .box-container {
             display: flex;
             gap: 20px;
@@ -95,11 +119,12 @@
         }
 
         .box:hover {
-            background-color: #6F2036;
+            background-color: #8A3B50
+            ;
             transform: translateY(-5px);
         }
 
-   
+        /* Popup styles */
         .popup {
             display: none;
             position: fixed;
@@ -108,8 +133,8 @@
             transform: translate(-50%, -50%);
             background: white;
             padding: 20px;
-            width: 60%;
-            max-height: 70%;
+            width: 80%;
+            max-height: 80%;
             border-radius: 10px;
             box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
             overflow-y: auto;
@@ -118,35 +143,55 @@
 
         .popup h3 {
             color: #6F2036;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
         }
 
         .popup ul {
-            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
             padding: 0;
+            margin: 0;
+            list-style: none;
         }
 
         .popup ul li {
-            margin: 10px 0;
+            flex: 1 1 calc(30% - 20px);
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .popup ul li:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);
         }
 
         .popup ul li a {
             color: #6F2036;
             text-decoration: none;
+            font-size: 16px;
             font-weight: bold;
-        }
-
-        .popup ul li a:hover {
-            text-decoration: underline;
+            display: block;
+            padding: 10px 0;
         }
 
         .popup-close {
             position: absolute;
             top: 10px;
             right: 10px;
-            font-size: 16px;
+            font-size: 18px;
             color: #555;
             cursor: pointer;
+            background-color: transparent;
+            border: none;
         }
 
         /* Overlay for popup */
@@ -170,14 +215,20 @@
 
         <div class="main-container">
             <button class="listen-btn" onclick="readPage()">
-                <img src="../assets/icons/fi/fi-rr-speaker.svg" alt="Listen" class="listen-icon">
+                <img src="../assets/icons/speaker.png" alt="Listen" class="listen-icon">
                 
             </button>
 
             <h1 class="header-title">Dux- Accessibility Features</h1>
-            <p class="description" id="description">
-                This system is designed to assist individuals with special needs who may have difficulty reading or moving. Our features provide inclusive and accessible education, enabling remote learning and access to facilities.
-            </p>
+            <div class="description-container">
+    <ul class="description-list">
+        <li>Designed to assist individuals with special needs who may have difficulty reading, seeing, or moving.</li>
+        <li>Promotes inclusivity by providing accessible education tools for remote learning and voice guidance.</li>
+        <li>Enables seamless navigation of resources, fostering independence and equal opportunities.</li>
+        <li>Creates a supportive learning environment tailored for everyone.</li>
+    </ul>
+</div>
+
 
             <div class="box-container">
                 <div class="box" onclick="window.location.href='https://smartclass.dux.aiiot.center';">
@@ -190,7 +241,7 @@
         </div>
     </div>
 
-    <!-- Popup for Places -->
+  
     <div class="overlay" id="overlay" onclick="closePopup()"></div>
     <div class="popup" id="popup">
         <span class="popup-close" onclick="closePopup()">✖</span>
@@ -220,15 +271,39 @@
     </div>
 
     <script>
-        // Function to read the entire page content
-        function readPage() {
-            const content = [];
-            content.push(document.querySelector('.header-title').textContent);
-            content.push(document.querySelector('.description').textContent);
-            const speech = new SpeechSynthesisUtterance(content.join('. '));
-            speech.lang = 'en-US';
-            window.speechSynthesis.speak(speech);
+  function readPage() {
+    const content = [];
+
+    const header = document.querySelector('.header-title');
+    if (header) {
+        content.push(header.textContent);
+    }
+
+
+    const descriptionContainer = document.querySelector('.description-container');
+    if (descriptionContainer) {
+        content.push(descriptionContainer.textContent);
+    }
+
+    // Add the text content of all buttons
+    const buttons = document.querySelectorAll('button, .box'); // Include all buttons and box elements
+    buttons.forEach(button => {
+        if (button.textContent.trim()) {
+            content.push(button.textContent.trim());
         }
+    });
+
+    // Combine all text content and read it aloud
+    if (content.length > 0) {
+        const speech = new SpeechSynthesisUtterance(content.join('. '));
+        speech.lang = 'en-US';
+        window.speechSynthesis.speak(speech);
+    } else {
+        console.error('No readable content found');
+    }
+}
+
+
 
         // Popup functions
         function openPopup() {
