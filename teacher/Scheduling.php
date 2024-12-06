@@ -44,7 +44,7 @@
                     type: "fetch"
                 });
 
-                console.log("wow", result);
+                
 
                 let schedules = new Schedules(result);
                 schedules.renderSchedules();

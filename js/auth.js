@@ -77,7 +77,7 @@ async function login(){
         let result = await AJAXCall(callObject)
         let loginResult = JSON.parse(result);
 
-        console.log(loginResult);
+        
         localStorage.setItem("id", loginResult.id)
 
 
@@ -177,7 +177,7 @@ async function signup(){
         type: "post",
     };
 
-    console.log(call.params);
+    
 
     try {
         await AJAXCall(call);
@@ -205,7 +205,7 @@ async function signup(){
         let password = studentPassword.value;
         let timestamp = new Date().toJSON();
 
-        console.log("timestamp: ", timestamp);
+        
 
         params = 
         `id=${id}&&email=${email}&&password=${password}&&role=student&&timestamp=${timestamp}&&name=${name}&&address=${address}&&image=${photoName}&&phone=${phone}&&institutionID=${studentno}&&department=${department}`

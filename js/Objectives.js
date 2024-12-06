@@ -21,7 +21,7 @@ class Objectives {
         this.currentHierarchy = objective.hierarchy;
       });
   
-      console.log("Objectives Modified: ", this.objectives);
+      
     }
   
     setAddNewObjectiveButton(button) {
@@ -58,7 +58,7 @@ class Objectives {
         this.objectivesToDelete.push(this.objectives[index].id)
         this.objectives.splice(index, 1);
         --this.currentIndex;
-        console.log(this.objectives);
+        
         this.renderObjectives();
       });
   
@@ -91,7 +91,7 @@ class Objectives {
     updateObjective(element, textObject) {
       textObject.title = element.textContent;
       textObject.action = textObject.action == "new" ? "new" : "editted";
-      console.log("updating objective: ", this.objectives);
+      
     }
   
     saveObjectives() {
@@ -100,9 +100,9 @@ class Objectives {
       ( async () => {
         try {
           const result = await saveLearningObjectives(this.courseID, this.objectives, this.objectivesToDelete);
-          console.log("save objectives result: ", result);
+          
         } catch (error) {
-          console.log(error);
+          
         }
       })();
     }
@@ -114,10 +114,10 @@ class Objectives {
     let mainContainer = document.querySelector(".main-container");
     let courseID = mainContainer.getAttribute("data-id");
   
-    console.log("id:", courseID);
+    
   
     const courseDetails = await getTitleAndFilename(courseID);
-    console.log(courseDetails);
+    
     const { title } = courseDetails[0];
   
     const prompt = `generate for me in json format with the structure { courseTitle: "", learningObjectives: [ "" ] }, a decent amount of learning 
@@ -125,10 +125,10 @@ class Objectives {
       `;
   
     const objectivesResponse = await generateGPTResponseFor(prompt);
-    console.log("objectivesResponse: ", objectivesResponse);
+    
     const objectivesList = objectivesResponse.learningObjectives;
   
-    console.log("objectiveList: ", objectivesList);
+    
   
     const objectives = objectivesList.map((objective, index) => {
       return {id: uniqueID(), hierarchy: index + 1, title: objective, courseID, action: "new" };
@@ -141,7 +141,7 @@ class Objectives {
       ".save-learning-objectives-button"
     );
   
-    console.log("objectivesObject: ", objectives);
+    
   
     let learningObjectives = new Objectives({ courseID, objectives });
     learningObjectives.renderObjectives();
@@ -165,7 +165,7 @@ class Objectives {
           editObjective(objective);
           break;
         default:
-          console.log("objective action: ", objective.action);
+          
           break;
       }
   

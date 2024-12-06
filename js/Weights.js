@@ -192,7 +192,7 @@ function saveWeightsFor(savingArray){
                     break;
                 case false:
                     result = await newWeight(params);
-                    console.log("new: ", result);
+                    
                     break;
             }
 
@@ -204,7 +204,7 @@ function saveWeightsFor(savingArray){
             // }
         }
         catch(error){
-            console.log(error);
+            
             //TODO: stopLoader();
             // removeLoader(loader);
 

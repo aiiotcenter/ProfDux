@@ -175,7 +175,7 @@ async function markFITBQuestion(questionObject, language) {
 
   const educationEnvironment = extrapolateEducationEnvironment();
 
-  console.log("question: ", question[language]);
+  
 
   let query =
     `
@@ -192,13 +192,13 @@ async function markFITBQuestion(questionObject, language) {
     `;
 
   let result = await generateGPTResponseFor(query);
-  console.log("marking: ", result);
+  
 
   try {
     if (result.mark >= 0) return result.mark;
     else return 0;
   } catch (error) {
-    console.log(error);
+    
   }
 }
 
@@ -221,7 +221,7 @@ async function mark(questions, language) {
   //TODO: Build a class out of the mark function to handle more complex
   //TODO: question types
 
-  console.log("language: ", language);
+  
 
   for await (const question of questions) {
     totalMarks += question.marksWorth;
@@ -235,7 +235,7 @@ async function mark(questions, language) {
         break;
       case "fillintheblankquestion":
         let a = await markFITBQuestion(question, language);
-        console.log("result from marking: ", a);
+        
         result += a;
         break;
       default:
@@ -243,7 +243,7 @@ async function mark(questions, language) {
     }
   }
 
-  console.log(`{ result: ${result}, totalMarks: ${totalMarks} }`);
+  
   return { result, totalMarks };
 }
 
@@ -340,7 +340,7 @@ async function generateQuestion(generateQuestionObject, amount = 1) {
       });
 
       const data = await response.json();
-      console.log("HERE IS DATA FROM GPT: ", data);
+      
       return data.choices[0].message.content;
     } catch (error) {
       console.error("Error fetching response:", error);
@@ -352,18 +352,18 @@ async function generateQuestion(generateQuestionObject, amount = 1) {
 
   return new Promise(async(resolve, reject) => {
 
-    console.log("running...");
+    
     let result = await generateLegacyGPTResponseFor(query);
   
     try {
       result = JSON.parse(result);
-      console.log("result ++++: ", result);
+      
       if (result.questions) result = result.questions;
       else if (result.question) result = result.question;
       else if (result.questions.questions) result = result.questions.questions;
       else result = result;
     } catch (error) {
-      console.log(error);
+      
     }
 
     let conformedResults = [];
@@ -447,7 +447,7 @@ function conformToStructure({
     index,
     conformedAnswer
   ) {
-    console.log(`shortHands: `, shortHandLanguages);
+    
 
     if (answer[language]) {
       if (answer[language].length > 1) {

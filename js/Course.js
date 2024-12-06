@@ -69,7 +69,7 @@ class Course {
  
         this.lectures.forEach( (lecture, index) => {
 
-            console.log("lectures object: ", JSON.stringify(lecture));
+            
       
             this.lectureIndex = lecture.hierarchy;
             this.itemizationIndex = index + 1;
@@ -97,7 +97,7 @@ class Course {
             let { inputElementContainer: lectureInputElement, makeShiftInputWrapper } = this.createInputElement(inputElementObject);
             lectureInnerContainer.appendChild(lectureInputElement);
 
-            console.log("lecture view: ", lecture);
+            
             
             // BADGE FOR SHOWING UPLOADS
             let resourcesCount = lecture.resources == null ? 0 : lecture.resources.length;
@@ -369,12 +369,12 @@ class Course {
 
     updateLectureTitle({ id, title, hierarchy, _this }){
         _this.lectureUpdates[id] = { id, title, hierarchy };
-        console.log(_this.lectureUpdates[id]);
+        
     }
 
     newLectureTitle({ id, parentID, title, hierarchy,  _this }){
         _this.newLectures[id] = { id, parentID, title, hierarchy };
-        console.log(_this.newLectures[id]);
+        
     }
 
     deleteCourse(){
@@ -385,7 +385,7 @@ class Course {
             acceptTitle: 'Yes'
         }
 
-        console.log("Delete Course: ");
+        
         
         return showOptionsDialog(options, async () => {
 
@@ -495,7 +495,6 @@ class Course {
         inputElement.onchange = () => {
             inputCallbackObject.title = inputElement.value;
             inputChangeCallback(inputCallbackObject);
-            console.log(inputCallbackObject.title)
         }
 
         let deleteButton = document.createElement("div");
@@ -608,14 +607,14 @@ async function editLearningObjectives(id){
 
     objectives.forEach( objectives => objectives.action = "fetched" );
 
-    console.log("HERE: response of objectives 1: ", objectives);
+    
 
     let addLearningObjectiveButton = document.querySelector(".add-learning-objective-button");
     let saveLearningObjectivesButton = document.querySelector(".save-learning-objectives-button");
 
     //DEPRACATED: parseAvailableJSONFromArray(response, "objectives");
 
-    console.log("HERE: parsed objectives", objectives);
+    
 
     let learningObjectives = new Objectives({ courseID: id, objectives });
     learningObjectives.renderObjectives();
@@ -629,7 +628,7 @@ async function editLearningObjectives(id){
 async function generateQuiz(lectureObject, refresh = true){
     let loader = loadLoader("Generating Quiz");
 
-    console.log("lecture data for quiz generation: ", lectureObject);
+    
 
     const languages = fetchGlobalAvailableLanguages();
     const educationEnvironment = extrapolateEducationEnvironment();
@@ -644,7 +643,7 @@ async function generateQuiz(lectureObject, refresh = true){
     const lectureTitle = lectureObject.title;
     const courseID = lectureObject.courseID;
 
-    console.log("courseID: ", courseID);
+    
 
     const topics = lectureObject.title;
 
@@ -655,7 +654,7 @@ async function generateQuiz(lectureObject, refresh = true){
 
     for await(const type of types){
         try{
-            console.log("type: ", type);
+            
             const generateQuestionObject = {
               type,
               languages,
@@ -665,10 +664,10 @@ async function generateQuiz(lectureObject, refresh = true){
               level: getRandomElement(levels),
             };
         
-            console.log("generateQuestionObject: ", generateQuestionObject);
+            
         
             let result = await generateQuestion(generateQuestionObject, 4);
-            console.log("result: ", result);
+            
             quizQuestions = [...quizQuestions, ...result];
           }catch(error){
               continue;
@@ -677,7 +676,7 @@ async function generateQuiz(lectureObject, refresh = true){
       
     shuffle(quizQuestions);
 
-    console.log("quizQuestions: ", quizQuestions);
+    
 
     let filename = `Quiz-${uniqueID(2)}.json`;
     saveAssessmentAsJSON(filename, quizQuestions,"quiz","generated");
@@ -688,7 +687,7 @@ async function generateQuiz(lectureObject, refresh = true){
     let hierarchy = ""; // ...
     let totalMarks = quizQuestions.length; //TODO: figure out the marks properly...
 
-    console.log("hierarchy: ", lectureObject.hierarchy);
+    
     
     let params = `id=${quizID}&&courseID=${courseID}&&lectureID=${lectureID}&&name=${name}`+
     `&&dateGenerated=${dateGenerated}&&filename=${filename}&&totalMarks=${totalMarks}&&hierarchy=${lectureObject.hierarchy}`;
@@ -700,7 +699,7 @@ async function generateQuiz(lectureObject, refresh = true){
         type: "post"
     });
 
-    console.log("quiz generation response: ", response);
+    
 
     setTimeout(() => {
         if(refresh) refreshTeacherCourseOutline(); //Bugs???
@@ -718,10 +717,10 @@ async function loopThroughObjectForAsync(courseObject, asyncCallback){
         __courseObjectEntries.map( async([key, details] = entry) => {
             try {
                 let result = await asyncCallback(details);
-                console.log(result);
+                
             }
             catch(error){
-                console.log(error);
+                
             }
         });
         
@@ -734,7 +733,7 @@ async function courseItemObjectLooper(course, type = ""){
     loadLoader("Saving Course Outline"):
     loadLoader("Deleting Course");
 
-    console.log("delete Lectures: ", course.deleteLectures)
+    
 
     // Here Now
     await loopThroughObjectForAsync(course.lectureUpdates, updateLectureTitleToDatabase);
@@ -743,7 +742,7 @@ async function courseItemObjectLooper(course, type = ""){
 
     setTimeout(async() => {
         if(type == "delete course"){
-            console.log("course deleted");
+            
             closePopup(".edit-course-container");
             removeLoader(loader);
             location.reload();
@@ -766,7 +765,7 @@ async function deleteCourseFromDatabase(courseID){
             type: "post"
         });
 
-        console.log("delete Response: ", response);
+        
     }
 
 
@@ -863,7 +862,7 @@ async function deleteResourceWith(resourceObject){
     return new Promise( async(resolve, reject) => {
 
         const params = createParametersFrom(resourceObject);
-        console.log("params: ", params)
+        
 
         try {
             let result = await AJAXCall({
@@ -873,10 +872,10 @@ async function deleteResourceWith(resourceObject){
                 params
             })
 
-            console.log(result);
+            
             resolve();
         }catch(error){
-            console.log(error);
+            
             reject(error)
         }
 
@@ -910,7 +909,7 @@ async function saveVideo() {
             type: "post"
         });
 
-        console.log("Save Response: ", response);
+        
 
         if (response === 'success') {
             alert('Video saved successfully!');

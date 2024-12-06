@@ -67,7 +67,7 @@ async function saveProfileSettings() {
 
             let params = `id=${id}&&image=${newFileName}`;
 
-            console.log(params);
+            
 
             let changePhoto = await AJAXCall({
                 phpFilePath: "../include/changePhoto.php",
@@ -76,25 +76,25 @@ async function saveProfileSettings() {
                 type: "post"
             });
 
-            console.log(changePhoto);
+            
 
             let result = await getUserDetails();
             setHeaderInfo(result);
         }
         catch(error){
-            console.log(error);
+            
         }
     }
 
     let { _haveDetailsChanged, details } = await haveDetailsChanged();
 
-    console.log("debug 3: ", _haveDetailsChanged, details);
+    
 
     if(_haveDetailsChanged){
 
         const params = createParametersFrom(details);
 
-        console.log(params);
+        
 
         let saveProfileDetails = await AJAXCall({
             phpFilePath: "../include/saveProfileDetails.php",
@@ -103,7 +103,7 @@ async function saveProfileSettings() {
             type: "post"
         });
 
-        console.log(saveProfileDetails);
+        
 
         let result = await getUserDetails();
         setHeaderInfo(result);

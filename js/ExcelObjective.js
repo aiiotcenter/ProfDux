@@ -12,7 +12,7 @@ async function parseExcelForObjectives(url){
     });
 
     const lessonStructuredObjects = XLSX.utils.sheet_to_json(worksheets[0]);
-    console.log(lessonStructuredObjects);
+    
 
     function checkIfExistsInObject(Object, ...keyArray){
         try{
@@ -66,7 +66,7 @@ async function showObjectivesFromExcel(objectivesList) {
     let mainContainer = document.querySelector(".main-container");
     let courseID = mainContainer.getAttribute("data-id");
   
-    console.log("id:", courseID);
+    
   
     const objectives = objectivesList.map((objective, index) => {
       return {id: uniqueID(), hierarchy: index + 1, title: objective, courseID, action: "new" };
@@ -79,7 +79,7 @@ async function showObjectivesFromExcel(objectivesList) {
       ".save-learning-objectives-button"
     );
   
-    console.log("objectivesObject: ", objectives);
+    
   
     let learningObjectives = new Objectives({ courseID, objectives }, "overwrite");
     learningObjectives.renderObjectives();

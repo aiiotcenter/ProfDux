@@ -79,7 +79,7 @@ class Schedules {
                 if(lecture.time.length > 0){
                     let date = lecture.time[0].timeStart.split("T");
                     lessonTimeInput.value = date[0];
-                    console.log(date);
+                    
                     lessonTimeInput.setAttribute("isScheduleSet", "true")
                 }else{
                     lessonTimeInput.setAttribute("isScheduleSet", "false")
@@ -140,7 +140,7 @@ class Schedules {
                 if(exam.time.length > 0){
                     let date = exam.time[0].timeStart.split("T");
                     lessonTimeInput.value = date[0];
-                    console.log(date);
+                    
                     lessonTimeInput.setAttribute("isScheduleSet", "true")
                 }else{
                     lessonTimeInput.setAttribute("isScheduleSet", "false")
@@ -228,7 +228,7 @@ function saveSchedulesFor(lessonParentContainer){
             // }
         }
         catch(error){
-            console.log(error);
+            
             //TODO: stopLoader();
             // removeLoader(loader);
 
@@ -245,7 +245,7 @@ async function updateScheduleTime(params){
 
     return new Promise( async (resolve) => {
 
-        console.log("updated schedule for: ", params)
+        
 
         await AJAXCall({
             phpFilePath: "../include/schedule/updateSchedule.php",
@@ -263,7 +263,7 @@ async function newScheduleTime(params){
     
     return new Promise( async (resolve) => {
 
-        console.log("updated schedule for: ", params)
+        
 
         await AJAXCall({
             phpFilePath: "../include/schedule/newSchedule.php",

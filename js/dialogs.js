@@ -105,7 +105,7 @@ function showOptionsDialog(messageDetails, callback){
             setTimeout(() => {
                 overlay.style.display = "none";
                 overlay.remove();
-                console.log("removed? ", overlay);
+                
             }, 800);
         }
     })

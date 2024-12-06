@@ -49,15 +49,15 @@ class ClassView {
 
         switch(this.currentStep){
             case "lecture":
-                console.log("lecture");
+                
                 this.getCurrentLecture()
             break;
             case "resource":
-                console.log("resource");
+                
                 this.getCurrentResource()
             break;
             case "quiz":
-                console.log("quiz");
+                
                 this.getCurrentQuiz()
             break;
         }

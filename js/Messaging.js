@@ -20,7 +20,7 @@ class Messaging {
 
         const response = await this.fetchMessages();
         
-        console.log(this.messages);
+        
 
         if(response == "success" && this.messages.length > 0){
 
@@ -30,7 +30,7 @@ class Messaging {
                 this.messageRenderContainer.append(this.renderMessageRow(message));
             });
         }else{
-            console.log(response);
+            
             // render error message
         }
         
@@ -119,13 +119,12 @@ class Messaging {
     setMessageContainer(element){
         this.directMessageContainer = element
 
-        console.log(element);
+        
 
         this.directMessageContainer.addEventListener("input", (event) => {
             const message = event.target.textContent
             if(this.withinLimit(message)){
                 this.message = message;
-                console.log(message)
             }
             else{
                 this.directMessageContainer.textContent = this.message;
@@ -181,7 +180,7 @@ class Messaging {
 
         this.receiverInputField.addEventListener("input", async (event) => {
             const searchContent = event.target.value;
-            console.log("searchContent: ", searchContent);
+            
 
             if(searchContent.length > 0){
                 const results = await this.searchThroughReceivers(searchContent);
@@ -195,7 +194,7 @@ class Messaging {
 
         let phpFilePath;
 
-        console.log("this type, ", this.type);
+        
 
         switch(this.type){
             case "announcement":
@@ -214,7 +213,7 @@ class Messaging {
                 params: `input=${input}&&senderID=${this.senderID}`
             })
 
-            console.log("result: ", result)
+            
 
             resolve(result);
         })
@@ -222,7 +221,7 @@ class Messaging {
 
     renderReceiverFilterList(results){
 
-        console.log(results);
+        
 
         this.receiverFilterList.innerHTML = '';
 
@@ -285,7 +284,7 @@ async function sendMessage(messageObject){
 
         }
         catch(error){
-            console.log(error);
+            
             reject(error);
         }
     })

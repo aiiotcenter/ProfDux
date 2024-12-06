@@ -4,7 +4,7 @@ class ExamsView {
   }
 
   setExamsListContainer(element) {
-    console.log("elc: ", element);
+    
     this.examsListContainer = element;
   }
 
@@ -148,7 +148,7 @@ class ExamsView {
       ".assessment-language-changer"
     );
 
-    console.log(previousButton, nextButton, saveButton, languageChangerElement);
+    
 
     previousButton = clearEventListenersFor(previousButton);
     nextButton = clearEventListenersFor(nextButton);
@@ -166,7 +166,7 @@ class ExamsView {
   }
 
   handleCreateExam(metadata) {
-    console.log("metadata: ", metadata);
+    
     openPopup(".create-exam-overlay");
     const createExam = new CreateExam(metadata);
     const rootElement = document.querySelector(".create-exam-overlay");
@@ -199,14 +199,14 @@ class CreateExam {
       type: "fetch",
     });
 
-    console.log("serialized topics: ", result);
+    
 
     let topics = [];
 
     result.forEach((lecture) => topics.push(lecture.title));
 
     this.topics = topics.join(", ");
-    console.log("topics: ", this.topics);
+    
   }
 
   handleAttachElements(rootElement) {
@@ -220,7 +220,7 @@ class CreateExam {
 
     this.examNameInput.addEventListener("onchange", (event) => {
       this.examName = event.target.value;
-      console.log("examName: ", event.target.value);
+      
     });
 
     this.createExamButton.addEventListener("click", async () => {
@@ -240,15 +240,15 @@ class CreateExam {
   }
 
   updateLoader(amount, that) {
-    console.log("adding: ", amount);
-    console.log("totalQuestions: ", that.totalQuestions);
+    
+    
 
     that.currentTotal += amount;
 
     const loader = document.querySelector(".create-exam-loader");
-    console.log("loader: ", loader);
+    
     const barLoader = loader.querySelector(".bar-loader");
-    console.log("barLoader: ", barLoader);
+    
     const barLoaderCounter = loader.querySelector(".bar-loader-counter");
 
     barLoader.style.width = `${calculatePercentage(
@@ -282,7 +282,7 @@ class CreateExam {
       Number(fillInTheBlanks) +
       Number(trueAndFalse);
 
-    console.log("totalQuestions: ", this.totalQuestions);
+    
 
     const languages = fetchGlobalAvailableLanguages();
     const educationEnvironment = extrapolateEducationEnvironment();
@@ -330,7 +330,7 @@ class CreateExam {
       generatorResults.push(...(await generators.start()));
     }
 
-    console.log("we are here: ", generatorResults);
+    
 
     let filename = `Exam-${uniqueID(2)}.json`;
     saveAssessmentAsJSON(filename, generatorResults, "exam", "generated");
@@ -362,7 +362,7 @@ class CreateExam {
       type: "post",
     });
 
-    console.log("exam generation response: ", response);
+    
 
     return new Promise((resolve, _) => {
       this.rootElement.style.display = "none";

@@ -28,7 +28,7 @@ class Quiz {
         this.filename = quizGradeObject.fileToSave; // ... TODO: write some documentation
         this.questions = questionsArray; // randomize(questions);
 
-        console.log("questions: ", this.questions);
+        
 
         this.maximumQuizNumber = this.questions.length - 1;
         this.type = type;
@@ -50,7 +50,7 @@ class Quiz {
 
     endQuiz(){
 
-        console.log("[2] filename: ", this.filename);
+        
 
         handleEndQuiz({
             filename: this.filename,
@@ -71,7 +71,7 @@ class Quiz {
     renderQuestion(){
         this.renderQuestionNumber(this.currentQuizNumber);
         this.questions[this.currentQuizNumber].render(this.language);
-        console.log("current question index: ", this.currentQuizNumber);
+        
     }
 
     nextQuestion(){
@@ -183,7 +183,7 @@ async function handleEndQuiz(quizObject){
         `&&filename=${fileToSave}&&status=${status}&&value=${value}`+
         `&&timeEnded=${timeEnded}&&totalMarks=${totalMarks}`;
 
-        console.log("params to save: ", params);
+        
 
         let response = await AJAXCall({
             phpFilePath: "../include/quiz/updateNewQuizGrade.php",
@@ -192,7 +192,7 @@ async function handleEndQuiz(quizObject){
             params
         });
 
-        console.log("adding marks response: ", response);
+        
 
     }
 
@@ -203,7 +203,7 @@ async function handleEndQuiz(quizObject){
 
         let timeEnded = getCurrentTimeInJSONFormat();
 
-        console.log("finalTime: ", timeEnded);
+        
 
         let params = `id=${id}&&value=${value}&&timeEnded=${timeEnded}&&totalMarks=${totalMarks}`;
 
@@ -214,7 +214,7 @@ async function handleEndQuiz(quizObject){
             params
         });
 
-        console.log("adding marks response: ", response);
+        
 
     }
     
@@ -232,8 +232,8 @@ async function startQuiz(quizGradeObject, type="new", mode){
 
     let { fileToLoad, fileToSave, hierarchy } = quizGradeObject;
 
-    console.log("fileToLoad: ", fileToLoad);
-    console.log("fileToSave: ", fileToSave);
+    
+    
 
     let correctPath;
 
@@ -247,7 +247,7 @@ async function startQuiz(quizGradeObject, type="new", mode){
     }
 
     let quizFileResponse = await fetch(correctPath, {cache: "reload"});
-    console.log("quizFileResponse:", quizFileResponse);
+    
     let questions = await quizFileResponse.json();
 
 
@@ -318,7 +318,7 @@ async function handleQuiz(quiz, quizButton, mode){
     } = quiz;
 
     let { id: globalUserID } = await getUserDetails();
-    console.log("user id: ", globalUserID);
+    
 
     const quizResponse = await AJAXCall({
         phpFilePath: "../include/quiz/getPersonalQuizGrades.php",
@@ -327,7 +327,7 @@ async function handleQuiz(quiz, quizButton, mode){
         type: "fetch",
     }); // TODO:
 
-    console.log("quiz response: ", quizResponse);
+    
 
     if(quizResponse.length > 0){
 
@@ -375,7 +375,7 @@ async function handleQuiz(quiz, quizButton, mode){
             hierarchy
         }
 
-        console.log("quizObjectRequired: ", quizObjectRequired);
+        
 
 
         quizButton.textContent = "Start Quiz"; // TODO: Localize
@@ -411,6 +411,6 @@ async function addNewQuizGradeRowInDatabase(quizGradeObject){
         params
     });
 
-    console.log(response);
+    
 
 }

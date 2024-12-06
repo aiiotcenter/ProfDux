@@ -12,7 +12,7 @@ class GradesView {
 
         this.gradesArray.quizGrades.forEach( course => {
 
-            console.log("here");
+            
 
             const lessonPlanContainer = document.createElement("div");
             lessonPlanContainer.className = "lesson-plan-container";
@@ -44,7 +44,6 @@ class GradesView {
                 lessonRightPane.appendChild(emptyView);
             }else{
                 course.grades.forEach( gradeObject => {
-                    console.log("gradeObject: ",gradeObject)
 
                     const gradeElementContainer = document.createElement("div");
                     gradeElementContainer.className = "grade-element-container";

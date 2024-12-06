@@ -34,7 +34,7 @@ class BatchGenerator {
         const levels = ["easy", "medium", "hard", "difficult", "extremely difficult"];
     
         for await(const batch of batchArray){
-            console.log("batch count: ", batch);
+            
     
             const generateQuestionObject = { 
                 type: this.questionType,
@@ -52,7 +52,7 @@ class BatchGenerator {
                 this.progress(batch);
 
             }catch(error){
-                console.log(error);
+                
             }
         }
     
@@ -60,7 +60,7 @@ class BatchGenerator {
     }
 
     progress(questionsDone){
-        console.log("callback class: ", this.callbackClass);
+        
         this.callback(questionsDone, this.callbackClass);
     }
 
@@ -74,7 +74,7 @@ class BatchGenerator {
             _amount -= batch;
         }
         
-        console.log("batchArray: ", batchArray);
+        
         return batchArray;
     }
 }

@@ -2,7 +2,7 @@ async function loadGrades(courseObject){
 
     const { id } = courseObject;
     
-    console.log("here id: ", id);
+    
 
     openPopup(".load-grades-container");
 
@@ -30,9 +30,9 @@ async function loadGrades(courseObject){
         });
 
         const quizGrades = result.quizGrades
-        console.log("quizGrades: ", quizGrades);
-        console.log("structure: ", quizStructure);
-        console.log("courseWeights: ", courseWeights);
+        
+        
+        
 
         let structureObjectArray = quizStructure.length <= 0 ? [
             { 
@@ -49,9 +49,9 @@ async function loadGrades(courseObject){
         let weightObjectArray = courseWeights[0];
 
         quizStructure.forEach( structureItem => {
-            // console.log(`Quiz ${structureItem.hierarchy}`);
-            // console.log("sO: ", structureItem.id ); 
-            // console.log("quizGradesWeightsL ", weightObjectArray.quizArray);
+            // 
+            //  
+            // 
 
             let foundWeight;
 
@@ -82,14 +82,14 @@ async function loadGrades(courseObject){
 
         quizGrades.forEach( quizObject => {
 
-            console.log("q0: ", quizObject ); 
-            console.log("quizGradesWeights: ", weightObjectArray.quizArray);
+             
+            
 
             const entries = Object.entries(quizObject)[0];
             const studentID = entries[0];
             const quizData = entries[1];
 
-            console.log("quizData: ", quizData);
+            
 
             let details = quizObject.details;
             let content = [];
@@ -97,7 +97,7 @@ async function loadGrades(courseObject){
             let totalMark
             let foundWeight;
 
-            console.log("details: ", details);
+            
 
             structureObjectArray.forEach( structure => {
 
@@ -117,14 +117,6 @@ async function loadGrades(courseObject){
                     calculatedResult = (foundQuizValue / structure.totalMarks) * structure.weight;
                     roundedResult = Math.floor(calculatedResult * 100) / 100;
                     result = foundQuizValue;
-                    console.log("foundQuizValue: ", foundQuizValue)
-                    console.log("structure.totalMarks: ", structure.totalMarks)
-                    console.log("first divsion: ",(foundQuizValue / structure.totalMarks))
-
-                    console.log("structure.weight: ", structure.weight)
-                    console.log("calculatedResult: ", calculatedResult)
-                    console.log("roundedResult: ", roundedResult)
-                    console.log("\n")
                 }else{
                     result = "-";
                 }
@@ -134,7 +126,7 @@ async function loadGrades(courseObject){
 
             });
 
-            console.log("calculatableContent: ", calculatableContent);
+            
             totalMark = calculatableContent.reduce((a,b) => a+b, 0);
 
             quizObjectArray = [ ...quizObjectArray , {
@@ -144,14 +136,13 @@ async function loadGrades(courseObject){
                 details,
             }]
 
-            console.log("quizObjectArray: ", quizObjectArray);
+            
         });
 
         let statsView = new StatsView(structureObjectArray,[], quizObjectArray, examObjectArray, weightObjectArray);
         statsView.render();
 
     }catch(error){
-        console.log(error)
     }
 
 }

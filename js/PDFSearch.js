@@ -36,8 +36,8 @@ function joinSearchResult(results){
         const entry = Object.entries(result)[0];
 
 
-        console.log("key: ", entry[0])
-        console.log("value: ", entry[1])
+        
+        
 
         return `page - ${entry[0]} : [${entry[1]}]`
     }
@@ -65,7 +65,7 @@ function getPagesFrom(url){
         
     return result.then( pages => {
     
-        console.log(pages);
+        
     
         let entries = Object.entries(pages);
         let paragraphs = [];

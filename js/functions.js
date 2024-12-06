@@ -194,7 +194,7 @@ async function uploadFile(file, scriptPath = "../include/upload.php") {
 
     http.onload = function () {
       if (this.status == 200) {
-        console.log("name2: ", this.responseText);
+        
 
         resolve({
           oldFileName: file.name,
@@ -224,7 +224,7 @@ async function getUserDetails() {
       return result[0];
     }
   } catch (error) {
-    console.log(error);
+    
     // TODO: Logout
   }
 }
@@ -337,7 +337,7 @@ async function generateGPTResponseFor(prompt) {
     }
 
     const data = await response.json();
-    // console.log("GPT Response Data:", data);
+    // 
 
     if (!data.choices || !data.choices[0] || !data.choices[0].message) {
       throw new Error("Invalid response structure from API");
@@ -375,7 +375,7 @@ async function saveAssessmentAsJSON(
   let JSONString = JSON.stringify(ArrayContainingObjects);
   JSONString = escapeNonASCII(JSONString);
 
-  console.log("assessment type: ", assessmentType);
+  
 
   let correctPath;
 
@@ -391,8 +391,8 @@ async function saveAssessmentAsJSON(
       break;
   }
 
-  console.log("[3] correctPath: ", correctPath);
-  console.log("[4] jsonString: ", JSONString);
+  
+  
 
   try {
     let result = await AJAXCall({
@@ -402,10 +402,10 @@ async function saveAssessmentAsJSON(
       type: "post",
     });
 
-    console.log("[5] async Result: ", result);
+    
   } catch (error) {
     //TODO: bubbleUpError()
-    console.log(error);
+    
   }
 }
 
@@ -651,7 +651,7 @@ function removeURLParameter(identifier) {
   const hasIdentifier = searchParams.has(identifier);
   hasIdentifier ? searchParams.delete(identifier) : false;
 
-  console.log("search params: ", searchParams);
+  
 
   url.search = searchParams.toString();
   window.history.pushState(null, null, url.toString());

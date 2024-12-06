@@ -73,7 +73,7 @@ function loadLinkToPopupView(event, outputElement) {
 }
 
 function loadVideoToPopupView(event, outputElement) {
-  console.log("video is needed");
+  
 
   let uploadContainer = document.querySelector(".upload-options-container");
   let uploadProgressContainer = document.querySelector(
@@ -84,7 +84,7 @@ function loadVideoToPopupView(event, outputElement) {
   uploadProgressContainer.style.display = "grid";
   // uploadvideo.style.display = "grid"; // Make sure the video container is displayed
 
-  console.log("Run Video 1");
+  
   // Get the selected file
   const file = event.target.files[0];
 
@@ -92,13 +92,13 @@ function loadVideoToPopupView(event, outputElement) {
     // Create a URL for the video file
     const videoUrl = URL.createObjectURL(file);
 
-    console.log("Run Video 2");
+    
 
     // Get the video element and set its source
     const videoPreview = document.getElementById("videoPreview");
     videoPreview.src = videoUrl;
 
-    console.log("Run Video 3");
+    
 
     // Show the video preview container
     const videoPreviewContainer = document.getElementById(
@@ -106,7 +106,7 @@ function loadVideoToPopupView(event, outputElement) {
     );
     videoPreviewContainer.style.display = "block";
   } else {
-    console.log("Run Video 4");
+    
 
     console.error("Selected file is not a video.");
   }
@@ -178,7 +178,7 @@ function startUploading(){
     let uploadOverlay = document.querySelector(".upload-overlay");
     let lectureID = uploadOverlay.getAttribute("data-id");
 
-    console.log("lectureID for uploading: ", lectureID);
+    
 
     
    
@@ -196,7 +196,7 @@ function startUploading(){
 
     async function uploadWithObject(fileObject){
 
-        console.log("object", fileObject)
+        
 
         if(fileObject && lectureID){
 
@@ -207,13 +207,13 @@ function startUploading(){
                 if(type == "text"){
                     let TextToUpload=document.getElementById("TextToUpload")
                     let value = TextToUpload.value
-                    console.log("value:", value)
+                    
                     await sendResourceToDatabase({id, value, type, lectureID, oldFileName: ""});
                 }else if(type == "link") {
                     
                     let LinkToupload=document.getElementById("LinkToUpload")
                     let value = LinkToupload.value
-                    console.log("value:", value)
+                    
                     await sendResourceToDatabase({id, value, type, lectureID, oldFileName: ""});
                 }else {
                     let { newFileName: value, oldFileName } = await uploadFile(fileObject);
@@ -233,7 +233,7 @@ function startUploading(){
                 },5000)
             }
             catch(error){
-                console.log(error);
+                
             }
         }
         else return;
@@ -447,7 +447,7 @@ async function loadCourses(options = "id") {
       try {
         if (subscriptionArray.length > 0) {
           let status = subscriptionArray[0];
-          console.log("status: ", status);
+          
           if (status.status == "true")
             return () => showDeRegisterPopup(id, userID);
           // else return showDeRegisterPopup;
@@ -456,10 +456,7 @@ async function loadCourses(options = "id") {
     }
 
     function showDeRegisterPopup(courseID, userID) {
-      console.log(
-        "Course has been registered, click will bring up de registration option"
-      );
-
+ 
       // TODO: #deregister from course
 
       let deregisterButton = document.querySelector(
@@ -478,7 +475,7 @@ async function loadCourses(options = "id") {
 
       openPopup(".register-to-course");
 
-      console.log("Course has not been registered");
+      
     }
   }
 
@@ -492,7 +489,7 @@ async function loadCourses(options = "id") {
   }
 
   function goToCourse({ id }) {
-    console.log("curent id:", id);
+    
     openPopup(".classroom-inner-overlay");
     let classRoomOverlay = document.querySelector(".classroom-inner-overlay");
     classRoomOverlay.setAttribute("id", id);
@@ -528,11 +525,11 @@ async function deregisterFromCourse(buttonElement) {
       type: "post",
     });
 
-    console.log(result);
+    
 
     window.location.href = "Courses.php";
   } catch (error) {
-    console.log(error);
+    
   }
 }
 
@@ -550,11 +547,11 @@ async function enrollToCourse(buttonElement) {
       type: "post",
     });
 
-    console.log(result);
+    
 
     window.location.href = "Classroom.php";
   } catch (error) {
-    console.log(error);
+    
   }
 }
 

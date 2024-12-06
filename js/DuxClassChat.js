@@ -60,15 +60,15 @@ class DuxClassChat {
   next() {
     switch (this.currentStep) {
       case "lecture":
-        console.log("lecture");
+        
         this.getCurrentLecture();
         break;
       case "resource":
-        console.log("resource");
+        
         this.getCurrentResource();
         break;
       case "quiz":
-        console.log("quiz");
+        
         this.getCurrentQuiz();
         break;
     }
@@ -164,12 +164,12 @@ class DuxClassChat {
 
   addTitleElement(element) {
     this.titleElement = element;
-    console.log("element: ", element);
+    
   }
 
   addCourseCodeElement(element) {
     this.courseCodeElement = element;
-    console.log("element: ", element);
+    
   }
 
   addSendButtonElement(button) {
@@ -233,25 +233,25 @@ class DuxClassChat {
   async addPDFToCorpus(filename, url) {
     const pages = await getPagesFrom(url);
     this.PDFCorpus.push(pages);
-    console.log("current PDF Corpus: ", this.PDFCorpus);
+    
   }
 
   async findInPDFCorpus(query) {
     let results = performSearch(query, this.PDFCorpus);
-    console.log("entries: ", results);
+    
 
     let joinedPages = results
       .map((result) => {
         const entry = Object.entries(result)[0];
 
-        console.log("key: ", entry[0]);
-        console.log("value: ", entry[1]);
+        
+        
 
         return `page - ${entry[0]} : [${entry[1]}]`;
       })
       .join(",\n");
 
-    console.log(joinedPages);
+    
   }
 
   renderImageMessage(imageLink) {
@@ -373,8 +373,8 @@ class DuxClassChat {
       .split(/\.|\?|\!|:|,/)
       .filter((sentence) => sentence.trim() !== "");
 
-    console.log("Detected language:", language);
-    console.log("Selected voice:", introVoice);
+    
+    
 
     return new Promise((resolve) => {
       const subtitlesDiv = document.getElementById("subtitles"); // Get the subtitles div
@@ -438,7 +438,7 @@ class DuxClassChat {
   }
 
   renderDuxMessageFor(message, promptMessage, type) {
-    console.log("hellooo");
+    
 
     const loader = `
         <div class="dux-message-loader">
@@ -488,13 +488,13 @@ class DuxClassChat {
       (async () => {
         duxMessageContainer.appendChild(responseBadge);
 
-        console.log("message sent: ", message);
+        
 
         let responseMessage = await generateGPTResponseFor(message);
         duxListenButton.addEventListener("click", () =>
           this.playVoice(responseMessage)
         );
-        console.log(responseMessage);
+        
 
         setTimeout(() => {
           duxMessageText.innerHTML = "";
@@ -549,7 +549,7 @@ async function playAudioFileFromResponse({ audioCtx, buffer }) {
     source.connect(audioCtx.destination);
     source.start();
   } catch (error) {
-    console.log("HMMM");
+    
   }
 }
 
@@ -595,11 +595,11 @@ function changeSubtitle(language) {
   var subtitleElement = document.getElementById("subtitles");
 
   if (language === "EN") {
-    console.log("ENG");
+    
     subtitleElement.textContent = "English Subtitle"; // Change this to the desired subtitle text in English
   } else if (language === "TR") {
     subtitleElement.textContent = "Turkish Subtitle"; // Change this to the desired subtitle text in Turkish
-    console.log("TR");
+    
   }
 }
 

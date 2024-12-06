@@ -5,7 +5,7 @@ class TakeExamView{
     }
 
     setExamsListContainer(element){
-        console.log("elc: ", element);
+        
         this.examsListContainer = element;
     }
 
@@ -33,7 +33,7 @@ class TakeExamView{
 
             rowObject.exams.forEach( async(exam) => {
                 let row = await pointer.createExamCard(exam, metadata);
-                console.log("row: ", row);
+                
                 pointer.examsListContainer.append(row);
             });
 
@@ -44,7 +44,7 @@ class TakeExamView{
     async getExamRows(){
         return new Promise(async (resolve, reject) => {
             this.examsObject = await this.getUpcomingExams(this.userID);
-            console.log("examsObject: ", this.examsObject);
+            
             this.currentExamCount = this.examsObject.length;
             resolve();
         })
@@ -98,7 +98,7 @@ class TakeExamView{
 
     async getUpcomingExams(id){
 
-        console.log("userID: ", id);
+        
 
         return await AJAXCall({
             phpFilePath: "../include/exam/getUpcomingExams.php",
@@ -144,7 +144,7 @@ class TakeExamView{
         let correctPath = `../exam/generated/${filename}`;
 
         let examFileResponse = await fetch(correctPath, {cache: "reload"});
-        console.log("examFileResponse:", examFileResponse);
+        
         let questions = await examFileResponse.json();
     
         let questionsArray = questions.map( question => 
@@ -191,7 +191,7 @@ async function startExam(examObject, type="new", mode){
                 break;
         }   
     }catch(error){
-        console.log(error);
+        
     }
 
     //TODO: load instructions and start button
@@ -253,12 +253,12 @@ class TakeExam {
 
     constructor({ questionsArray, examGradeObject, type, assessmentType, language = "english" }){
 
-        console.log("here: ", examGradeObject);
+        
 
         this.filename = examGradeObject.fileToSave; // ... TODO: write some documentation
         this.questions = questionsArray; // randomize(questions);
 
-        console.log("questions: ", this.questions);
+        
 
         this.maximumExamNumber = this.questions.length - 1;
         this.type = type;
@@ -280,7 +280,7 @@ class TakeExam {
 
     endExam(){
 
-        console.log("[2] filename: ", this.filename);
+        
 
         handleEndExam({
             filename: this.filename,
@@ -301,7 +301,7 @@ class TakeExam {
     renderQuestion(){
         this.renderQuestionNumber(this.currentExamNumber);
         this.questions[this.currentExamNumber].render(this.language);
-        console.log("current question index: ", this.currentExamNumber);
+        
     }
 
     nextQuestion(){
@@ -371,7 +371,7 @@ async function handleEndExam(examObject){
 
     let { result, totalMarks } = await mark(questions, language);
 
-    console.log(`result: ${result}, totalMarks: ${totalMarks}`);
+    
 
     let examBody = document.querySelector(".exam-popup-body");
     let resultsBody = document.querySelector(".exam-results-body");
@@ -416,7 +416,7 @@ async function handleEndExam(examObject){
         `&&filename=${fileToSave}&&status=${status}&&value=${value}`+
         `&&timeEnded=${timeEnded}&&totalMarks=${totalMarks}`;
 
-        console.log("params to save: ", params);
+        
 
         let response = await AJAXCall({
             phpFilePath: "../include/exam/updateNewExamGrade.php",
@@ -425,7 +425,7 @@ async function handleEndExam(examObject){
             params
         });
 
-        console.log("adding marks response: ", response);
+        
 
     }
 
@@ -436,7 +436,7 @@ async function handleEndExam(examObject){
 
         let timeEnded = getCurrentTimeInJSONFormat();
 
-        console.log("finalTime: ", timeEnded);
+        
 
         let params = `id=${id}&&value=${value}&&timeEnded=${timeEnded}&&totalMarks=${totalMarks}`;
 
@@ -447,7 +447,7 @@ async function handleEndExam(examObject){
             params
         });
 
-        console.log("adding marks response: ", response);
+        
 
     }
     
@@ -467,7 +467,7 @@ async function addNewExamGradeRowInDatabase(examGradeObject){
         filename: examGradeObject.fileToSave
     };
 
-    console.log("_examGradeObject: ", _examGradeObject);
+    
 
     let params = createParametersFrom(_examGradeObject);
 
@@ -478,6 +478,6 @@ async function addNewExamGradeRowInDatabase(examGradeObject){
         params
     });
 
-    console.log("add new exam: ", response);
+    
 
 }

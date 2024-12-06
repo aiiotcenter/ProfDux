@@ -9,10 +9,10 @@ class DuxChat {
     (async () => {
       try {
         let response = await fetchOpenAIKey();
-        // console.log(response[0].value);
+        // 
         this.apiKey = response[0].value;
       } catch (error) {
-        console.log(error);
+        
       }
     })();
   }
@@ -117,7 +117,7 @@ class DuxChat {
     if (type != "forced")
       (async () => {
         let responseMessage = await generateGPTResponseFor(message);
-        console.log(responseMessage);
+        
 
         setTimeout(() => {
           duxMessageText.innerHTML = "";

@@ -22,7 +22,7 @@ function openVideoViewer(videoURL, type = "video/mp4") {
   source.src = "../uploads/" + videoURL; // Ensure videoURL is just the filename
   source.type = type;
 
-  console.log("Video URL:", source.src); // Log the complete video URL for debugging
+   // Log the complete video URL for debugging
 
   // Correctly append the source element
   videoElement.appendChild(source);

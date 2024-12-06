@@ -7,7 +7,7 @@ async function findAndFixMissingObjectiveFiles(){
         params: ""
     })
 
-    console.log("filenameResponse: ", filenameResponse);
+    
 
     let errors = [];
 
@@ -28,7 +28,6 @@ async function findAndFixMissingObjectiveFiles(){
             // Do something with the response
             })
             .catch( async(error) => {
-                console.log(error)
 
                 await saveLearningObjectivesAsJSON(filename, []);
 

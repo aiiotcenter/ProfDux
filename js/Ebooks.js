@@ -61,7 +61,7 @@ class Ebooks {
             renderPDFShot("." + canvasElementClass);
           })
           .catch((err) => {
-            console.log(err.message);
+            
           });
 
         const ebookName = document.createElement("div");

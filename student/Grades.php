@@ -40,7 +40,7 @@
                     type: "fetch"
                 });
 
-                console.log("grades", result);
+                
 
                 const grades = new GradesView(result);
                 grades.renderGrades();

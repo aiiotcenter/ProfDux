@@ -87,7 +87,6 @@
                     timetable.render();
 
                 }catch(error){
-                    console.log(error)
                 }
 
             })()

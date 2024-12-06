@@ -244,7 +244,7 @@ async function viewQuizResults({ studentQuizFilename, quizID }){
   
     let { id: globalUserID } = await getUserDetails();
   
-    console.log("id: ",globalUserID, "quizID", quizID)
+    
   
     const quizResponse = await AJAXCall({
         phpFilePath: "../include/quiz/getPersonalQuizGrades.php",
@@ -253,7 +253,7 @@ async function viewQuizResults({ studentQuizFilename, quizID }){
         type: "fetch",
     });
   
-    console.log("quizResponse values: ", quizResponse)
+    
   
     if(quizResponse.length > 0){
       let { value: result, totalMarks } = quizResponse[0];
@@ -279,7 +279,7 @@ function testIfTimeIsReady(lectureStartTime){
     let time = new Date(lectureStartTime);
     let now = new Date();
 
-    console.log(`time: ${time} now: ${now}`);
+    
     if (time <= now ) return true
     return false;
 }

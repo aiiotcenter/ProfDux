@@ -28,7 +28,7 @@ class EditAssessment {
     this.type = type;
     this.language = language;
     this.assessmentType = assessmentType;
-    console.log("[1] filename: ", filename);
+    
   }
 
   startEdittingAssessment() {
@@ -90,10 +90,10 @@ class EditAssessment {
       ".language-changer-overlay .language-changer-element"
     );
 
-    console.log("debug 1: ", languageElements);
+    
 
     languageElements.forEach((languageElement) => {
-      console.log("hello");
+      
 
       languageElement.addEventListener("click", () => {
         const language = languageElement.getAttribute("data-lang");
@@ -162,7 +162,7 @@ class EditMultipleChoice extends Question {
 
     question.addEventListener("input", (event) => {
       this.question[language] = event.target.textContent;
-      console.log("editted question");
+      
     });
 
     let answerOptionsList = document.createElement("div");
@@ -194,11 +194,6 @@ class EditMultipleChoice extends Question {
       letterOption.addEventListener("click", () => {
         disableOtherOptions();
         this.answer[language] = this.answerOptions[language][index];
-        console.log(
-          this.answer[language],
-          " == ",
-          this.answerOptions[language][index]
-        );
         answerOptionContainer.className = "answer-option-container active";
       });
 
@@ -236,7 +231,7 @@ class EditTrueAndFalse extends Question {
 
     question.addEventListener("input", (event) => {
       this.question[language] = event.target.textContent;
-      console.log("editted question: ", this.question);
+      
     });
 
     let answerOptions = this.answerOptions[language] || [];
@@ -269,7 +264,7 @@ class EditTrueAndFalse extends Question {
         let temp = { ...this.answer };
         temp[language] = option;
         this.answer = temp;
-        console.log("editted answer: ", this.answer);
+        
       });
 
       answerOptionContainer.appendChild(answerOption);
@@ -335,10 +330,10 @@ async function startEdittingAssessment(
   type = "teacher"
 ) {
   let correctPath = `../${assessmentType}/generated/${filename}`;
-  console.log("correctPath:", correctPath);
+  
 
   let assessmentFileResponse = await fetch(correctPath, { cache: "reload" });
-  console.log("assessmentFileResponse:", assessmentFileResponse);
+  
 
   let questions = await assessmentFileResponse.json();
 

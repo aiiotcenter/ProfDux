@@ -41,7 +41,7 @@
                     params: `userID=${userID}`,
                 });
 
-                console.log("result: ",  result);
+                
 
                 const weights = new Weights(result);
                 weights.render();

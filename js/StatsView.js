@@ -17,7 +17,7 @@ class StatsView {
         this.weightObjectArray = weightObjectArray;
 
         this.columns = this.indexingColumn + this.userDetailsColumns + this.structureColumns + this.totalColumn;
-        console.log("columns: ", this.columns)
+        
     }
     
     renderOuterGridTableLayout(){

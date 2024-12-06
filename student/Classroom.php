@@ -174,7 +174,7 @@
 
                 let file = { name, type } = event.target.files[0];
                 let objectURL = window.URL.createObjectURL(file);
-                console.log("output src: ", objectURL);
+                
 
                 // output.onload = function() { URL.revokeObjectURL(objectURL) }
             }

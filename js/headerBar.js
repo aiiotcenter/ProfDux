@@ -50,7 +50,7 @@ function setHeaderInfo(userObject){
 
 setTimeout(() => {
     setCurrentLanguageToLocalStorage();
-    console.log("currentLanguage: ", document.querySelector("html").lang);
+    
 }, 3000);
 
 function getCurrentLanguageFromLocalStorage(){
@@ -81,7 +81,7 @@ function setCurrentLanguageToLocalStorage() {
     setTimeout(() => {
         let htmlElement = document.querySelector("html");
         window.localStorage.setItem("lang", htmlElement.lang);
-        console.log("current Language: ", htmlElement.lang);
+        
     }, 3000)
 
 }

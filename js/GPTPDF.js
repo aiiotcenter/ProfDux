@@ -117,8 +117,8 @@ async function generatePDFfromGPT({courseName, lectureTitle}) {
 
 async function uploadBlobPDF({fileObject, lectureID}){
 
-    console.log("fileOfileObject: ",fileObject);
-    console.log("lectureID: ",lectureID);
+    
+    
 
     if(fileObject && lectureID){
         let type = "application/pdf";
@@ -137,7 +137,7 @@ async function uploadBlobPDF({fileObject, lectureID}){
             else throw new Error("Upload Failed");
         }
         catch(error){
-            console.log(error);
+            
         }
     }
     else return;

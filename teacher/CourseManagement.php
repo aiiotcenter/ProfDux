@@ -119,9 +119,9 @@
                 try {
                     let { newFileName } = await uploadFile(courseImageObject);
                     if (newFileName) params = `id=${id}&&courseCode=${courseCode}&&title=${courseName}&&language=${courseLanguage}&&isLanguage=${isLanguageCourse}&&creatorID=${creatorID}&&image=${newFileName}`;
-                    console.log(params);
+                    
                 } catch (error) {
-                    console.log(error);
+                    
                 }
             }
 
@@ -132,7 +132,7 @@
                 type: "post"
             });
 
-            console.log(result);
+            
 
             loadCourses();
 
