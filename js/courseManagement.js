@@ -4,6 +4,58 @@ let globalVideoObject;
 let EditTextObject;
 let globalLinkView;
 
+
+
+let youtubePlayer;
+
+  function showLinkPreview() {
+    const linkInput = document.getElementById("LinkToUpload").value;
+    const previewDiv = document.getElementById("preview");
+    previewDiv.innerHTML = ""; // Clear previous content
+
+    // Check if the link is a YouTube URL
+    if (
+      linkInput.includes("youtube.com/watch?v=") ||
+      linkInput.includes("youtu.be/")
+    ) {
+      let videoId;
+      if (linkInput.includes("youtube.com/watch?v=")) {
+        videoId = linkInput.split("v=")[1].split("&")[0];
+      } else if (linkInput.includes("youtu.be/")) {
+        videoId = linkInput.split("youtu.be/")[1];
+      }
+      const iframe = `<div id="player"></div>`;
+      previewDiv.innerHTML = iframe;
+
+      // Load the YouTube Player API
+      if (!window.YT) {
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      }
+
+      // Initialize the player
+      window.onYouTubeIframeAPIReady = function () {
+        youtubePlayer = new YT.Player("player", {
+          height: "300",
+          width: "500",
+          videoId: videoId,
+          events: {
+            onReady: function () {
+              console.log("YouTube Player is ready!");
+            },
+          },
+        });
+      };
+    } else {
+      // For general web links
+      const linkPreview = `<a href="${linkInput}" target="_blank">${linkInput}</a>`;
+      previewDiv.innerHTML = linkPreview;
+    }
+  }
+
+
 function loadImageToPopupView(event, outputElement) {
   // const output = document.querySelector(outputElement);
 
@@ -281,6 +333,13 @@ function openUploadOverlay(id) {
 
 function closeUploadOverlay() {
   let uploadOverlay = document.querySelector(".upload-overlay");
+
+  // Pause the video if it's playing
+  if (youtubePlayer && youtubePlayer.pauseVideo) {
+    youtubePlayer.pauseVideo();
+  }
+
+  // Hide the overlay
   uploadOverlay.style.display = "none";
 }
 
@@ -570,31 +629,6 @@ async function checkImage(imagePath) {
     throw new Error();
   } catch (error) {
     return `../assets/images/courseDefault.jpg`;
-  }
-}
-
-function showLinkPreview() {
-  const linkInput = document.getElementById("LinkToUpload").value;
-  const previewDiv = document.getElementById("preview");
-  previewDiv.innerHTML = ""; // Clear previous content
-
-  // Check if the link is a YouTube URL
-  if (
-    linkInput.includes("youtube.com/watch?v=") ||
-    linkInput.includes("youtu.be/")
-  ) {
-    let videoId;
-    if (linkInput.includes("youtube.com/watch?v=")) {
-      videoId = linkInput.split("v=")[1].split("&")[0];
-    } else if (linkInput.includes("youtu.be/")) {
-      videoId = linkInput.split("youtu.be/")[1];
-    }
-    const iframe = `<iframe width="500" height="300" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
-    previewDiv.innerHTML = iframe;
-  } else {
-    // For general web links
-    const linkPreview = `<a href="${linkInput}" target="_blank">${linkInput}</a>`;
-    previewDiv.innerHTML = linkPreview;
   }
 }
 
