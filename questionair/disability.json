@@ -1,0 +1,244 @@
+{
+    "questionnaire": {
+      "title": "Questionnaire on Teachers’ Awareness of Disabilities and Disorders",
+      "description": "These questionnaires are designed to assess teachers’ awareness, attitudes, and practices regarding disabilities and learning disorders. The questions are categorized to gather comprehensive insights.",
+      "sections": [
+        {
+          "sectionTitle": "Demographic Information",
+          "questions": [
+            {
+              "id": 1,
+              "question": "What is your age?",
+              "type": "singleChoice",
+              "options": [
+                "20–30 years",
+                "31–40 years",
+                "41–50 years",
+                "51+ years"
+              ]
+            },
+            {
+              "id": 2,
+              "question": "What is your level of education?",
+              "type": "singleChoice",
+              "options": [
+                "Bachelor’s degree",
+                "Master’s degree",
+                "Doctorate",
+                "Other (please specify)"
+              ]
+            },
+            {
+              "id": 3,
+              "question": "How many years of teaching experience do you have?",
+              "type": "singleChoice",
+              "options": [
+                "Less than 5 years",
+                "5–10 years",
+                "11–20 years",
+                "More than 20 years"
+              ]
+            },
+            {
+              "id": 4,
+              "question": "Have you received any training related to disabilities or special education?",
+              "type": "singleChoice",
+              "options": [
+                "Yes",
+                "No"
+              ]
+            }
+          ]
+        },
+        {
+          "sectionTitle": "Awareness of Disabilities and Disorders",
+          "questions": [
+            {
+              "id": 5,
+              "question": "Which of the following disabilities or disorders are you familiar with?",
+              "type": "multipleChoice",
+              "options": [
+                "Dyslexia",
+                "ADHD",
+                "Autism Spectrum Disorder (ASD)",
+                "Dysgraphia",
+                "Hearing impairments",
+                "Visual impairments",
+                "Physical disabilities",
+                "Other (please specify)"
+              ]
+            },
+            {
+              "id": 6,
+              "question": "How would you rate your understanding of the term \"learning disabilities\"?",
+              "type": "singleChoice",
+              "options": [
+                "Very good",
+                "Good",
+                "Average",
+                "Poor"
+              ]
+            },
+            {
+              "id": 7,
+              "question": "Are you aware of the legal and institutional policies regarding accommodations for students with disabilities?",
+              "type": "singleChoice",
+              "options": [
+                "Yes",
+                "Somewhat",
+                "No"
+              ]
+            }
+          ]
+        },
+        {
+          "sectionTitle": "Attitudes Toward Inclusive Education",
+          "questions": [
+            {
+              "id": 8,
+              "question": "Do you believe students with disabilities should be taught in mainstream classrooms?",
+              "type": "singleChoice",
+              "options": [
+                "Strongly agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly disagree"
+              ]
+            },
+            {
+              "id": 9,
+              "question": "How comfortable are you in teaching students with learning disabilities?",
+              "type": "singleChoice",
+              "options": [
+                "Very comfortable",
+                "Somewhat comfortable",
+                "Neutral",
+                "Uncomfortable",
+                "Very uncomfortable"
+              ]
+            },
+            {
+              "id": 10,
+              "question": "Do you feel that including students with disabilities in your class benefits all students?",
+              "type": "singleChoice",
+              "options": [
+                "Strongly agree",
+                "Agree",
+                "Neutral",
+                "Disagree",
+                "Strongly disagree"
+              ]
+            }
+          ]
+        },
+        {
+          "sectionTitle": "Practices and Support",
+          "questions": [
+            {
+              "id": 11,
+              "question": "Have you ever worked with students with disabilities or learning disorders?",
+              "type": "singleChoice",
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "id": 12,
+              "question": "How often do you adapt your teaching strategies to accommodate students with disabilities?",
+              "type": "singleChoice",
+              "options": [
+                "Always",
+                "Often",
+                "Sometimes",
+                "Rarely",
+                "Never"
+              ]
+            },
+            {
+              "id": 13,
+              "question": "What types of accommodations or supports have you used in your classroom?",
+              "type": "multipleChoice",
+              "options": [
+                "Extended time for assignments/tests",
+                "Use of assistive technology",
+                "Visual aids",
+                "Modified curriculum",
+                "Peer support or mentoring",
+                "Other (please specify)"
+              ]
+            },
+            {
+              "id": 14,
+              "question": "Do you collaborate with special education teachers or support staff when working with students with disabilities?",
+              "type": "singleChoice",
+              "options": [
+                "Yes, regularly",
+                "Sometimes",
+                "Rarely",
+                "Never"
+              ]
+            }
+          ]
+        },
+        {
+          "sectionTitle": "Training Needs",
+          "questions": [
+            {
+              "id": 15,
+              "question": "Do you think you have sufficient knowledge and skills to support students with disabilities in your classroom?",
+              "type": "singleChoice",
+              "options": [
+                "Yes",
+                "Somewhat",
+                "No"
+              ]
+            },
+            {
+              "id": 16,
+              "question": "Would you be interested in receiving additional training on disabilities and inclusive teaching strategies?",
+              "type": "singleChoice",
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "id": 17,
+              "question": "What type of training do you think would be most beneficial?",
+              "type": "multipleChoice",
+              "options": [
+                "Workshops on specific disabilities (e.g., ADHD, autism)",
+                "Training on assistive technologies",
+                "Classroom management strategies for inclusive classrooms",
+                "Legal and policy awareness for disability accommodations",
+                "Other (please specify)"
+              ]
+            }
+          ]
+        },
+        {
+          "sectionTitle": "Open-Ended Questions",
+          "questions": [
+            {
+              "id": 18,
+              "question": "What challenges have you faced when working with students with disabilities?",
+              "type": "openEnded"
+            },
+            {
+              "id": 19,
+              "question": "In your opinion, what can be done to improve the support system for students with disabilities in schools?",
+              "type": "openEnded"
+            },
+            {
+              "id": 20,
+              "question": "What role do you believe teachers play in fostering an inclusive classroom environment for students with disabilities?",
+              "type": "openEnded"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  
