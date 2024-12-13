@@ -89,7 +89,7 @@ async function login(){
                     window.location.href="admin/"
                     break;
                 case "teacher":
-                    window.location.href="teacher/"
+                    window.location.href="../include/questionairbackend.php"
                     break;
                 case "student":
                     window.location.href="student/"

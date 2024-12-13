@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['message' => 'Invalid input data']);
         exit;
     }
-
-    $userId = $data['userId'];
+ 
+    $userId = $_SESSION['id'];
     $answers = $data['answers'];
     $answersJson = json_encode($answers);
 
@@ -27,11 +27,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+        // // User not found, insert a default entry
+        // $insertSql = "INSERT INTO questinair (userid, status, filepath) VALUES (?, 0, NULL)";
+        // $insertStmt = $conn->prepare($insertSql);
+        // if (!$insertStmt) {
+        //     die("Prepare failed: " . $conn->error);
+        // }
+        // $insertStmt->bind_param("s", $userId);
+        // $insertStmt->execute();
+
     // Update database
     $stmt = $conn->prepare("
         INSERT INTO questinair (userid, status, filepath)
         VALUES (?, 1, ?)
-        ON DUPLICATE KEY UPDATE status = 1, filepath = VALUES(filepath)
     ");
     $stmt->bind_param('ss', $userId, $filePath);
 

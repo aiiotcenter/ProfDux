@@ -1,6 +1,6 @@
 <?php
 session_start();
-$userId = $_SESSION['user_id'] ?? 'f280402h345'; // Use session variable or fallback for testing
+$userId = $_SESSION['user_id'] ; // Use session variable or fallback for testing
 
 // Load survey data
 $json = file_get_contents("../questionair/disability.json");
@@ -18,6 +18,12 @@ foreach ($survey['questionnaire']['sections'] as $section) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey with Terms</title>
+
+    <script src="../js/functions.js"></script>
+    <div style="position:absolute;" class="gtranslate_wrapper"></div>
+    <script>window.gtranslateSettings = {"default_language": "en", "languages": ["en", "tr"], "wrapper_selector": ".gtranslate_wrapper", "switcher_horizontal_position": "left", "switcher_vertical_position": "bottom", "float_switcher_open_direction": "bottom", "flag_style": "3d" }</script>
+    <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -140,7 +146,10 @@ foreach ($survey['questionnaire']['sections'] as $section) {
     </div>
 
     <script>
+
         const questions = <?php echo json_encode($questions); ?>;
+        const questionsToSend =JSON.stringify(questions);
+
         let currentIndex = 0;
 
         const termsModal = document.getElementById('terms-modal');
@@ -258,7 +267,7 @@ function saveAnswer() {
 }
 
 // Navigate to the next question or submit the survey
-nextBtn.addEventListener('click', function () {
+nextBtn.addEventListener('click', async () => {
     saveAnswer();
 
     if (currentIndex < questions.length - 1) {
@@ -281,6 +290,9 @@ nextBtn.addEventListener('click', function () {
             console.error('Error:', error);
             alert('There was an error submitting the survey.');
         });
+
+        const result = await generateAnswer(answers);
+        console.log('result: ', result);
     }
 });
 
@@ -294,6 +306,61 @@ prevBtn.addEventListener('click', function () {
 
 // Initialize the survey
 loadQuestion(currentIndex);
+
+
+async function generateAnswer(questions, answers) {
+    try {
+        const apiKey = '';
+        const endpoint = "https://api.openai.com/v1/chat/completions";
+
+        // Prepare the system and user messages
+        const messages = [
+            {
+                role: "system",
+                content: `You are Prof. Dux, an AI professor  Respond as an empathetic AI mentor. Provide short highlights and constructive feedback based on teachers' answers to the survey questions. Keep the feedback brief, professional, and actionable.`
+            },
+            {
+                role: "user",
+                content: `Here are the survey questions: ${questionsToSend}\n\nAnd here are the answers provided by the teacher: ${answers}`
+            }
+        ];
+
+        // Make the API call
+        const response = await fetch(endpoint, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${apiKey}`,
+            },
+            body: JSON.stringify({
+                model: "gpt-3.5-turbo",
+                messages: messages,
+                temperature: 0.7,
+                max_tokens: 1000,
+            }),
+        });
+
+        // Check if the response is successful
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`OpenAI API error: ${response.status} - ${errorText}`);
+        }
+
+        const data = await response.json();
+
+        // Extract and return the content from the response
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            return data.choices[0].message.content.trim();
+        } else {
+            throw new Error("Unexpected API response structure");
+        }
+    } catch (error) {
+        console.error("Error in generateAnswer:", error);
+        return "Sorry, I encountered an error processing your request. Please try again later.";
+    }
+}
+
+
 
     </script>
 </body>

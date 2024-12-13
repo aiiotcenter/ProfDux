@@ -1,6 +1,4 @@
-<?php
-    header('location: ../include/questionairbackend.php');
-?>
+
 
 <!DOCTYPE html>
 <html lang="en">
