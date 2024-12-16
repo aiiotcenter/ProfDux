@@ -18,96 +18,14 @@ foreach ($survey['questionnaire']['sections'] as $section) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey with Terms</title>
-
+    <script src="../js/questioner.js"></script>
     <script src="../js/functions.js"></script>
+    <link rel="stylesheet" href="../css/questioner.css">
     <div style="position:absolute;" class="gtranslate_wrapper"></div>
     <script>window.gtranslateSettings = {"default_language": "en", "languages": ["en", "tr"], "wrapper_selector": ".gtranslate_wrapper", "switcher_horizontal_position": "left", "switcher_vertical_position": "bottom", "float_switcher_open_direction": "bottom", "flag_style": "3d" }</script>
     <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40%;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            z-index: 1000;
-        }
-        .modal h2 {
-            font-size: 18px;
-            color: #900;
-            margin-bottom: 10px;
-        }
-        .modal p {
-            margin: 15px 0;
-            line-height: 1.6;
-            color: #333;
-        }
-        .modal .options label {
-            display: block;
-            margin-bottom: 10px;
-            color: #555;
-        }
-        .modal .options input {
-            margin-right: 10px;
-        }
-        .modal textarea {
-            width: 100%;
-            height: 80px;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .modal .checkbox-container {
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-        }
-        .modal .checkbox-container input {
-            margin-right: 10px;
-        }
-        .modal .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .modal .navigation button {
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #900;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .modal .navigation button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-        .modal .navigation .submit {
-            background-color: #0a6;
-        }
-        .backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
+   
 </head>
 <body>
     <div class="backdrop"></div>
@@ -144,8 +62,31 @@ foreach ($survey['questionnaire']['sections'] as $section) {
             <button id="next-btn" disabled>Next</button>
         </div>
     </div>
+    <div class="modal" id="feedback-modal" style="display: none;">
+    <h2>Feedback Summary</h2>
+    <p id="feedback-content"></p>
+    <div class="navigation">
+        <button onclick="goToDashboard()">Go to Dashboard</button>
+    </div>
+</div>
+<div id="loading-spinner" style="display: none;">
+    <div class="spinner"></div>
+</div>
+
 
     <script>
+        function showFeedbackModal(feedback) {
+    const feedbackModal = document.getElementById('feedback-modal');
+    const feedbackContent = document.getElementById('feedback-content');
+    
+    feedbackContent.textContent = feedback;
+    feedbackModal.style.display = 'block';
+}
+
+function goToDashboard() {
+    window.location.href = '/teacher/index.php'; // Replace with your dashboard URL
+}
+
 
         const questions = <?php echo json_encode($questions); ?>;
         const questionsToSend =JSON.stringify(questions);
@@ -266,7 +207,6 @@ function saveAnswer() {
     }
 }
 
-// Navigate to the next question or submit the survey
 nextBtn.addEventListener('click', async () => {
     saveAnswer();
 
@@ -274,6 +214,9 @@ nextBtn.addEventListener('click', async () => {
         currentIndex++;
         loadQuestion(currentIndex);
     } else {
+        // Show spinner during submission
+        document.getElementById('loading-spinner').style.display = 'flex';
+
         // Submit answers as JSON to the server
         fetch('../../include/savequestionair.php', {
             method: 'POST',
@@ -288,13 +231,13 @@ nextBtn.addEventListener('click', async () => {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('There was an error submitting the survey.');
+            // alert('There was an error submitting the survey.');
         });
 
-        const result = await generateAnswer(answers);
-        console.log('result: ', result);
+        await generateAnswer(); // Fetch the AI feedback
     }
 });
+
 
 // Navigate to the previous question
 prevBtn.addEventListener('click', function () {
@@ -308,22 +251,40 @@ prevBtn.addEventListener('click', function () {
 loadQuestion(currentIndex);
 
 
-async function generateAnswer(questions, answers) {
+async function generateAnswer() {
     try {
-        const apiKey = '';
+        // Show the spinner
+        const spinner = document.getElementById('loading-spinner');
+        spinner.style.display = 'flex';
+
+        const apiKeyResponse = await fetchOpenAIKey();
+
+// Extract the key from the response
+const apiKey = Array.isArray(apiKeyResponse) && apiKeyResponse[0]?.value 
+    ? apiKeyResponse[0].value 
+    : null;
+
+if (!apiKey) {
+    throw new Error("API key not found in the response.");
+}
+
+console.log("Fetched OpenAI API Key:", apiKey);
         const endpoint = "https://api.openai.com/v1/chat/completions";
 
         // Prepare the system and user messages
         const messages = [
-            {
-                role: "system",
-                content: `You are Prof. Dux, an AI professor  Respond as an empathetic AI mentor. Provide short highlights and constructive feedback based on teachers' answers to the survey questions. Keep the feedback brief, professional, and actionable.`
-            },
-            {
-                role: "user",
-                content: `Here are the survey questions: ${questionsToSend}\n\nAnd here are the answers provided by the teacher: ${answers}`
-            }
-        ];
+    {
+        role: "system",
+        content: `You are Prof. Dux, an AI professor. Respond as an empathetic AI mentor. Use the questions and answers provided by the teacher to generate short, constructive, and actionable feedback. Do not repeat the questions or answers verbatim. Focus only on providing feedback that helps the teacher improve their approach to inclusive teaching.`
+    },
+    {
+        role: "user",
+        content: `Here are the survey responses provided by the teacher:
+        Questions: ${questionsToSend}
+        Answers: ${JSON.stringify(answers)}
+        Based on these responses, provide empathetic and actionable feedback.`
+    }
+];
 
         // Make the API call
         const response = await fetch(endpoint, {
@@ -348,17 +309,30 @@ async function generateAnswer(questions, answers) {
 
         const data = await response.json();
 
-        // Extract and return the content from the response
+        // Hide the spinner
+        spinner.style.display = 'none';
+
+        // Extract and display the feedback
         if (data.choices && data.choices[0] && data.choices[0].message) {
-            return data.choices[0].message.content.trim();
+            const feedback = data.choices[0].message.content.trim();
+            console.log(feedback); // Log the feedback
+            showFeedbackModal(feedback); // Display feedback in a modal
         } else {
             throw new Error("Unexpected API response structure");
         }
     } catch (error) {
         console.error("Error in generateAnswer:", error);
-        return "Sorry, I encountered an error processing your request. Please try again later.";
+
+        // Hide the spinner in case of an error
+        const spinner = document.getElementById('loading-spinner');
+        spinner.style.display = 'none';
+
+        showFeedbackModal("Sorry, I encountered an error processing your request. Please try again later.");
     }
 }
+
+
+
 
 
 

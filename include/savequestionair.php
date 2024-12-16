@@ -44,11 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param('ss', $userId, $filePath);
 
     if ($stmt->execute()) {
-        echo json_encode(['message' => 'Survey submitted successfully']);
+        // echo json_encode(['message' => 'Survey submitted successfully']);
     } else {
         error_log("SQL Error: " . $stmt->error);
         http_response_code(500);
-        echo json_encode(['message' => 'Failed to submit survey']);
+        // echo json_encode(['message' => 'Failed to submit survey']);
     }
 
     $stmt->close();
