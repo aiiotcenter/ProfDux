@@ -71,6 +71,10 @@
     box-shadow: var(--pop) 0px 1px 2px 0px;
 }
 
+.exam-card:has(.inverted){
+    cursor: not-allowed;
+}
+
 .white-overlay {
     background: linear-gradient(-170deg, transparent, white, white);
     opacity: 0.99;
@@ -116,4 +120,31 @@
 
 .subscription-icon img {
     height: 13px;
+}
+
+.time-element-wrapper {
+    display: grid;
+    z-index: 1;
+    align-self: start;
+    background: #fff;
+    font-size: 13px;
+    border-radius: 5px;
+    box-shadow: var(--boxShadowD);
+    border: 1px solid var(--pop);
+}
+
+.time-element{
+    border-bottom: 1px dashed var(--pop);
+    padding: 5px 10px;
+    text-align: center;
+}
+
+.time-comment-element {
+    padding: 5px 10px;
+    text-align: center;
+}
+
+.inverted {
+    color: white;
+    background-color: var(--pop);
 }

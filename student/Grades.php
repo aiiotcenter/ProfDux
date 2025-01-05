@@ -40,8 +40,6 @@
                     type: "fetch"
                 });
 
-                
-
                 const grades = new GradesView(result);
                 grades.renderGrades();
 

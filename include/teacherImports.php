@@ -27,7 +27,8 @@
         "../css/classroom.css",
         "../css/image-viewer.css",
         "../css/messaging.css",
-        "../css/video-viewer.css"
+        "../css/video-viewer.css",
+        "../css/flatpicker.min.css"
     );
 
     // These are for javascript files that you want
@@ -46,7 +47,8 @@
         "../js/dictionary.js",
         "../js/UILoaders.js",
         "../js/exam.js",
-        "../js/BatchGenerator.js"
+        "../js/BatchGenerator.js",
+        "../js/flatpicker.min.js",
     );
 
     // These are for javascript files that you want

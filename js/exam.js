@@ -4,12 +4,11 @@ class ExamsView {
   }
 
   setExamsListContainer(element) {
-    
     this.examsListContainer = element;
   }
 
   setCreateExamButton(element) {
-    this.createExamButton = element;
+    this.createExamButton = clearEventListenersFor(element);
     this.createExamButton.addEventListener("click", () => {
       const metadata = {
         courseID: this.courseID,
@@ -211,16 +210,15 @@ class CreateExam {
 
   handleAttachElements(rootElement) {
     this.rootElement = rootElement;
-    this.createExamButton = this.rootElement.querySelector(
+    this.createExamButton = clearEventListenersFor(this.rootElement.querySelector(
       ".create-exam-button"
-    );
+    ));
     this.examNameInput = this.rootElement.querySelector(".exam-name");
     this.examNameInput.value = this.examName;
     this.loader = this.rootElement.querySelector(".create-exam-loader");
 
     this.examNameInput.addEventListener("onchange", (event) => {
-      this.examName = event.target.value;
-      
+      this.examName = event.target.value; 
     });
 
     this.createExamButton.addEventListener("click", async () => {
@@ -233,7 +231,6 @@ class CreateExam {
 
       this.details = { ...details, ...moreDetails };
       await this.createExam(this.details);
-
       const { callback, callbackClass } = this.callbackObject;
       callback(callbackClass);
     });
@@ -406,6 +403,7 @@ async function editExam(courseObject) {
   examsView.setExamsListContainer(
     document.querySelector(".exam-grid-container")
   );
+
   examsView.setCreateExamButton(document.querySelector("#createNewExam"));
   examsView.render();
 }

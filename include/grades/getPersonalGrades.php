@@ -1,71 +1,70 @@
 <?php
 
-    include "../databaseConnection.php"; 
+include "../databaseConnection.php";
 
-    $conn = OpenConnection();
+$conn = OpenConnection();
 
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-    $userID = $_POST["id"];
+$userID = $_POST["id"];
 
-    if($userID){
+if ($userID) {
 
-        $subscriptionsQuery = "
+    $subscriptionsQuery = "
             SELECT subscriptions.courseID, courses.title, courses.image, courses.courseCode FROM `courses` 
             INNER JOIN subscriptions ON subscriptions.courseID = courses.ID
             WHERE subscriptions.userID = '$userID' && status = 'true'
         ";
 
-        $subscriptionsResult = mysqli_query($conn,$subscriptionsQuery);
-        $subscriptions = mysqli_fetch_all($subscriptionsResult,MYSQLI_ASSOC);
+    $subscriptionsResult = mysqli_query($conn, $subscriptionsQuery);
+    $subscriptions = mysqli_fetch_all($subscriptionsResult, MYSQLI_ASSOC);
 
-        // $examQuery = "
-        //     SELECT * FROM `exam` 
-        //     WHERE exam.courseID = '$courseID'
-        //     ORDER BY exam.hierarchy
-        // ";
+    $gradesArray = [];
 
-        // $examResult = mysqli_query($conn,$examQuery);
-        // $courses = mysqli_fetch_all($examResult,MYSQLI_ASSOC);
+    foreach ($subscriptions as $subscription) {
 
-        $quizGradesArray = [];
+        $courseID = $subscription['courseID'];
+        $courseTitle = $subscription['title'];
+        $courseImage = $subscription['image'];
+        $courseCode = $subscription['courseCode'];
 
-        foreach($subscriptions as $subscription){
-
-            $courseID = $subscription['courseID'];
-            $courseTitle = $subscription['title'];
-            $courseImage = $subscription['image'];
-            $courseCode = $subscription['courseCode'];
-            
-            $quizGradeQuery = "
+        $quizGradeQuery = "
                 SELECT quizID, filename, status, value, hierarchy, totalMarks FROM `quizGrades`
                 WHERE quizGrades.userID = '$userID' && courseID = '$courseID'
                 ORDER BY hierarchy
             ";
 
-            $quizGradeResults = mysqli_query($conn,$quizGradeQuery);
-            $quizGrades = mysqli_fetch_all($quizGradeResults,MYSQLI_ASSOC);
+        $quizGradeResults = mysqli_query($conn, $quizGradeQuery);
+        $quizGrades = mysqli_fetch_all($quizGradeResults, MYSQLI_ASSOC);
 
-            $quizGradesArray[] = array(
-                "grades" => $quizGrades,
-                "title" => $courseTitle,
-                "courseID" => $courseID,
-                "image" => $courseImage,
-                "courseCode" => $courseCode
-            );
 
-        }
+        $examGradeQuery = "
+            SELECT * FROM examGrades
+            WHERE examGrades.userID = '$userID' && courseID = '$courseID'
+        ";
 
-        $resultA = array(
-            "quizGrades" => $quizGradesArray,
-            "exams" => []
+        $examGradeResults = mysqli_query($conn, $examGradeQuery);
+        $examGrades = mysqli_fetch_all($examGradeResults, MYSQLI_ASSOC);
+
+
+        $gradesArray[] = array(
+            "quizGrades" => $quizGrades,
+            "examGrades" => $examGrades,
+            "title" => $courseTitle,
+            "courseID" => $courseID,
+            "image" => $courseImage,
+            "courseCode" => $courseCode
         );
-
-        echo json_encode($resultA);
-
     }
-    else{
-        echo json_encode(array("status" => "error"));
-    }
+
+    $resultA = array(
+        "grades" => $gradesArray,
+    );
+
+    echo json_encode($resultA);
+
+} else {
+    echo json_encode(array("status" => "error"));
+}

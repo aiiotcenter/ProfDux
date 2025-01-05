@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timer</title>
 </head>
+
 <body>
 
     <div class="timer"></div>
 
     <style>
-
-        *{
+        * {
             font-family: Avenir Next;
             margin: 0 0;
             padding: 0 0;
@@ -36,27 +37,29 @@
             timerInterval
             timerElement
 
-            constructor(timerValue, timerElement){
+            constructor(timerValue, timerElement, callback = () => {}) {
                 this.timerValue = timerValue
                 this.timerElement = timerElement
                 this.seconds = timerValue * 60
+                this.callback = callback
             }
 
-            start(){
+            start() {
                 this.setTimerInterval();
             }
 
-            displayTime({ hours, minutes, seconds }){
+            displayTime({ hours, minutes, seconds }) {
                 this.timerElement.textContent = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
             }
 
-            reduceTimer(){
+            reduceTimer() {
                 const hours = Math.floor(this.seconds / 60 / 60);
-                const minutes =  Math.floor(this.seconds / 60) % 60;
+                const minutes = Math.floor(this.seconds / 60) % 60;
 
                 const seconds = this.seconds % 60;
 
-                if(this.seconds > 0) this.seconds--;
+                if (this.seconds > 0) this.seconds--;
+
                 else {
                     this.clearTimerInterval();
                 }
@@ -64,32 +67,31 @@
                 return { hours, minutes, seconds }
             }
 
-            setTimerInterval(){
+            setTimerInterval() {
                 this.timerInterval = setInterval(() => {
                     const { hours, minutes, seconds } = this.reduceTimer();
                     this.displayTime({ hours, minutes, seconds });
                 }, 1000);
             }
 
-            clearTimerInterval(){
+            clearTimerInterval() {
                 console.log("ran");
                 clearInterval(this.timerInterval);
                 this.done();
             }
 
-            done(){
-                console.log(this.timerElement)
-                this.timerElement.style.background = 'red';
-                this.timerElement.textContent = 'red'; // BUG???
+            done() {
+                this.callback();
             }
-                       
+
         }
 
         let timerElement = document.querySelector(".timer");
-        const timer = new Timer(24 * 60, timerElement);
+        const timer = new Timer(0.5, timerElement);
         timer.start();
 
     </script>
-    
+
 </body>
+
 </html>

@@ -1,10 +1,12 @@
 <?php
 
-    session_start();
-    $username = isset($_SESSION['id']);
-    $role = isset($_SESSION['role']);
+session_start();
+$username = isset($_SESSION['id']);
+$role = isset($_SESSION['role']);
 
-    if(!$username){ header('location:../auth.php'); }
+if (!$username) {
+    header('location:../auth.php');
+}
 
 ?>
 
@@ -16,14 +18,12 @@
     <div class="header-action-bar">
         <?php
 
-            echo $_SESSION["role"];
-
-            if($_SESSION["role"] != "student"){
-                echo "
+        if ($_SESSION["role"] != "student") {
+            echo "
                 <a href='../teacher' class='switch-button'>
                     <img class='icon' src='../assets/icons/fi/fi-rr-arrows-repeat.svg' alt='' class='regular-icon'> 
                 </a>";
-            }
+        }
 
         ?>
 
@@ -38,7 +38,7 @@
     </div>
 </div>
 
-    <div class="circle dux-overlay">
+<!-- <div class="circle dux-overlay">
         <div class="close-button" onclick="
         closeDuxChat();
         " style="display: none;">
@@ -68,5 +68,5 @@
     
     <div class="circle dux-icon" onclick="startDuxChat()">
         <img src="../assets/images/dux-male.jpg" alt="">
-    </div>
+    </div> -->
 <!-- jeries -->

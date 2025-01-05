@@ -190,9 +190,7 @@ async function handleEndQuiz(quizObject){
             rejectMessage: "Failed to update new quiz grade",
             type: "post",
             params
-        });
-
-        
+        }); 
 
     }
 
@@ -203,8 +201,6 @@ async function handleEndQuiz(quizObject){
 
         let timeEnded = getCurrentTimeInJSONFormat();
 
-        
-
         let params = `id=${id}&&value=${value}&&timeEnded=${timeEnded}&&totalMarks=${totalMarks}`;
 
         let response = await AJAXCall({
@@ -213,8 +209,6 @@ async function handleEndQuiz(quizObject){
             type: "post",
             params
         });
-
-        
 
     }
     
@@ -232,8 +226,6 @@ async function startQuiz(quizGradeObject, type="new", mode){
 
     let { fileToLoad, fileToSave, hierarchy } = quizGradeObject;
 
-    
-    
 
     let correctPath;
 

@@ -1,1 +1,137 @@
-[{"question":{"english":"What was the immediate cause of World War I?","turkish":"1. Dünya Savaşı'nın hemen nedeni nedir?"},"answerOptions":{"english":["Assassination of Archduke Franz Ferdinand","Economic rivalry between European powers","Colonial competition","Alliances and militarism"],"turkish":["Arşidük Franz Ferdinand'ın suikastı","Avrupa güçleri arasındaki ekonomik rekabet","Sömürgecilik yarışı","İttifaklar ve militarizm"]},"answer":{"english":"Assassination of Archduke Franz Ferdinand","turkish":"Arşidük Franz Ferdinand'ın suikastı"},"type":"multiple choice","hardness":"easy"},{"question":{"english":"Which major event marked the end of World War I?","turkish":"1. Dünya Savaşı'nın sonunu işaretleyen önemli olay hangisidir?"},"answerOptions":{"english":["Treaty of Versailles","Russian Revolution","United States' entry into the war","March Revolution"],"turkish":["Versay Antlaşması","Rus Devrimi","ABD'nin savaşa girişi","Mart Devrimi"]},"answer":{"english":"Treaty of Versailles","turkish":"Versay Antlaşması"},"type":"multiple choice","hardness":"easy"},{"question":{"english":"The assassination of Archduke Franz Ferdinand triggered the start of World War 1 in ____.","turkish":"I. Dünya Savaşı'nın başlangıcını tetikleyen olay, Veliaht Prens Franz Ferdinand'ın suikastının gerçekleştiği şehir olan ______ idi."},"answerOptions":{"english":["Vienna","Sarajevo","London","Berlin"],"turkish":["Viyana","Saraybosna","Londra","Berlin"]},"answer":{"english":"Sarajevo","turkish":"Saraybosna"},"type":"fill-in-the-blank","hardness":"extremely difficult"},{"question":{"english":"The Battle of the Somme resulted in over _____ million casualties on both sides during World War 1.","turkish":"Somme Muharebesi, I. Dünya Savaşı sırasında her iki tarafta toplam ____ milyonun üzerinde kayba neden oldu."},"answerOptions":null,"answer":{"english":"1","turkish":"1"},"type":"fill-in-the-blank","hardness":"extremely difficult"},{"question":{"english":"World War 1 started in 1914.","turkish":"1. Dünya Savaşı 1914'te başladı."},"answerOptions":{"english":["True","False"],"turkish":["Doğru","Yanlış"]},"answer":{"english":"True","turkish":"Doğru"},"type":"true-false","hardness":"hard"},{"question":{"english":"World War 1 officially ended in 1918.","turkish":"1. Dünya Savaşı resmi olarak 1918'de sona erdi."},"answerOptions":{"english":["True","False"],"turkish":["Doğru","Yanlış"]},"answer":{"english":"True","turkish":"Doğru"},"type":"true-false","hardness":"hard"}]
+[
+    {
+        "question": {
+            "english": "What was the immediate cause of World War I?",
+            "turkish": "1. Dünya Savaşı'nın hemen nedeni nedir?"
+        },
+        "answerOptions": {
+            "english": [
+                "Assassination of Archduke Franz Ferdinand",
+                "Economic rivalry between European powers",
+                "Colonial competition",
+                "Alliances and militarism"
+            ],
+            "turkish": [
+                "Arşidük Franz Ferdinand'ın suikastı",
+                "Avrupa güçleri arasındaki ekonomik rekabet",
+                "Sömürgecilik yarışı",
+                "İttifaklar ve militarizm"
+            ]
+        },
+        "answer": {
+            "english": "Assassination of Archduke Franz Ferdinand",
+            "turkish": "Arşidük Franz Ferdinand'ın suikastı"
+        },
+        "type": "multiple choice",
+        "hardness": "easy"
+    },
+    {
+        "question": {
+            "english": "Which major event marked the end of World War I?",
+            "turkish": "1. Dünya Savaşı'nın sonunu işaretleyen önemli olay hangisidir?"
+        },
+        "answerOptions": {
+            "english": [
+                "Treaty of Versailles",
+                "Russian Revolution",
+                "United States' entry into the war",
+                "March Revolution"
+            ],
+            "turkish": [
+                "Versay Antlaşması",
+                "Rus Devrimi",
+                "ABD'nin savaşa girişi",
+                "Mart Devrimi"
+            ]
+        },
+        "answer": {
+            "english": "Treaty of Versailles",
+            "turkish": "Versay Antlaşması"
+        },
+        "type": "multiple choice",
+        "hardness": "easy"
+    },
+    {
+        "question": {
+            "english": "The assassination of Archduke Franz Ferdinand triggered the start of World War 1 in ____.",
+            "turkish": "I. Dünya Savaşı'nın başlangıcını tetikleyen olay, Veliaht Prens Franz Ferdinand'ın suikastının gerçekleştiği şehir olan ______ idi."
+        },
+        "answerOptions": {
+            "english": [
+                "Vienna",
+                "Sarajevo",
+                "London",
+                "Berlin"
+            ],
+            "turkish": [
+                "Viyana",
+                "Saraybosna",
+                "Londra",
+                "Berlin"
+            ]
+        },
+        "answer": {
+            "english": "Sarajevo",
+            "turkish": "Saraybosna"
+        },
+        "type": "fill-in-the-blank",
+        "hardness": "extremely difficult"
+    },
+    {
+        "question": {
+            "english": "The Battle of the Somme resulted in over _____ million casualties on both sides during World War 1.",
+            "turkish": "Somme Muharebesi, I. Dünya Savaşı sırasında her iki tarafta toplam ____ milyonun üzerinde kayba neden oldu."
+        },
+        "answerOptions": null,
+        "answer": {
+            "english": "1",
+            "turkish": "1"
+        },
+        "type": "fill-in-the-blank",
+        "hardness": "extremely difficult"
+    },
+    {
+        "question": {
+            "english": "World War 1 started in 1914.",
+            "turkish": "1. Dünya Savaşı 1914'te başladı."
+        },
+        "answerOptions": {
+            "english": [
+                "True",
+                "False"
+            ],
+            "turkish": [
+                "Doğru",
+                "Yanlış"
+            ]
+        },
+        "answer": {
+            "english": "True",
+            "turkish": "Doğru"
+        },
+        "type": "true-false",
+        "hardness": "hard"
+    },
+    {
+        "question": {
+            "english": "World War 1 officially ended in 1918.",
+            "turkish": "1. Dünya Savaşı resmi olarak 1918'de sona erdi."
+        },
+        "answerOptions": {
+            "english": [
+                "True",
+                "False"
+            ],
+            "turkish": [
+                "Doğru",
+                "Yanlış"
+            ]
+        },
+        "answer": {
+            "english": "True",
+            "turkish": "Doğru"
+        },
+        "type": "true-false",
+        "hardness": "hard"
+    }
+]

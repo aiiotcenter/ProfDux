@@ -9,7 +9,7 @@
 
     <?php include '../include/studentImports.php'; ?>
 
-    <script src="../js/TakeExamView.js?3"></script>
+    <script src="../js/TakeExamView.js?4"></script>
     
 </head>
 
@@ -21,7 +21,7 @@
         <?php include 'components/sidebar.php'; ?>
         <div class="main-container">
             <h1 class="large-title">
-                Your Upcoming Exams
+                Your Exams
             </h1>
 
             <div class="course-view-container">

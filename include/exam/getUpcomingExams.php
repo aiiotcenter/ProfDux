@@ -29,7 +29,7 @@
             $courseID = $course['id'];
 
             $examQuery = "
-                SELECT id, name
+                SELECT id, name, minutes
                 FROM `exam` WHERE courseID = '$courseID'
                 ORDER BY hierarchy
             ";
@@ -54,6 +54,7 @@
                 $examsArray[] = array(
                     "id" => $examID,
                     "name" => $exam['name'],
+                    "duration" => $exam['minutes'],
                     "time" => $schedules,
                 );
 

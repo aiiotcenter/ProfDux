@@ -1,19 +1,19 @@
 class Schedules {
-
-    constructor(schedulesArray){
-        this.schedulesArray = schedulesArray
+    constructor(schedulesArray) {
+        this.schedulesArray = schedulesArray;
     }
 
-    renderSchedules(){
-
-        const schedulesOuterContainer = document.querySelector(".schedules-outer-container");
+    renderSchedules() {
+        const schedulesOuterContainer = document.querySelector(
+            ".schedules-outer-container"
+        );
 
         // const entries = Object.entries(this.schedulesArray);
 
-        if(this.schedulesArray.length > 0) schedulesOuterContainer.innerHTML = "";
+        if (this.schedulesArray.length > 0)
+            schedulesOuterContainer.innerHTML = "";
 
-        this.schedulesArray.forEach( course => {
-
+        this.schedulesArray.forEach((course) => {
             const lessonPlanContainer = document.createElement("div");
             lessonPlanContainer.className = "lesson-plan-container";
 
@@ -44,17 +44,18 @@ class Schedules {
             const lessonRightPane = document.createElement("div");
             lessonRightPane.className = "lesson-right-pane";
 
-            saveButton.addEventListener("click", () => saveSchedulesFor(lessonRightPane) );
+            saveButton.addEventListener("click", () =>
+                saveSchedulesFor(lessonRightPane)
+            );
 
-            if(course.lectures.length > 0){
+            if (course.lectures.length > 0) {
                 const miniLectureTitle = document.createElement("div");
                 miniLectureTitle.className = "mini-title";
                 miniLectureTitle.textContent = "Lecture Times";
                 lessonRightPane.appendChild(miniLectureTitle);
             }
 
-            course.lectures.forEach( lecture => {
-                
+            course.lectures.forEach((lecture) => {
                 const lessonItemContainer = document.createElement("div");
                 lessonItemContainer.className = "lesson-item-container";
 
@@ -62,12 +63,12 @@ class Schedules {
                 lessonNumbering.className = "numbering";
 
                 const lessonItemInnerContainer = document.createElement("div");
-                lessonItemInnerContainer.className = "lesson-item-inner-container";
-
+                lessonItemInnerContainer.className =
+                    "lesson-item-inner-container";
 
                 const lessonTitle = document.createElement("div");
                 lessonTitle.className = "lesson-title";
-                lessonTitle.textContent = lecture.title
+                lessonTitle.textContent = lecture.title;
 
                 const lessonTime = document.createElement("div");
                 lessonTime.className = "lesson-time";
@@ -76,46 +77,42 @@ class Schedules {
                 lessonTimeInput.setAttribute("type", "date");
                 lessonTimeInput.className = "date-input";
 
-                if(lecture.time.length > 0){
+                if (lecture.time.length > 0) {
                     let date = lecture.time[0].timeStart.split("T");
                     lessonTimeInput.value = date[0];
-                    
-                    lessonTimeInput.setAttribute("isScheduleSet", "true")
-                }else{
-                    lessonTimeInput.setAttribute("isScheduleSet", "false")
+
+                    lessonTimeInput.setAttribute("isScheduleSet", "true");
+                } else {
+                    lessonTimeInput.setAttribute("isScheduleSet", "false");
                 }
 
-                lessonTimeInput.setAttribute("lectureID", lecture.id)
-                
+                lessonTimeInput.setAttribute("lectureID", lecture.id);
 
                 lessonTime.appendChild(lessonTimeInput);
 
-                lessonItemInnerContainer.appendChild(lessonTitle)
-                lessonItemInnerContainer.appendChild(lessonTime)
+                lessonItemInnerContainer.appendChild(lessonTitle);
+                lessonItemInnerContainer.appendChild(lessonTime);
 
                 lessonItemContainer.appendChild(lessonNumbering);
                 lessonItemContainer.appendChild(lessonItemInnerContainer);
 
                 lessonRightPane.appendChild(lessonItemContainer);
-
             });
 
-
-            if(course.exams.length > 0 && course.lectures.length > 0){
+            if (course.exams.length > 0 && course.lectures.length > 0) {
                 const divider = document.createElement("div");
                 divider.className = "line-divider";
                 lessonRightPane.appendChild(divider);
             }
 
-            if(course.exams.length > 0){    
+            if (course.exams.length > 0) {
                 const miniExamTitle = document.createElement("div");
                 miniExamTitle.className = "mini-title";
                 miniExamTitle.textContent = "Exam Times";
                 lessonRightPane.appendChild(miniExamTitle);
             }
 
-            course.exams.forEach( exam => {
-                
+            course.exams.forEach((exam) => {
                 const lessonItemContainer = document.createElement("div");
                 lessonItemContainer.className = "lesson-item-container";
 
@@ -123,12 +120,12 @@ class Schedules {
                 lessonNumbering.className = "numbering";
 
                 const lessonItemInnerContainer = document.createElement("div");
-                lessonItemInnerContainer.className = "lesson-item-inner-container";
-
+                lessonItemInnerContainer.className =
+                    "lesson-item-inner-container";
 
                 const lessonTitle = document.createElement("div");
                 lessonTitle.className = "lesson-title";
-                lessonTitle.textContent = exam.title
+                lessonTitle.textContent = exam.title;
 
                 const lessonTime = document.createElement("div");
                 lessonTime.className = "lesson-time";
@@ -137,34 +134,32 @@ class Schedules {
                 lessonTimeInput.setAttribute("type", "date");
                 lessonTimeInput.className = "date-input";
 
-                if(exam.time.length > 0){
+                if (exam.time.length > 0) {
                     let date = exam.time[0].timeStart.split("T");
                     lessonTimeInput.value = date[0];
-                    
-                    lessonTimeInput.setAttribute("isScheduleSet", "true")
-                }else{
-                    lessonTimeInput.setAttribute("isScheduleSet", "false")
+
+                    lessonTimeInput.setAttribute("isScheduleSet", "true");
+                } else {
+                    lessonTimeInput.setAttribute("isScheduleSet", "false");
                     lessonTitle.innerHTML = `
                         <div class="two-column-grid">
                             <p>${exam.title}</p>
                             <div class="alert-badge" style="justify-self:end;">time not set</div>
                         </div>
-                    `
+                    `;
                 }
 
-                lessonTimeInput.setAttribute("lectureID", exam.id)
-                
+                lessonTimeInput.setAttribute("lectureID", exam.id);
 
                 lessonTime.appendChild(lessonTimeInput);
 
-                lessonItemInnerContainer.appendChild(lessonTitle)
-                lessonItemInnerContainer.appendChild(lessonTime)
+                lessonItemInnerContainer.appendChild(lessonTitle);
+                lessonItemInnerContainer.appendChild(lessonTime);
 
                 lessonItemContainer.appendChild(lessonNumbering);
                 lessonItemContainer.appendChild(lessonItemInnerContainer);
 
                 lessonRightPane.appendChild(lessonItemContainer);
-
             });
 
             lessonPlanContainer.appendChild(lessonLeftPane);
@@ -183,22 +178,17 @@ class Schedules {
             //         </div>
             //     </div>
             // </div>
-            
-
         });
-
     }
 }
 
-function saveSchedulesFor(lessonParentContainer){
-
+function saveSchedulesFor(lessonParentContainer) {
     let lessonElements = lessonParentContainer.querySelectorAll(".date-input");
 
     //TODO: showLoader();
     // const loader = loadLoader("Saving Schedules");
 
-    lessonElements.forEach( async (lessonElement, index) => {
-        
+    lessonElements.forEach(async (lessonElement, index) => {
         let time = lessonElement.value;
         let isScheduleSet = lessonElement.getAttribute("isScheduleSet");
         let lectureID = lessonElement.getAttribute("lectureID");
@@ -210,13 +200,13 @@ function saveSchedulesFor(lessonParentContainer){
 
         let result;
 
-        try{
-            switch(isScheduleSet){
+        try {
+            switch (isScheduleSet) {
                 case "true":
                     result = await updateScheduleTime(params);
                     break;
                 case "false":
-                    if(JSONTime) result = await newScheduleTime(params);
+                    if (JSONTime) result = await newScheduleTime(params);
                     break;
             }
 
@@ -226,53 +216,35 @@ function saveSchedulesFor(lessonParentContainer){
             //         stopLoader(loader);
             //     })
             // }
-        }
-        catch(error){
-            
+        } catch (error) {
             //TODO: stopLoader();
             // removeLoader(loader);
-
-
         }
-
     });
-
-
-
 }
 
-async function updateScheduleTime(params){
-
-    return new Promise( async (resolve) => {
-
-        
-
+async function updateScheduleTime(params) {
+    return new Promise(async (resolve) => {
         await AJAXCall({
             phpFilePath: "../include/schedule/updateSchedule.php",
             rejectMessage: "Updating Schedule Failed",
             params,
-            type: "post"
+            type: "post",
         });
 
         resolve();
-    })
-
+    });
 }
 
-async function newScheduleTime(params){
-    
-    return new Promise( async (resolve) => {
-
-        
-
+async function newScheduleTime(params) {
+    return new Promise(async (resolve) => {
         await AJAXCall({
             phpFilePath: "../include/schedule/newSchedule.php",
             rejectMessage: "New Schedule Failed",
             params,
-            type: "post"
+            type: "post",
         });
 
         resolve();
-    })
-
+    });
 }

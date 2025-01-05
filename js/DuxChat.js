@@ -128,17 +128,17 @@ class DuxChat {
   }
 }
 
-let duxChat = new DuxChat();
+// let duxChat = new DuxChat();
 
-let sendButton = document.querySelector(".send-message");
-let inputText = document.querySelector(".message-typing-input");
-let messagesView = document.querySelector(".messages-container");
+// let sendButton = document.querySelector(".send-message");
+// let inputText = document.querySelector(".message-typing-input");
+// let messagesView = document.querySelector(".messages-container");
 
-duxChat.addSendButtonElement(sendButton);
-duxChat.addTextBoxInputElement(inputText);
-duxChat.addMessagesView(messagesView);
+// duxChat.addSendButtonElement(sendButton);
+// duxChat.addTextBoxInputElement(inputText);
+// duxChat.addMessagesView(messagesView);
 
-duxChat.startChatEngine();
+// duxChat.startChatEngine();
 
 function startDuxChat() {
   let duxChatIcon = document.querySelector(".dux-icon");

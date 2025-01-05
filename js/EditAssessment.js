@@ -72,7 +72,7 @@ class EditAssessment {
   }
 
   setPreviousButton(button) {
-    this.previousButton = button;
+    this.previousButton = clearEventListenersFor(button);
     this.previousButton.addEventListener("click", () => {
       this.previousQuestion();
     });
@@ -110,14 +110,14 @@ class EditAssessment {
   }
 
   setNextButton(button) {
-    this.nextButton = button;
+    this.nextButton = clearEventListenersFor(button);
     this.nextButton.addEventListener("click", () => {
       this.nextQuestion();
     });
   }
 
   setSaveButton(button) {
-    this.saveButton = button;
+    this.saveButton = clearEventListenersFor(button);
     this.saveButton.addEventListener("click", () => {
       this.saveAssessment();
       closePopup(".edit-assessment-overlay");

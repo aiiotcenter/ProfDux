@@ -11,14 +11,15 @@
     $status = $_POST['status'];
     $timeStarted = $_POST['timeStarted'];
     $courseID = $_POST['courseID'];
+    $hierarchy = $_POST['hierarchy'];
 
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
     $query = "
-        INSERT INTO examGrades (id, userID, examID, filename, status, timeStarted, courseID)
-        VALUES ('$id', '$userID', '$examID', '$filename', '$status', '$timeStarted', '$courseID')
+        INSERT INTO examGrades (id, userID, examID, filename, status, timeStarted, courseID, hierarchy)
+        VALUES ('$id', '$userID', '$examID', '$filename', '$status', '$timeStarted', '$courseID', '$hierarchy')
     ";
 
     $result = mysqli_query($conn,$query);

@@ -1,141 +1,235 @@
-.exam-row:first-child{
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+.exam-row:first-child {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
-.exam-row{
-  border: 2px solid var(--medium-gray);
-  border-bottom: none;
-  display: grid;
-  grid-template-columns: auto 1fr auto auto auto;
-  grid-gap: 15px;
-  padding: 13px;
-  font-size: 16px;
-  color: var(--accent);
-  counter-increment: exam-counter;
-  align-items: center;
+.exam-row {
+    border: 2px solid var(--medium-gray);
+    border-bottom: none;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto auto;
+    grid-gap: 15px;
+    padding: 13px;
+    font-size: 16px;
+    color: var(--accent);
+    counter-increment: exam-counter;
+    align-items: center;
 }
 
 .exam-row:last-child {
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom: 2px solid var(--medium-gray);
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom: 2px solid var(--medium-gray);
 }
 
 .outer-container {
-  padding: 20px;
-  width: 100%;
-  counter-reset: exam-counter;
-}   
+    padding: 20px;
+    width: 100%;
+    counter-reset: exam-counter;
+}
 
-.exam-row .exam-count::after{
-  content: counter(exam-counter) ".";
+.exam-row .exam-count::after {
+    content: counter(exam-counter) ".";
 }
 
 .exam-edit-button {
-  cursor: pointer;
-  background: #000000;
-  height: 30px;
-  aspect-ratio: 1/1;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
+    cursor: pointer;
+    background: #000000;
+    height: 30px;
+    aspect-ratio: 1/1;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
 }
 
 .exam-edit-button img {
-  height: 13px;
-  filter: invert(100%);
+    height: 13px;
+    filter: invert(100%);
 }
 
-.zoom-effect{
-  transition: 0.3s all;
+.zoom-effect {
+    transition: 0.3s all;
 }
 
 .zoom-effect:hover {
-  transform: scale(1.13);
+    transform: scale(1.13);
 }
 
-.edit-exam-button{
-  background: #2b6ce3;
+.edit-exam-button {
+    background: #2b6ce3;
 }
 
-.delete-exam-button{
-  background: #f53a3a;
+.delete-exam-button {
+    background: #f53a3a;
 }
 
-.inner-header{
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-gap: 20px;
+.inner-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 20px;
 }
 
-.edit-exam-container{
-  grid-template-rows: auto auto 1fr;
+.edit-exam-container {
+    grid-template-rows: auto auto 1fr;
 }
 
-.exam-grid-container{
-  align-items: start;
-  align-self: start;
-  grid-gap: 0px;
+.exam-grid-container {
+    align-items: start;
+    align-self: start;
+    grid-gap: 0px;
 }
 
 .create-exam-loader {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  border: 2px solid var(--accent);
-  place-items: center;
-  border-radius: 10px;
-  background: #FFF7F9;
-  z-index: 30;
-  left: 0px;
-  align-self: center;
-  grid-template-rows: 2fr auto auto 2fr;
-  grid-gap: 20px;
+    display: grid;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    border: 2px solid var(--accent);
+    place-items: center;
+    border-radius: 10px;
+    background: #fff7f9;
+    z-index: 30;
+    left: 0px;
+    align-self: center;
+    grid-template-rows: 2fr auto auto 2fr;
+    grid-gap: 20px;
 }
 
-.loader-message{
-  color: var(--accent);
-  opacity: 0.7;
+.loader-message {
+    color: var(--accent);
+    opacity: 0.7;
 }
 
 .bar-loader-container {
-  width: 300px;
-  height: 5px;
-  background-color: var(--medium-gray);
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
+    width: 300px;
+    height: 5px;
+    background-color: var(--medium-gray);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
 }
 
-.bar-loader{
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 0px;
-  height: inherit;
-  background-color: var(--accent);
-  border-radius: inherit;
+.bar-loader {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 0px;
+    height: inherit;
+    background-color: var(--accent);
+    border-radius: inherit;
 }
 
-.outer-loading-bar-container{
-  position: relative;
-  display: grid;
-  grid-gap: 40px;
+.outer-loading-bar-container {
+    position: relative;
+    display: grid;
+    grid-gap: 40px;
 }
 
 .bar-loader-counter {
-  /* position: absolute;
+    /* position: absolute;
   bottom: -50px; */
-  font-size: 13px;
-  color: white;
-  background-color: var(--accent);
-  padding: 13px;
-  justify-self: center;
-  border-radius: 10px;
+    font-size: 13px;
+    color: white;
+    background-color: var(--accent);
+    padding: 13px;
+    justify-self: center;
+    border-radius: 10px;
 }
 
-.popup.exam-popup{
-  width: 900px;
+.popup.exam-popup {
+    width: 900px;
+    grid-template-rows: auto 1fr;
+}
+
+.popup.exam-popup .exam-results-body {
+    height: 100%;
+    background-color: var(--pop);
+    color: white;
+    grid-template-rows: 1fr auto;
+}
+
+.exam-popup .popup-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 20px;
+}
+
+.timer {
+    background: var(--pop);
+    color: white;
+    padding: 6px 26px;
+    border-radius: 10px;
+}
+
+.take-exam-overlay .question {
+    background-color: transparent;
+}
+
+.two-column-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    width: 100%;
+}
+
+.right-pane {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-top: 50px;
+}
+
+.left-pane {
+    display: grid;
+}
+
+.exam-result-area {
+    display: grid;
+    grid-gap: 10px;
+}
+
+.total-exam-mark,
+.earned-exam-mark {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    grid-gap: 3px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.total-exam-mark *,
+.earned-exam-mark * {
+    font-family: Menlo;
+}
+
+.done-exam-button {
+    background-color: white;
+    color: var(--pop);
+}
+
+.percentage-mark {
+    font-size: 300px;
+    justify-self: end;
+    align-self: end;
+    display: grid;
+    align-content: end;
+    line-height: 220px;
+    font-family: Menlo;
+}
+
+.percentage-sign {
+    font-size: 30px;
+    align-self: end;
+    justify-self: start;
+    font-family: Menlo;
+}
+
+.menlo-heading {
+    font-family: Menlo;
+}
+
+
+.suspected-cheating-attempts {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
 }
