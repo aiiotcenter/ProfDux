@@ -31,7 +31,8 @@ class BatchGenerator {
     
         const languages = this.languages;
         const educationEnvironment = this.educationEnvironment;
-        const levels = ["easy", "medium", "hard", "difficult", "extremely difficult"];
+        // const levels = ["easy", "medium", "hard", "difficult", "extremely difficult"];
+        const levels = ["hard", "difficult"];
     
         for await(const batch of batchArray){
             

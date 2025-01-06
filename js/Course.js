@@ -1,42 +1,34 @@
-
 class Course {
-
-    lectureUpdates = {}
-    newLectures = {}
-    newResources = {}
-    deleteLectures = {}
-    deleteResource = {}
+    lectureUpdates = {};
+    newLectures = {};
+    newResources = {};
+    deleteLectures = {};
+    deleteResource = {};
 
     itemizationIndex = 0;
-    
-    markAllForDeletion(){
-        this.lectures.forEach( lecture => {
-            this.deleteLectureTitle(lecture.id, this)
+
+    markAllForDeletion() {
+        this.lectures.forEach((lecture) => {
+            this.deleteLectureTitle(lecture.id, this);
         });
     }
 
-    constructor(courseObject){
-        
-        let {
-            title,
-            courseCode,
-            lectures,
-            id,
-        } = courseObject
+    constructor(courseObject) {
+        let { title, courseCode, lectures, id } = courseObject;
 
         this.title = title;
         this.courseCode = courseCode;
         this.lectures = lectures;
-        this.id = id
-        this.lectureIndex = 0
+        this.id = id;
+        this.lectureIndex = 0;
     }
 
-    setTitle(title, _this){
+    setTitle(title, _this) {
         _this.title = title;
         _this.renderTitle();
     }
 
-    renderTitle(){
+    renderTitle() {
         let titleElement = findElement("#course-title");
         let textElement = document.createElement("p");
         textElement.textContent = this.title;
@@ -44,33 +36,31 @@ class Course {
         titleElement.appendChild(textElement);
     }
 
-    renderCourseCode(){
+    renderCourseCode() {
         let titleElement = findElement("#course-code");
-        let textElement = createLocalizedTextElement(this.courseCode);        
+        let textElement = createLocalizedTextElement(this.courseCode);
         titleElement.innerHTML = "";
         titleElement.appendChild(textElement);
     }
 
-    renderEditLearningObjectivesButton(){
-        let editLearningObjectivesButton = clearEventListenersFor(findElement("#editLearningObjectives"));
-        editLearningObjectivesButton.addEventListener('click', () => {
+    renderEditLearningObjectivesButton() {
+        let editLearningObjectivesButton = clearEventListenersFor(
+            findElement("#editLearningObjectives")
+        );
+        editLearningObjectivesButton.addEventListener("click", () => {
             editLearningObjectives(this.id);
         });
     }
 
-    renderDeleteButton(button){
-        button.addEventListener('click', () => this.deleteCourse(this.id));
+    renderDeleteButton(button) {
+        button.addEventListener("click", () => this.deleteCourse(this.id));
     }
 
-    renderLectureSection(from = "object"){
-
+    renderLectureSection(from = "object") {
         let courseGridContainer = findElement("#course-grid-container");
         courseGridContainer.innerHTML = "";
- 
-        this.lectures.forEach( (lecture, index) => {
 
-            
-      
+        this.lectures.forEach((lecture, index) => {
             this.lectureIndex = lecture.hierarchy;
             this.itemizationIndex = index + 1;
 
@@ -88,64 +78,71 @@ class Course {
             let inputElementObject = {
                 id: lecture.id,
                 parentID: this.id,
-                title: lecture.title, 
-                inputChangeCallback: this.updateLectureTitle, 
+                title: lecture.title,
+                inputChangeCallback: this.updateLectureTitle,
                 hierarchy: this.lectureIndex,
-                type: "lecture"
-            }
+                type: "lecture",
+            };
 
-            let { inputElementContainer: lectureInputElement, makeShiftInputWrapper } = this.createInputElement(inputElementObject);
+            let {
+                inputElementContainer: lectureInputElement,
+                makeShiftInputWrapper,
+            } = this.createInputElement(inputElementObject);
             lectureInnerContainer.appendChild(lectureInputElement);
 
-            
-            
             // BADGE FOR SHOWING UPLOADS
-            let resourcesCount = lecture.resources == null ? 0 : lecture.resources.length;
+            let resourcesCount =
+                lecture.resources == null ? 0 : lecture.resources.length;
 
-            const badgeButton = this.createBadgeButton(lecture.id, resourcesCount);
+            const badgeButton = this.createBadgeButton(
+                lecture.id,
+                resourcesCount
+            );
             makeShiftInputWrapper.appendChild(badgeButton);
 
             let floatingContainer = document.createElement("div");
             floatingContainer.className = "lecture-floating-container";
 
             let generateQuizButton = document.createElement("div");
-            generateQuizButton.className = "button green-button generate-quiz-button";
+            generateQuizButton.className =
+                "button green-button generate-quiz-button";
             generateQuizButton.textContent = "generate quiz";
             // generateQuizButton.innerHTML = `<img src="../assets/icons/fi/fi-rr-plus.svg" alt="">`;
             generateQuizButton.addEventListener("click", () => {
-               switch(from){
-                case "object": 
-                    generateQuiz({ courseID: this.id, ...lecture });
-                    break;
-               }
+                switch (from) {
+                    case "object":
+                        generateQuiz({ courseID: this.id, ...lecture });
+                        break;
+                }
             });
 
             //TODO: add/show addQuiz/editQuiz button if subtopicCount is larger than 1;
 
-            if( lecture.quizzes && lecture.quizzes.length == 0)
+            if (lecture.quizzes && lecture.quizzes.length == 0)
                 floatingContainer.appendChild(generateQuizButton);
 
             let quizContainer = document.createElement("div");
             quizContainer.className = "subtopics-container quiz-container";
 
-            if(lecture.quizzes)
-            lecture.quizzes.forEach( quiz => {
+            if (lecture.quizzes)
+                lecture.quizzes.forEach((quiz) => {
+                    const quizRow = this.createQuizRow(quiz);
 
-                const quizRow = this.createQuizRow(quiz);
+                    let quizDeleteButton = document.createElement("div");
+                    quizDeleteButton.className = "quiz-delete-button";
+                    let quizDeleteIcon = document.createElement("img");
+                    quizDeleteIcon.src = "../assets/icons/delete.png";
+                    quizDeleteButton.appendChild(quizDeleteIcon);
 
-                let quizDeleteButton = document.createElement("div");
-                quizDeleteButton.className = "quiz-delete-button";
-                let quizDeleteIcon = document.createElement("img");
-                quizDeleteIcon.src = "../assets/icons/delete.png";
-                quizDeleteButton.appendChild(quizDeleteIcon);
+                    quizDeleteButton.addEventListener("click", () =>
+                        deleteQuiz(quiz.id)
+                    );
 
-                quizDeleteButton.addEventListener("click", () => deleteQuiz(quiz.id))
-
-                quizContainer.className = "subtopics-container quiz-container";
-                quizContainer.appendChild(quizRow);
-                quizContainer.appendChild(quizDeleteButton);
-
-            })
+                    quizContainer.className =
+                        "subtopics-container quiz-container";
+                    quizContainer.appendChild(quizRow);
+                    quizContainer.appendChild(quizDeleteButton);
+                });
 
             let resourcesContainer = document.createElement("div");
             resourcesContainer.className = "subtopics-wrapper";
@@ -153,11 +150,11 @@ class Course {
             let resourceWrapper = document.createElement("div");
             resourceWrapper.className = "subtopics-resource-wrapper";
 
-            if(lecture.resources)
-            lecture.resources.forEach( resource => {
-                const resourceElement = this.createResourceItem(resource);
-                resourceWrapper.appendChild(resourceElement);
-            })
+            if (lecture.resources)
+                lecture.resources.forEach((resource) => {
+                    const resourceElement = this.createResourceItem(resource);
+                    resourceWrapper.appendChild(resourceElement);
+                });
 
             lectureInnerContainer.appendChild(resourceWrapper);
             lectureInnerContainer.appendChild(quizContainer);
@@ -165,13 +162,13 @@ class Course {
             lectureSection.appendChild(itemizationElement);
             lectureSection.appendChild(lectureInnerContainer);
             courseGridContainer.appendChild(lectureSection);
-
         });
 
-        if(this.lectures.length == 0){
-
+        if (this.lectures.length == 0) {
             let myEmptyView = createElement("div", "container-message");
-            let NoSelectedCoursesYet = createLocalizedTextElement("No Lectures Yet, Add a New Lecture");
+            let NoSelectedCoursesYet = createLocalizedTextElement(
+                "No Lectures Yet, Add a New Lecture"
+            );
             let myLargeMessage = createElement("div", "large-message");
             myLargeMessage.appendChild(NoSelectedCoursesYet);
             myEmptyView.appendChild(myLargeMessage);
@@ -179,35 +176,36 @@ class Course {
             courseGridContainer.innerHTML = "";
             courseGridContainer.appendChild(myEmptyView);
         }
-
     }
 
-    createResourceItem(resource){
-
+    createResourceItem(resource) {
         let resourceType = extractType(resource.type);
         let { id, value } = resource;
         let resourceObject = {
             id,
-            filepath: value
-        }
+            filepath: value,
+        };
 
-        let mainClassroomSubtopicItem = createElement("div", "main-classroom-subtopic-item");
+        let mainClassroomSubtopicItem = createElement(
+            "div",
+            "main-classroom-subtopic-item"
+        );
         mainClassroomSubtopicItem.setAttribute("id", id);
-        mainClassroomSubtopicItem.style.gridTemplateColumns = "auto 1fr auto auto";
+        mainClassroomSubtopicItem.style.gridTemplateColumns =
+            "auto 1fr auto auto";
 
-        let rowItemIcon = createElement("div", "row-item-icon")
-        let rowItemText = createElement("div", "row-item-text")
+        let rowItemIcon = createElement("div", "row-item-icon");
+        let rowItemText = createElement("div", "row-item-text");
         let rowItemAction = createElement("div", "row-item-action");
-        
 
-        let previewElement=createElement("div")
-        previewElement.className="preview";
-        previewElement.innerHTML = createLinkPreview(value)
-        
+        let previewElement = createElement("div");
+        previewElement.className = "preview";
+        previewElement.innerHTML = createLinkPreview(value);
+
         let deleteButton = document.createElement("div");
         deleteButton.className = "delete-button";
         deleteButton.innerHTML = `<img src="../assets/icons/delete.png" alt="">`;
-       
+
         deleteButton.addEventListener("click", async () => {
             const loader = showLoader("Deleting Resource...");
             try {
@@ -215,7 +213,6 @@ class Course {
                 // Optionally, you can remove the resource from the UI here if deletion is successful
             } catch (error) {
                 console.error("Error deleting resource:", error);
-              
             } finally {
                 setTimeout(() => {
                     removeLoader(loader);
@@ -223,45 +220,52 @@ class Course {
                 }, 5000);
             }
         });
-            
-        
-      
 
         let imageElement = document.createElement("img");
 
-        switch(resourceType){
+        switch (resourceType) {
             case "image":
                 imageElement.src = "../assets/icons/image.png";
                 //TODO: change this textContent to a localizedTranslatableElement
                 rowItemAction.textContent = "view";
-                rowItemAction.addEventListener("click", () => openImageViewer(`../uploads/${value}`))
+                rowItemAction.addEventListener("click", () =>
+                    openImageViewer(`../uploads/${value}`)
+                );
                 break;
             case "pdf":
                 imageElement.src = "../assets/icons/pdf.png";
                 rowItemAction.textContent = "view";
-                rowItemAction.addEventListener("click", () => openPDFViewer(`../uploads/${value}`))
+                rowItemAction.addEventListener("click", () =>
+                    openPDFViewer(`../uploads/${value}`)
+                );
                 break;
-           case "video":
-            imageElement.src = "../assets/icons/play.png";
-            rowItemAction.textContent = "view";
-            rowItemAction.addEventListener("click", () =>openyyoutubeViewer(`${value}`))        
-            break;
+            case "video":
+                imageElement.src = "../assets/icons/play.png";
+                rowItemAction.textContent = "view";
+                rowItemAction.addEventListener("click", () =>
+                    openyyoutubeViewer(`${value}`)
+                );
+                break;
             case "player":
                 imageElement.src = "../assets/icons/play.png";
                 rowItemAction.textContent = "view";
-                rowItemAction.addEventListener("click", () =>openVideoViewer(`${value}`))   
+                rowItemAction.addEventListener("click", () =>
+                    openVideoViewer(`${value}`)
+                );
                 break;
             case "text":
                 imageElement.src = "../assets/icons/fi/fi-rr-pen-clip.svg";
                 // rowItemAction.textContent = value;
                 break;
             case "link":
-                    imageElement.src = "../assets/icons/globe1.png";
-                    imageElement.className = 'red'
-                    rowItemAction.innerHTML = `<a href="${value}" target="_blank">Go</a>`;
-                    break;
+                imageElement.src = "../assets/icons/globe1.png";
+                imageElement.className = "red";
+                rowItemAction.innerHTML = `<a href="${value}" target="_blank">Go</a>`;
+                break;
             default:
-                throw new Error("Type has not been created yet!"+resourceType);
+                throw new Error(
+                    "Type has not been created yet!" + resourceType
+                );
                 break;
         }
 
@@ -269,18 +273,19 @@ class Course {
         rowItemText.textContent = value;
 
         rowItemIcon.appendChild(imageElement);
-        mainClassroomSubtopicItem.appendChild(rowItemIcon)
-        if(resourceType != "link") mainClassroomSubtopicItem.appendChild(rowItemText)
-        if(resourceType == "link") mainClassroomSubtopicItem.appendChild(previewElement)
-        if(resourceType != "text") mainClassroomSubtopicItem.appendChild(rowItemAction)
-        mainClassroomSubtopicItem.appendChild(deleteButton)
+        mainClassroomSubtopicItem.appendChild(rowItemIcon);
+        if (resourceType != "link")
+            mainClassroomSubtopicItem.appendChild(rowItemText);
+        if (resourceType == "link")
+            mainClassroomSubtopicItem.appendChild(previewElement);
+        if (resourceType != "text")
+            mainClassroomSubtopicItem.appendChild(rowItemAction);
+        mainClassroomSubtopicItem.appendChild(deleteButton);
 
         return mainClassroomSubtopicItem;
-
     }
 
-    createQuizRow(quizObject){
-
+    createQuizRow(quizObject) {
         let {
             courseID,
             dateGenerated,
@@ -289,7 +294,7 @@ class Course {
             lectureID,
             name,
             totalMarks,
-            hierarchy
+            hierarchy,
         } = quizObject;
 
         let quizRowContainer = document.createElement("div");
@@ -303,22 +308,22 @@ class Course {
         editButton.className = "button green-button quiz-edit-button";
         editButton.textContent = "edit quiz";
 
-        editButton.addEventListener("click", () => startEdittingAssessment(filename, "quiz"))
+        editButton.addEventListener("click", () =>
+            startEdittingAssessment(filename, "quiz")
+        );
 
         quizRowContainer.appendChild(quizFilename);
         quizRowContainer.appendChild(editButton);
         return quizRowContainer;
-
     }
 
-    addLectureElement(lectureTitle = ""){
-
+    addLectureElement(lectureTitle = "") {
         let lectureID = uniqueID(1);
         let subtopicIndex = 0;
 
         let courseGridContainer = findElement("#course-grid-container");
         let emptyView = document.querySelector(".container-message");
-        if(emptyView) courseGridContainer.innerHTML = "";
+        if (emptyView) courseGridContainer.innerHTML = "";
 
         let lectureSection = document.createElement("div");
         lectureSection.className = "lecture-section";
@@ -333,15 +338,16 @@ class Course {
         let inputElementObject = {
             id: lectureID,
             parentID: this.id,
-            title: lectureTitle, 
-            inputChangeCallback: this.newLectureTitle, 
+            title: lectureTitle,
+            inputChangeCallback: this.newLectureTitle,
             hierarchy: ++this.lectureIndex,
-            type: "lecture"
-        }
+            type: "lecture",
+        };
 
-        let { inputElementContainer: lectureInputElement} = lectureTitle.length == 0 ? 
-        this.createInputElement(inputElementObject) : 
-        this.createInputElement(inputElementObject, "excelUpload") ;
+        let { inputElementContainer: lectureInputElement } =
+            lectureTitle.length == 0
+                ? this.createInputElement(inputElementObject)
+                : this.createInputElement(inputElementObject, "excelUpload");
 
         let floatingContainer = document.createElement("div");
         floatingContainer.className = "lecture-floating-container";
@@ -352,127 +358,108 @@ class Course {
         lectureSection.appendChild(lectureInnerContainer);
         courseGridContainer.appendChild(lectureSection);
 
-        let editCourseContainer = document.querySelector(".edit-course-container");
+        let editCourseContainer = document.querySelector(
+            ".edit-course-container"
+        );
         scrollBottom(editCourseContainer);
-        
     }
 
-    recountItemizations(){
+    recountItemizations() {
         let courseGridContainer = findElement("#course-grid-container");
-        const itemizationElements = courseGridContainer.querySelectorAll(".itemization");
+        const itemizationElements =
+            courseGridContainer.querySelectorAll(".itemization");
 
         itemizationElements.forEach((itemizationElement, index) => {
             this.itemizationIndex = index + 1;
             itemizationElement.textContent = this.itemizationIndex + ".";
-        })
+        });
     }
 
-    updateLectureTitle({ id, title, hierarchy, _this }){
+    updateLectureTitle({ id, title, hierarchy, _this }) {
         _this.lectureUpdates[id] = { id, title, hierarchy };
-        
     }
 
-    newLectureTitle({ id, parentID, title, hierarchy,  _this }){
+    newLectureTitle({ id, parentID, title, hierarchy, _this }) {
         _this.newLectures[id] = { id, parentID, title, hierarchy };
-        
     }
 
-    deleteCourse(){
-
+    deleteCourse() {
         let options = {
-            title: 'Are You Sure You Want To Delete This Course?',
-            denyTitle: 'No',
-            acceptTitle: 'Yes'
-        }
+            title: "Are You Sure You Want To Delete This Course?",
+            denyTitle: "No",
+            acceptTitle: "Yes",
+        };
 
-        
-        
         return showOptionsDialog(options, async () => {
+            this.lectureUpdates = {};
 
-            this.lectureUpdates = {}
-        
-            this.newLectures = {}
-            this.newResources = {}
+            this.newLectures = {};
+            this.newResources = {};
 
-            this.lectures.map( lecture => { 
-                this.deleteLectures[lecture.id] = { id: lecture.id }
+            this.lectures.map((lecture) => {
+                this.deleteLectures[lecture.id] = { id: lecture.id };
 
-                if(lecture.quizzes && lecture.quizzes.length > 0){
-                    lecture.quizzes.map( quiz => {
+                if (lecture.quizzes && lecture.quizzes.length > 0) {
+                    lecture.quizzes.map((quiz) => {
                         this.deleteLectures[lecture.id]["quizID"] = quiz.id;
-                    })
+                    });
                 }
-            })
+            });
 
             await courseItemObjectLooper(this, "delete course");
             await deleteCourseFromDatabase(this.id);
         });
     }
 
-    forceNewCourseDataAsNew(){
-
-        this.lectures.forEach( lecture => {
-
-            this.newLectureTitle({ 
-                id: lecture.id, 
-                parentID: this.id, 
-                title: lecture.title, 
+    forceNewCourseDataAsNew() {
+        this.lectures.forEach((lecture) => {
+            this.newLectureTitle({
+                id: lecture.id,
+                parentID: this.id,
+                title: lecture.title,
                 hierarchy: lecture.hierarchy,
-                _this: this 
-            })
-
+                _this: this,
+            });
         });
-
     }
 
-    deleteLectureTitle(id, _this){
-
+    deleteLectureTitle(id, _this) {
         let lectureIndex = null;
-        
+
         this.lectures.forEach((lecture, index) => {
-            if(lecture.id == id){
+            if (lecture.id == id) {
                 lectureIndex = index;
                 return;
             }
-        })
+        });
 
-        let quizID = "neverGonnaGiveYouUpNeverGonnaLetYouDownNeverGonnaRunAroundAndDesertYou";
+        let quizID =
+            "neverGonnaGiveYouUpNeverGonnaLetYouDownNeverGonnaRunAroundAndDesertYou";
 
-        if(this.lectures[lectureIndex].quizzes.length > 0){
+        if (this.lectures[lectureIndex].quizzes.length > 0) {
             quizID = this.lectures[lectureIndex].quizzes[0].id;
         }
 
         _this.deleteLectures[id] = { id, quizID };
-
     }
 
-    searchAndDeleteLecture(id){
-
+    searchAndDeleteLecture(id) {
         let deleted = false;
 
-        this.lectures.forEach( (lecture, index) => {
-            if(lecture.id == id) {
+        this.lectures.forEach((lecture, index) => {
+            if (lecture.id == id) {
                 this.deleteLectureTitle(id, this);
                 deleted = true;
                 return;
             }
-        })
+        });
 
-        if(!deleted)
-            delete this.newLectures[id]
-
+        if (!deleted) delete this.newLectures[id];
     }
 
-    createInputElement(inputElementObject, addType = "normal"){         
-
-        let {
-            id, 
-            parentID,
-            title, 
-            inputChangeCallback, 
-            hierarchy,
-            type
-        } = inputElementObject;
+    createInputElement(inputElementObject, addType = "normal") {
+        let { id, parentID, title, inputChangeCallback, hierarchy, type } =
+            inputElementObject;
 
         let inputElementContainer = document.createElement("div");
         inputElementContainer.className = "input-element";
@@ -486,16 +473,22 @@ class Course {
         inputElement.setAttribute("data-id", id);
         inputElement.setAttribute("required", "true");
         makeShiftInputWrapper.appendChild(inputElement);
-        
-        let inputCallbackObject = { id, parentID, title: inputElement.value, hierarchy, _this: this };
+
+        let inputCallbackObject = {
+            id,
+            parentID,
+            title: inputElement.value,
+            hierarchy,
+            _this: this,
+        };
 
         // Force an inputElement event to write data to the course class
-        if(addType == "excelUpload") inputChangeCallback(inputCallbackObject);
+        if (addType == "excelUpload") inputChangeCallback(inputCallbackObject);
 
         inputElement.onchange = () => {
             inputCallbackObject.title = inputElement.value;
             inputChangeCallback(inputCallbackObject);
-        }
+        };
 
         let deleteButton = document.createElement("div");
         deleteButton.className = "delete-button";
@@ -510,61 +503,62 @@ class Course {
         let generateVideoButton = document.createElement("div");
         generateVideoButton.className = "generate-button";
         generateVideoButton.innerHTML = `<img src="../assets/icons/video-icon.png" alt="">`;
-        //jeries / video 
-        
-        generateVideoButton.addEventListener("click", async() => {
+        //jeries / video
+
+        generateVideoButton.addEventListener("click", async () => {
             const loader = showLoader("Recominding a video...");
-            const {videoUrl} = await recommendVideo({ courseName: this.title, lectureTitle: title });
+            const { videoUrl } = await recommendVideo({
+                courseName: this.title,
+                lectureTitle: title,
+            });
             loadVideoIntoPopup(videoUrl);
             removeLoader(loader);
-
         });
 
         function loadVideoIntoPopup(videoUrl) {
-            const embedUrl = videoUrl.replace('watch?v=', 'embed/')+"?autoplay=1";
-            globalCache.save("savevideo",videoUrl)
-            globalCache.save("lectureid",id)
-            globalCache.save("title",title)
-            document.getElementById('videoFrame').src = embedUrl
-            openPopup('.video-overlay')
+            const embedUrl =
+                videoUrl.replace("watch?v=", "embed/") + "?autoplay=1";
+            globalCache.save("savevideo", videoUrl);
+            globalCache.save("lectureid", id);
+            globalCache.save("title", title);
+            document.getElementById("videoFrame").src = embedUrl;
+            openPopup(".video-overlay");
         }
 
-        
-        
-
         deleteButton.addEventListener("click", () => {
-
-            switch(type){
+            switch (type) {
                 case "lecture":
                     inputElementContainer.parentElement.parentElement.remove();
                     this.recountItemizations();
-                    this.searchAndDeleteLecture(id)
-                    this.lectureIndex--
+                    this.searchAndDeleteLecture(id);
+                    this.lectureIndex--;
                     break;
             }
-
         });
 
         generatePDFButton.addEventListener("click", async () => {
             const loader = showLoader("Generating PDF...");
-            const {pdfOutput, pdfUrl} = await generatePDFfromGPT({ courseName: this.title, lectureTitle: title });
+            const { pdfOutput, pdfUrl } = await generatePDFfromGPT({
+                courseName: this.title,
+                lectureTitle: title,
+            });
             await openPDFViewer(pdfUrl);
-            await uploadBlobPDF({fileObject: pdfOutput, lectureID: id})
+            await uploadBlobPDF({ fileObject: pdfOutput, lectureID: id });
             removeLoader(loader);
             //TODO: SAVING ONLY SHOWS AFTER REFRESH
-        })
+        });
 
         inputElementContainer.appendChild(makeShiftInputWrapper);
         inputElementContainer.appendChild(this.createAttachButton(id));
-        if (title.length > 0 ) inputElementContainer.appendChild(generatePDFButton);
+        if (title.length > 0)
+            inputElementContainer.appendChild(generatePDFButton);
         inputElementContainer.appendChild(generateVideoButton);
         inputElementContainer.appendChild(deleteButton);
 
         return { inputElementContainer, makeShiftInputWrapper };
     }
 
-    createAttachButton(id){
-
+    createAttachButton(id) {
         let attachButton = document.createElement("div");
         attachButton.className = "attachments-button";
         attachButton.innerHTML = `<img class="icon" src="../assets/icons/fi/fi-rr-paperclip-vertical.svg" alt="">`;
@@ -575,8 +569,7 @@ class Course {
         return attachButton;
     }
 
-    createBadgeButton(id, count){
-
+    createBadgeButton(id, count) {
         let badgeButton = document.createElement("div");
         badgeButton.className = "badge";
         badgeButton.textContent = count;
@@ -584,51 +577,49 @@ class Course {
             // openUploadOverlay(id);
         });
 
-        if(count) badgeButton.style.display = "grid";
+        if (count) badgeButton.style.display = "grid";
         else badgeButton.style.display = "none";
-        
+
         return badgeButton;
     }
 
-    save(){
-        courseItemObjectLooper(this)
+    save() {
+        courseItemObjectLooper(this);
     }
-
 }
 
-async function editLearningObjectives(id){
-
+async function editLearningObjectives(id) {
     const objectives = await AJAXCall({
         phpFilePath: "../include/objective/getLearningObjectives.php",
         rejectMessage: "Getting Objectives Failed",
         type: "fetch",
-        params: `courseID=${id}`
-    })
+        params: `courseID=${id}`,
+    });
 
-    objectives.forEach( objectives => objectives.action = "fetched" );
+    objectives.forEach((objectives) => (objectives.action = "fetched"));
 
-    
-
-    let addLearningObjectiveButton = document.querySelector(".add-learning-objective-button");
-    let saveLearningObjectivesButton = document.querySelector(".save-learning-objectives-button");
+    let addLearningObjectiveButton = document.querySelector(
+        ".add-learning-objective-button"
+    );
+    let saveLearningObjectivesButton = document.querySelector(
+        ".save-learning-objectives-button"
+    );
 
     //DEPRACATED: parseAvailableJSONFromArray(response, "objectives");
-
-    
 
     let learningObjectives = new Objectives({ courseID: id, objectives });
     learningObjectives.renderObjectives();
     learningObjectives.setAddNewObjectiveButton(addLearningObjectiveButton);
-    learningObjectives.setSaveLearningObjectivesButton(saveLearningObjectivesButton);
+    learningObjectives.setSaveLearningObjectivesButton(
+        saveLearningObjectivesButton
+    );
     openPopup(".edit-learning-objectives-overlay");
 }
 
 // TODO: Get Course class lines under 500
 
-async function generateQuiz(lectureObject, refresh = true){
+async function generateQuiz(lectureObject, refresh = true) {
     let loader = loadLoader("Generating Quiz");
-
-    
 
     const languages = fetchGlobalAvailableLanguages();
     const educationEnvironment = extrapolateEducationEnvironment();
@@ -637,13 +628,12 @@ async function generateQuiz(lectureObject, refresh = true){
         "FillInTheBlankQuestion",
         "TrueAndFalseQuestion",
     ];
-    const levels = ["easy", "medium", "hard", "difficult", "extremely difficult"];
+    // const levels = ["easy", "medium", "hard", "difficult", "extremely difficult"];
+    const levels = ["hard", "difficult"];
 
     const lectureID = lectureObject.id;
     const lectureTitle = lectureObject.title;
     const courseID = lectureObject.courseID;
-
-    
 
     const topics = lectureObject.title;
 
@@ -651,35 +641,29 @@ async function generateQuiz(lectureObject, refresh = true){
 
     let quizQuestions = [];
 
-
-    for await(const type of types){
-        try{
-            
+    for await (const type of types) {
+        try {
             const generateQuestionObject = {
-              type,
-              languages,
-              subtopics: lectureObject.subtopics,
-              educationEnvironment,
-              topics,
-              level: getRandomElement(levels),
+                type,
+                languages,
+                subtopics: lectureObject.subtopics,
+                educationEnvironment,
+                topics,
+                level: getRandomElement(levels),
             };
-        
-            
-        
+
             let result = await generateQuestion(generateQuestionObject, 4);
-            
+
             quizQuestions = [...quizQuestions, ...result];
-          }catch(error){
-              continue;
-          }
+        } catch (error) {
+            continue;
+        }
     }
-      
+
     shuffle(quizQuestions);
 
-    
-
     let filename = `Quiz-${uniqueID(2)}.json`;
-    saveAssessmentAsJSON(filename, quizQuestions,"quiz","generated");
+    saveAssessmentAsJSON(filename, quizQuestions, "quiz", "generated");
 
     let quizID = uniqueID(1);
     let name = `Quiz on ${topics}`; // ...
@@ -687,211 +671,182 @@ async function generateQuiz(lectureObject, refresh = true){
     let hierarchy = ""; // ...
     let totalMarks = quizQuestions.length; //TODO: figure out the marks properly...
 
-    
-    
-    let params = `id=${quizID}&&courseID=${courseID}&&lectureID=${lectureID}&&name=${name}`+
-    `&&dateGenerated=${dateGenerated}&&filename=${filename}&&totalMarks=${totalMarks}&&hierarchy=${lectureObject.hierarchy}`;
+    let params =
+        `id=${quizID}&&courseID=${courseID}&&lectureID=${lectureID}&&name=${name}` +
+        `&&dateGenerated=${dateGenerated}&&filename=${filename}&&totalMarks=${totalMarks}&&hierarchy=${lectureObject.hierarchy}`;
 
     let response = await AJAXCall({
         phpFilePath: "../include/quiz/addNewQuiz.php",
         rejectMessage: "New Quiz Failed To Add",
         params,
-        type: "post"
+        type: "post",
     });
 
-    
-
     setTimeout(() => {
-        if(refresh) refreshTeacherCourseOutline(); //Bugs???
+        if (refresh) refreshTeacherCourseOutline(); //Bugs???
         removeLoader(loader);
     }, 2000);
-    
 }
 
-async function loopThroughObjectForAsync(courseObject, asyncCallback){
-            
-    if(courseObject){
-
+async function loopThroughObjectForAsync(courseObject, asyncCallback) {
+    if (courseObject) {
         let __courseObjectEntries = Object.entries(courseObject);
 
-        __courseObjectEntries.map( async([key, details] = entry) => {
+        __courseObjectEntries.map(async ([key, details] = entry) => {
             try {
                 let result = await asyncCallback(details);
-                
-            }
-            catch(error){
-                
-            }
+            } catch (error) {}
         });
-        
     }
 }
 
-async function courseItemObjectLooper(course, type = ""){
-
-    let loader = type != "delete course"? 
-    loadLoader("Saving Course Outline"):
-    loadLoader("Deleting Course");
-
-    
+async function courseItemObjectLooper(course, type = "") {
+    let loader =
+        type != "delete course"
+            ? loadLoader("Saving Course Outline")
+            : loadLoader("Deleting Course");
 
     // Here Now
-    await loopThroughObjectForAsync(course.lectureUpdates, updateLectureTitleToDatabase);
-    await loopThroughObjectForAsync(course.newLectures, addLectureTitleToDatabase);
-    await loopThroughObjectForAsync(course.deleteLectures, deleteLecturesFromDatabase);
+    await loopThroughObjectForAsync(
+        course.lectureUpdates,
+        updateLectureTitleToDatabase
+    );
+    await loopThroughObjectForAsync(
+        course.newLectures,
+        addLectureTitleToDatabase
+    );
+    await loopThroughObjectForAsync(
+        course.deleteLectures,
+        deleteLecturesFromDatabase
+    );
 
-    setTimeout(async() => {
-        if(type == "delete course"){
-            
+    setTimeout(async () => {
+        if (type == "delete course") {
             closePopup(".edit-course-container");
             removeLoader(loader);
             location.reload();
-        }else {
+        } else {
             await refreshTeacherCourseOutline(); //TODO: Bugs??? YES!
             removeLoader(loader);
         }
     }, 5000);
 }
 
-async function deleteCourseFromDatabase(courseID){
-
-    if(courseID.length > 2){
+async function deleteCourseFromDatabase(courseID) {
+    if (courseID.length > 2) {
         let params = `id=${courseID}`;
 
         const response = await AJAXCall({
             phpFilePath: "../include/delete/deleteCourse.php",
             rejectMessage: "Deleting Course Failed",
             params,
-            type: "post"
+            type: "post",
         });
-
-        
     }
-
-
 }
 
-async function deleteLecturesFromDatabase(lectureObject){
-
+async function deleteLecturesFromDatabase(lectureObject) {
     let { id, quizID } = lectureObject;
 
-    if(id.length > 2){
+    if (id.length > 2) {
         let params = `id=${id}`;
 
         await AJAXCall({
             phpFilePath: "../include/delete/deleteLecture.php",
             rejectMessage: "Deleting lecture failed",
             params,
-            type: "post"
+            type: "post",
         });
 
-        if(quizID != 'neverGonnaGiveYouUpNeverGonnaLetYouDownNeverGonnaRunAroundAndDesertYou'){
+        if (
+            quizID !=
+            "neverGonnaGiveYouUpNeverGonnaLetYouDownNeverGonnaRunAroundAndDesertYou"
+        ) {
             await deleteQuiz(quizID);
         }
     }
-
-
 }
 
-async function updateLectureTitleToDatabase(lectureOject){
-
+async function updateLectureTitleToDatabase(lectureOject) {
     let { id, title, hierarchy } = lectureOject;
 
-    if(id.length > 2){
+    if (id.length > 2) {
         let params = `lectureID=${id}&&title=${title}&&hierarchy=${hierarchy}`;
 
         await AJAXCall({
             phpFilePath: "../include/course/editLectureDetails.php",
             rejectMessage: "Getting Details Failed",
             params,
-            type: "post"
+            type: "post",
         });
     }
-
 }
 
-
-async function addLectureTitleToDatabase(lectureOject){
-
+async function addLectureTitleToDatabase(lectureOject) {
     let { id, title, parentID: courseID, hierarchy } = lectureOject;
 
-    if(id.length > 2){
+    if (id.length > 2) {
         let params = `id=${id}&&title=${title}&&courseID=${courseID}&&hierarchy=${hierarchy}`;
 
         await AJAXCall({
             phpFilePath: "../include/course/addNewLecture.php",
             rejectMessage: "Setting Details Failed",
             params,
-            type: "post"
+            type: "post",
         });
     }
-
 }
 
-async function deleteQuiz(id){
-
+async function deleteQuiz(id) {
     let loader = loadLoader("Deleting Quiz");
 
-    try{
+    try {
         await AJAXCall({
             phpFilePath: "../include/delete/deleteQuiz.php",
             rejectMessage: "Quiz not deleted",
             type: "post",
-            params: `id=${id}`
+            params: `id=${id}`,
         });
-    }
-    catch(error){
-
-    }
+    } catch (error) {}
 
     setTimeout(() => {
         refreshTeacherCourseOutline(); //Bugs???
         removeLoader(loader);
     }, 2000);
-
 }
 
-function refreshTeacherCourseOutline(){
+function refreshTeacherCourseOutline() {
     let mainContainer = document.querySelector(".main-container");
     let id = mainContainer.getAttribute("data-id");
-    editCourseWith({id});
+    editCourseWith({ id });
 }
 
-async function deleteResourceWith(resourceObject){
-
-    return new Promise( async(resolve, reject) => {
-
+async function deleteResourceWith(resourceObject) {
+    return new Promise(async (resolve, reject) => {
         const params = createParametersFrom(resourceObject);
-        
 
         try {
             let result = await AJAXCall({
                 phpFilePath: "../include/delete/deleteResource.php",
                 type: "post",
                 rejectMessage: "Deleting Resource Failed",
-                params
-            })
+                params,
+            });
 
-            
             resolve();
-        }catch(error){
-            
-            reject(error)
+        } catch (error) {
+            reject(error);
         }
-
-    })
-
+    });
 }
 
 async function saveVideo() {
     try {
-      
-
         const value = globalCache.get("savevideo");
-        const type='video';
+        const type = "video";
         const id = uniqueID(1);
-    const lectureID=globalCache.get("lectureid");
-    const title =globalCache.get("title");
+        const lectureID = globalCache.get("lectureid");
+        const title = globalCache.get("title");
 
         const params = {
             id: id,
@@ -901,23 +856,20 @@ async function saveVideo() {
             title: title,
         };
 
-   
         const response = await AJAXCall({
-            phpFilePath: "../include/course/addNewResource.php", 
+            phpFilePath: "../include/course/addNewResource.php",
             rejectMessage: "Saving video failed",
             params: createParametersFrom(params),
-            type: "post"
+            type: "post",
         });
 
-        
-
-        if (response === 'success') {
-            alert('Video saved successfully!');
+        if (response === "success") {
+            alert("Video saved successfully!");
         } else {
-            alert('Failed to save video.');
+            alert("Failed to save video.");
         }
     } catch (error) {
         console.error("Error saving video: ", error);
-        alert('Error occurred while saving the video.');
+        alert("Error occurred while saving the video.");
     }
 }
