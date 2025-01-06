@@ -30,8 +30,9 @@
     background: var(--off-white);
 }
 
-.lesson-time{
+.lesson-time *{
     display: grid;
+    grid-template-columns: 1fr auto;
 }
 
 .lesson-time input {
@@ -47,6 +48,10 @@
     border-bottom-left-radius: 7.5px;
     border-bottom-right-radius: 7.5px;
     /* background: rgb(236, 236, 236); */
+}
+
+.lesson-time input:first-child {
+    border-right: none;
 }
 
 .schedules-outer-container{

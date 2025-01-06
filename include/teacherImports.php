@@ -46,6 +46,7 @@
         "../js/ExcelObjective.js",
         "../js/dictionary.js",
         "../js/UILoaders.js",
+        "../js/DateTimeInput.js",
         "../js/exam.js",
         "../js/BatchGenerator.js",
         "../js/flatpicker.min.js",

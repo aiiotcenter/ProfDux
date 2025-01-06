@@ -8,6 +8,8 @@ class Schedules {
             ".schedules-outer-container"
         );
 
+        const allFoundSchedules = [];
+
         // const entries = Object.entries(this.schedulesArray);
 
         if (this.schedulesArray.length > 0)
@@ -45,7 +47,7 @@ class Schedules {
             lessonRightPane.className = "lesson-right-pane";
 
             saveButton.addEventListener("click", () =>
-                saveSchedulesFor(lessonRightPane)
+                saveSchedulesFor(allFoundSchedules)
             );
 
             if (course.lectures.length > 0) {
@@ -73,22 +75,19 @@ class Schedules {
                 const lessonTime = document.createElement("div");
                 lessonTime.className = "lesson-time";
 
-                const lessonTimeInput = document.createElement("input");
-                lessonTimeInput.setAttribute("type", "date");
-                lessonTimeInput.className = "date-input";
+                const lessonTimeInput = new DateTimeInput(lecture.id);
+
+                allFoundSchedules.push(lessonTimeInput);
 
                 if (lecture.time.length > 0) {
-                    let date = lecture.time[0].timeStart.split("T");
-                    lessonTimeInput.value = date[0];
-
-                    lessonTimeInput.setAttribute("isScheduleSet", "true");
+                    let date = lecture.time[0].timeStart;
+                    lessonTimeInput.setDateTime(date);
+                    lessonTimeInput.setIsScheduleNew(false);
                 } else {
-                    lessonTimeInput.setAttribute("isScheduleSet", "false");
+                    lessonTimeInput.setIsScheduleNew(true);
                 }
 
-                lessonTimeInput.setAttribute("lectureID", lecture.id);
-
-                lessonTime.appendChild(lessonTimeInput);
+                lessonTime.appendChild(lessonTimeInput.render());
 
                 lessonItemInnerContainer.appendChild(lessonTitle);
                 lessonItemInnerContainer.appendChild(lessonTime);
@@ -130,17 +129,14 @@ class Schedules {
                 const lessonTime = document.createElement("div");
                 lessonTime.className = "lesson-time";
 
-                const lessonTimeInput = document.createElement("input");
-                lessonTimeInput.setAttribute("type", "date");
-                lessonTimeInput.className = "date-input";
+                const lessonTimeInput = new DateTimeInput(exam.id);
 
                 if (exam.time.length > 0) {
-                    let date = exam.time[0].timeStart.split("T");
-                    lessonTimeInput.value = date[0];
-
-                    lessonTimeInput.setAttribute("isScheduleSet", "true");
+                    let date = exam.time[0].timeStart;
+                    lessonTimeInput.setDateTime(date);
+                    lessonTimeInput.setIsScheduleNew(false);
                 } else {
-                    lessonTimeInput.setAttribute("isScheduleSet", "false");
+                    lessonTimeInput.setIsScheduleNew(true);
                     lessonTitle.innerHTML = `
                         <div class="two-column-grid">
                             <p>${exam.title}</p>
@@ -149,9 +145,7 @@ class Schedules {
                     `;
                 }
 
-                lessonTimeInput.setAttribute("lectureID", exam.id);
-
-                lessonTime.appendChild(lessonTimeInput);
+                lessonTime.appendChild(lessonTimeInput.render());
 
                 lessonItemInnerContainer.appendChild(lessonTitle);
                 lessonItemInnerContainer.appendChild(lessonTime);
@@ -182,45 +176,49 @@ class Schedules {
     }
 }
 
-function saveSchedulesFor(lessonParentContainer) {
-    let lessonElements = lessonParentContainer.querySelectorAll(".date-input");
+async function saveSchedulesFor(allAvailableScheduleElement) {
+    const loader = loadLoader("Saving Schedules");
 
-    //TODO: showLoader();
-    // const loader = loadLoader("Saving Schedules");
-
-    lessonElements.forEach(async (lessonElement, index) => {
-        let time = lessonElement.value;
-        let isScheduleSet = lessonElement.getAttribute("isScheduleSet");
-        let lectureID = lessonElement.getAttribute("lectureID");
-
-        let JSONTime = new Date(time).toJSON();
+    for await (const scheduleElement of allAvailableScheduleElement) {
+        let JSONTime = scheduleElement.getDateTime();
+        let isScheduleSet = scheduleElement.getIsScheduleSet();
+        let isScheduleNew = scheduleElement.getIsScheduleNew();
+        let lectureID = scheduleElement.getID();
 
         const id = uniqueID(1);
         let params = `id=${id}&&foreignID=${lectureID}&&timeStart=${JSONTime}`;
-
         let result;
 
-        try {
-            switch (isScheduleSet) {
-                case "true":
-                    result = await updateScheduleTime(params);
-                    break;
-                case "false":
-                    if (JSONTime) result = await newScheduleTime(params);
-                    break;
-            }
+        if (isScheduleSet && JSONTime) {
+            try {
+                switch (isScheduleNew) {
+                    case false:
+                        result = await updateScheduleTime(params);
+                        console.log("params: ", params);
+                        break;
+                    case true:
+                        result = await newScheduleTime(params);
+                        console.log("new: ", params);
+                        break;
+                }
 
-            // TODO: LOADER PROBLEM
-            // if(index == lessonElements.length - 1)  {
-            //     result.then(() => {
-            //         stopLoader(loader);
-            //     })
-            // }
-        } catch (error) {
-            //TODO: stopLoader();
-            // removeLoader(loader);
+                // TODO: LOADER PROBLEM
+                // if(index == lessonElements.length - 1)  {
+                //     result.then(() => {
+                //         stopLoader(loader);
+                //     })
+                // }
+            } catch (error) {
+                //TODO: stopLoader();
+                removeLoader(loader);
+            }
         }
-    });
+    };
+
+    setTimeout(() => {
+        removeLoader(loader);
+        location.reload();
+    },1000)
 }
 
 async function updateScheduleTime(params) {
