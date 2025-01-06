@@ -130,6 +130,7 @@ class Schedules {
                 lessonTime.className = "lesson-time";
 
                 const lessonTimeInput = new DateTimeInput(exam.id);
+                allFoundSchedules.push(lessonTimeInput);
 
                 if (exam.time.length > 0) {
                     let date = exam.time[0].timeStart;
