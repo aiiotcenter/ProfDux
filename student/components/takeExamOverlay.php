@@ -41,7 +41,7 @@
 
                         <div class="total-exam-mark">
                             <div class="text-divider">
-                                <text>Total Quiz Marks</text>
+                                <text>Total Exam Marks</text>
                                 <p>:</p>
                             </div>
                             <p class="total-exam-mark-placeholder">0</p>
