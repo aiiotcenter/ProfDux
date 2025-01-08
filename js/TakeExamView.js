@@ -94,7 +94,7 @@ class TakeExamView {
 
         timeCommentElement.textContent =
             isTimeSet && isTimeReady
-                ? await calculateRemainingMinutes(time[0].timeStart, duration)
+                ? calculateRemainingMinutes(time[0].timeStart, duration)
                 : `${duration} minutes`;
 
         if (isExamDone) {
@@ -320,11 +320,9 @@ class TakeExam {
         );
     }
 
-    async startTimer() {
+    startTimer() {
         let timerElement = document.querySelector(".timer");
-        let minutesPromise = await this.durationCallback();
-        console.log("minutesPromise", minutesPromise)
-        let minutes = Number(minutesPromise.split(" ")[0]);
+        let minutes = Number(this.durationCallback().split(" ")[0]);
         const timer = new Timer(minutes, timerElement, () => this.endExam());
         timer.start();
         this.timer = timer;
@@ -526,7 +524,7 @@ async function addNewExamGradeRowInDatabase(examGradeObject) {
     });
 }
 
-async function isTimeReady(__startTime, durationMinutes) {
+function isTimeReady(__startTime, durationMinutes) {
     try {
         // Parse the start time in UTC (because it's in UTC format: 2025-01-05T14:00:00.000Z)
         const startTimeUTC = new Date(__startTime);
@@ -536,14 +534,7 @@ async function isTimeReady(__startTime, durationMinutes) {
         }
 
         // Get the current local time
-        let now = new Date();
-
-        try {
-            now = await getOnlineTime();
-            console.log(`Resolved North Cyprus time: ${now}`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
+        const now = new Date();
 
         // Convert the start time from UTC to local time
         const localStartTime = new Date(
@@ -565,7 +556,7 @@ async function isTimeReady(__startTime, durationMinutes) {
     }
 }
 
-async function calculateRemainingMinutes(__startTime, durationMinutes) {
+function calculateRemainingMinutes(__startTime, durationMinutes) {
     try {
         // Parse the start time in UTC (because it's in UTC format: 2025-01-05T14:00:00.000Z)
         const startTimeUTC = new Date(__startTime);
@@ -575,14 +566,7 @@ async function calculateRemainingMinutes(__startTime, durationMinutes) {
         }
 
         // Get the current local time
-        let now = new Date();
-
-        try {
-            now = await getOnlineTime();
-            console.log(`Resolved North Cyprus time: ${now}`);
-        } catch (error) {
-            console.error("Error:", error);
-        }
+        const now = new Date();
 
         // Convert the start time from UTC to local time
         const localStartTime = new Date(
@@ -595,10 +579,7 @@ async function calculateRemainingMinutes(__startTime, durationMinutes) {
         );
 
         // Calculate remaining time in milliseconds
-        const remainingTimeMillis = examEndTimeLocal.getTime() - now;
-
-        console.log("now: ", now);
-        console.log("remainingTimeMillis: ", remainingTimeMillis);
+        const remainingTimeMillis = examEndTimeLocal.getTime() - now.getTime();
 
         // If the remaining time is 0 or negative, it means the exam is already over
         if (remainingTimeMillis <= 0) {
@@ -607,8 +588,6 @@ async function calculateRemainingMinutes(__startTime, durationMinutes) {
 
         // Calculate the remaining time in minutes and round down
         const remainingMinutes = Math.floor(remainingTimeMillis / 60000); // Convert milliseconds to minutes
-
-        console.log("remainingMinutes: ", remainingMinutes);
 
         // Return the remaining minutes
         return remainingMinutes + " minutes remaining";
@@ -688,28 +667,4 @@ class CheatingDetector {
         data[this.examId] = this.currentAttempts;
         localStorage.setItem("cheatingAttempts", JSON.stringify(data));
     }
-}
-
-function getOnlineTime() {
-    return new Promise(async(resolve,reject) => {
-        try {
-            const response = await fetch('http://worldclockapi.com/api/json/utc/now');
-            const data = await response.json();
-    
-            console.log(`Fallback UTC time: ${data.currentDateTime}`);
-            const utcDate = new Date(data.currentDateTime);
-    
-            // Calculate the timezone offset for Asia/Nicosia in milliseconds
-            const cyprusTimeZone = "Asia/Nicosia";
-            const cyprusOptions = { timeZone: cyprusTimeZone };
-            const cyprusLocaleString = utcDate.toLocaleString("en-US", cyprusOptions);
-            const cyprusDate = new Date(cyprusLocaleString);
-    
-            console.log(`Current time in North Cyprus (Date object): ${cyprusDate}`);
-            resolve(cyprusDate); // Return the Date object
-        } catch (error) {
-            console.error('Error fetching time:', error);
-            throw error; // Re-throw the error for the caller to handle
-        }
-    })
 }
