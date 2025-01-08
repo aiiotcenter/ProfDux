@@ -9,7 +9,7 @@
 
     <?php include '../include/studentImports.php'; ?>
 
-    <script src="../js/TakeExamView.js?4"></script>
+    <script src="../js/TakeExamView.js?10"></script>
     
 </head>
 
