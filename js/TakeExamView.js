@@ -132,6 +132,13 @@ class TakeExamView {
                 })
             );
 
+        isExamDone && examCard.addEventListener("click", () =>
+            this.handleReviewExam({
+                examID,
+                courseID
+            })
+        );
+
         return examCard;
     }
 
@@ -230,6 +237,61 @@ class TakeExamView {
 
         startExam(examObject);
     }
+
+    async handleReviewExam(metadata) {
+        openPopup(".review-exam-overlay");
+
+        let { examID } = metadata;
+        let { id: globalUserID } = await getUserDetails();
+
+        let examObject;
+        const language = extrapolateLanguage();
+        let correctPath;
+
+        const examResponse = await AJAXCall({
+            phpFilePath: "../include/exam/getPersonalExamGrades.php",
+            rejectMessage: "Exam Grades Failed To Be Fetched",
+            params: `userID=${globalUserID}&&examID=${examID}`,
+            type: "fetch",
+        }); // TODO:
+
+        if (examResponse.length > 0) {
+
+            const { id: rowID, examID, filename, courseID } = examResponse[0];
+
+            const examGradeObject = {
+                id: rowID,
+                userID: globalUserID,
+                examID,
+                courseID,
+            };
+
+            correctPath = `../exam/taken/${filename}`;
+
+            examObject = {
+                examGradeObject,
+                type: "review",
+                assessmentType: "exam",
+                language,
+            };
+        } 
+
+        let examFileResponse = await fetch(correctPath, {
+            cache: "reload",
+        });
+
+        let questions = await examFileResponse.json();
+
+        const rootElement = document.querySelector(".review-exam-overlay");
+
+        let questionsArray = questions.map((question) =>
+            reviewQuestionMapSwitch(question, rootElement)
+        );
+
+        examObject.questionsArray = questionsArray;
+
+        reviewExam(examObject);
+    }
 }
 
 async function startExam(examObject) {
@@ -261,6 +323,37 @@ async function startExam(examObject) {
     setTimeout(() => {
         takeExam.startExam();
         closePopup(".take-exam-loader");
+    }, 2000);
+}
+
+async function reviewExam(examObject) {
+
+    const rootElement = document.querySelector(".review-exam-overlay");
+
+    const reviewExam = new ReviewExam(rootElement, examObject);
+
+    //TODO: load instructions and start button
+
+    let nextButton = rootElement.querySelector(".next-question");
+    let previousButton = rootElement.querySelector(".previous-question");
+
+    previousButton = clearEventListenersFor(previousButton);
+    nextButton = clearEventListenersFor(nextButton);
+
+    reviewExam.setNextButton(nextButton);
+    reviewExam.setPreviousButton(previousButton);
+
+    let examBody = rootElement.querySelector(".exam-popup-body");
+    let resultsBody = rootElement.querySelector(".exam-results-body");
+    let buttonGroupFooter = rootElement.querySelector(".button-group-footer");
+
+    examBody.style.display = "grid";
+    buttonGroupFooter.style.display = "grid";
+    resultsBody.style.display = "none";
+
+    setTimeout(() => {
+        reviewExam.start();
+        closePopup(".review-exam-loader");
     }, 2000);
 }
 
@@ -666,5 +759,102 @@ class CheatingDetector {
         const data = JSON.parse(localStorage.getItem("cheatingAttempts")) || {};
         data[this.examId] = this.currentAttempts;
         localStorage.setItem("cheatingAttempts", JSON.stringify(data));
+    }
+}
+
+
+class ReviewExam {
+    filename;
+    minimumExamNumber = 0;
+    maximumExamNumber = 0;
+    currentExamNumber = 0;
+    questions = [];
+    nextButton;
+    previousButton;
+    finishExamButton;
+    type;
+    examGradeObject;
+
+    renderQuestionNumber(questionNumber) {
+        let questionNumberElement = this.rootElement.querySelector(".question-header");
+        questionNumberElement.innerHTML = "";
+        let questionTextElement = createLocalizedTextElement("Question");
+        let numberElement = document.createElement("div");
+        numberElement.textContent = questionNumber + 1;
+        questionNumberElement.appendChild(questionTextElement);
+        questionNumberElement.appendChild(numberElement);
+    }
+
+    constructor(rootElement, {
+        questionsArray,
+        examGradeObject,
+        type,
+        assessmentType,
+        language = "english",
+    }) {
+        this.questions = questionsArray; // randomize(questions);
+        this.examID = examGradeObject.examID;
+        this.maximumExamNumber = this.questions.length - 1;
+        this.type = type;
+        this.currentExamNumber = 0;
+        this.examGradeObject = examGradeObject;
+        this.language = language;
+        this.assessmentType = assessmentType;
+        this.rootElement = rootElement;
+    }
+
+    start() {
+        this.renderQuestion();
+        this.handleButtons();
+    }
+
+    renderQuestion() {
+        this.renderQuestionNumber(this.currentExamNumber);
+        this.questions[this.currentExamNumber].render(this.language);
+    }
+
+    nextQuestion() {
+        ++this.currentExamNumber;
+        this.handleButtons();
+        this.renderQuestion();
+    }
+
+    previousQuestion() {
+        --this.currentExamNumber;
+        this.handleButtons();
+        this.renderQuestion();
+    }
+
+    setPreviousButton(button) {
+        this.previousButton = clearEventListenersFor(button);
+        this.previousButton.addEventListener("click", () => {
+            this.previousQuestion();
+        });
+    }
+
+    setNextButton(button) {
+        this.nextButton = clearEventListenersFor(button);
+        this.nextButton.addEventListener("click", () => {
+            this.nextQuestion();
+        });
+    }
+
+    handleButtons() {
+        if (this.currentExamNumber == 0) {
+            this.nextButton.removeAttribute("disabled");
+            this.previousButton.setAttribute("disabled", "true");
+        }
+
+        if (
+            this.currentExamNumber > 0 &&
+            this.currentExamNumber <= this.maximumExamNumber
+        ) {
+            this.nextButton.removeAttribute("disabled");
+            this.previousButton.removeAttribute("disabled");
+        }
+
+        if (this.currentExamNumber == this.maximumExamNumber) {
+            this.nextButton.setAttribute("disabled", "true");
+        }
     }
 }

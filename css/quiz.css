@@ -61,6 +61,22 @@
     transition: 0.3s all;
 }
 
+.answer-options-list.static > .answer-option-container:not(.active):hover{
+    transform: unset;
+    color: inherit;
+}
+
+.correct-answer {
+    outline: 2px solid #1E883E;
+    padding: 5px;
+    height: 100%;
+}
+
+input.correct-answer {
+    border-color: #1E883E;
+    color: #1E883E;
+}
+
 /* .answer-option-container:hover .letter-option{ border-color: var(--accent);} */
 
 .letter-option {

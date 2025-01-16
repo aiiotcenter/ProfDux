@@ -529,14 +529,27 @@ function extractType(type) {
   }
 }
 
-function questionMapSwitch(question) {
+function questionMapSwitch(question, rootElement = document) {
   switch (question.type.toLowerCase()) {
     case "multiplechoicequestion":
-      return new MultipleChoice(question);
+      return new MultipleChoice(question, rootElement);
     case "trueandfalsequestion":
-      return new TrueAndFalse(question);
+      return new TrueAndFalse(question, rootElement);
     case "fillintheblankquestion":
-      return new FillInTheBlank(question);
+      return new FillInTheBlank(question, rootElement);
+    default:
+      throw new Error(`Not Made Yet: ${question.type.toLowerCase()}`);
+  }
+}
+
+function reviewQuestionMapSwitch(question, rootElement = document) {
+  switch (question.type.toLowerCase()) {
+    case "multiplechoicequestion":
+      return new ReviewMultipleChoice(question, rootElement);
+    case "trueandfalsequestion":
+      return new ReviewTrueAndFalse(question, rootElement);
+    case "fillintheblankquestion":
+      return new ReviewFillInTheBlank(question, rootElement);
     default:
       throw new Error(`Not Made Yet: ${question.type.toLowerCase()}`);
   }

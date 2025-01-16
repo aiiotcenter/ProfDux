@@ -61,6 +61,7 @@
         </script>
 
         <?php include "components/takeExamOverlay.php" ?>
+        <?php include "components/reviewExamOverlay.php" ?>
 </body>
 
 </html>

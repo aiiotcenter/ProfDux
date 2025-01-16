@@ -71,9 +71,9 @@
     box-shadow: var(--pop) 0px 1px 2px 0px;
 }
 
-.exam-card:has(.inverted){
+/* .exam-card:has(.inverted){
     cursor: not-allowed;
-}
+} */
 
 .white-overlay {
     background: linear-gradient(-170deg, transparent, white, white);

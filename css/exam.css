@@ -161,7 +161,7 @@
     border-radius: 10px;
 }
 
-.take-exam-overlay .question {
+.take-exam-overlay .question, .review-exam-overlay .question  {
     background-color: transparent;
 }
 
