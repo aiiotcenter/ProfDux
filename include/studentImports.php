@@ -49,6 +49,7 @@ $jsPaths = array(
     "../js/courseManagement.js",
     "../js/Classroom.js",
     "../js/videoViewer.js",
+    "../js/GradesView.js",
 );
 
 // These are for javascript files that you want
@@ -70,7 +71,6 @@ $jsPaths_Defer = array(
     "../js/Ebooks.js",
     "../js/exam.js",
     "../js/DuxClassChat.js",
-    "../js/GradesView.js",
     "../js/Timer.js",
 );
 

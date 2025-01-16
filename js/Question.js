@@ -24,13 +24,13 @@ class Question {
 
         if (questionObject.inputAnswer != null)
             this.inputAnswer = questionObject.inputAnswer;
+
         this.rootElement = rootElement;
     }
 
     showMark(value) {
         const markPlaceholder =
             this.rootElement.querySelector(".question-mark");
-        console.log("markPlaceholder: ", markPlaceholder);
         markPlaceholder.style.display = "grid";
         markPlaceholder.textContent = `mark given ${value}`;
     }
@@ -236,8 +236,6 @@ async function markFITBQuestion(questionObject, language) {
     `;
 
     let result = await generateGPTResponseFor(query);
-
-    console.log("gpt result: ", result);
 
     try {
         if (result.mark >= 0) return result.mark;

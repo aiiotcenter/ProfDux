@@ -122,8 +122,12 @@ class ExamsView {
     let quizFileResponse = await fetch(correctPath, { cache: "reload" });
     let questions = await quizFileResponse.json();
 
+    let editAssessmentOverlay = document.querySelector(
+      ".edit-assessment-overlay"
+    );
+
     let questionsArray = questions.map((question) =>
-      questionEditMapSwitch(question)
+      questionEditMapSwitch(question, editAssessmentOverlay)
     );
 
     let assessment = new EditAssessment(
@@ -136,9 +140,6 @@ class ExamsView {
 
     openPopup(".edit-assessment-overlay");
 
-    let editAssessmentOverlay = document.querySelector(
-      ".edit-assessment-overlay"
-    );
     let previousButton =
       editAssessmentOverlay.querySelector(".previous-question");
     let nextButton = editAssessmentOverlay.querySelector(".next-question");
