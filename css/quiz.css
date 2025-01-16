@@ -312,3 +312,29 @@ h3 {
     border: 2px solid var(--accent);
     color: var(--accent);
 }
+
+.mini-header{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+.question-mark-area {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    align-items: center;
+}
+
+.question-mark {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8em;
+    color: var(--accent);
+}
+
+.remark-button {
+    display: none;
+}

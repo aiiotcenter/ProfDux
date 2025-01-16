@@ -27,6 +27,39 @@ class Question {
         this.rootElement = rootElement;
     }
 
+    showMark(value) {
+        const markPlaceholder =
+            this.rootElement.querySelector(".question-mark");
+        console.log("markPlaceholder: ", markPlaceholder);
+        markPlaceholder.style.display = "grid";
+        markPlaceholder.textContent = `mark given ${value}`;
+    }
+
+    hideMark() {
+        const markPlaceholder =
+            this.rootElement.querySelector(".question-mark");
+        markPlaceholder.style.display = "none";
+    }
+
+    hideMarkButton() {
+        const button = clearEventListenersFor(
+            this.rootElement.querySelector(".remark-button")
+        );
+        button.style.display = "none";
+    }
+
+    showMarkButton(callback) {
+        const button = clearEventListenersFor(
+            this.rootElement.querySelector(".remark-button")
+        );
+        button.style.display = "grid";
+        this.hideMark();
+        button.addEventListener("click", () => {
+            button.style.display = "none";
+            callback();
+        });
+    }
+
     //TODO: refactor out this function ...
     renderAssessmentArea(...assessmentAreaElements) {
         let assessmentArea = this.rootElement.querySelector(".question-area");
@@ -182,15 +215,17 @@ async function markFITBQuestion(questionObject, language) {
         marksWorth,
         hardness: level,
         inputAnswer,
+        answer,
     } = questionObject;
 
     const educationEnvironment = extrapolateEducationEnvironment();
 
     let query =
         `
-        Evaluate the following question and answer, and provide a fair score rounded to the nearest integer. For short answers (1-3 words), award partial marks if the response demonstrates relevant understanding, even if it’s not fully comprehensive and case insensitive.
+        Evaluate the following question and StudentAnswer based of the AnswerGivenBefore , and provide a fair score rounded to the nearest integer. For short answers (1-3 words), award partial marks if the response demonstrates relevant understanding, even if it’s not fully comprehensive and case insensitive.
             - Question: "${question[language]}"
-            - Answer: "${inputAnswer}"
+            - AnswerGivenBefore: "${answer[language]}"
+            - StudentAnswer: "${inputAnswer}"
             - Maximum Marks: ${marksWorth}
             - Audience: ${educationEnvironment} students
             - Difficulty Level: ${level}
@@ -201,6 +236,8 @@ async function markFITBQuestion(questionObject, language) {
     `;
 
     let result = await generateGPTResponseFor(query);
+
+    console.log("gpt result: ", result);
 
     try {
         if (result.mark >= 0) return result.mark;
@@ -712,11 +749,33 @@ class ReviewMultipleChoice extends Question {
         super(questionObject, rootElement);
     }
 
+    // showMark() {
+    //     <div class="mini-header">
+    //         <div class="question-header"></div>
+    //         <div class="question-mark-area">
+    //             <div class="question-mark">mark given: 0</div>
+    //             <div class="button remark-button">mark</div>
+    //         </div>
+    //     </div>;
+    // }
+
     render(language) {
         let question = renderQuestion(this.question[language]);
 
         let answerOptionsList = document.createElement("div");
         answerOptionsList.className = "answer-options-list static";
+
+        const mark = markMultipleChoiceQuestion(
+            {
+                marksWorth: this.marksWorth,
+                inputAnswer: this.inputAnswer,
+                answer: this.answer,
+            },
+            language
+        );
+
+        super.hideMarkButton();
+        super.showMark(mark);
 
         this.answerOptions[language].forEach((option, index) => {
             let answerOptionContainer = document.createElement("div");
@@ -782,6 +841,17 @@ class ReviewTrueAndFalse extends Question {
         let answerOptionsList = document.createElement("div");
         answerOptionsList.className = "tf-options-list";
 
+        const mark = markMultipleChoiceQuestion(
+            {
+                marksWorth: this.marksWorth,
+                inputAnswer: this.inputAnswer,
+                answer: this.answer,
+            },
+            language
+        );
+        super.hideMarkButton();
+        super.showMark(mark);
+
         let answerOptionMap = answerOptions.map((option, index) => {
             let answerOptionContainer = document.createElement("div");
             answerOptionContainer.className = "tf-answer-option-container";
@@ -801,7 +871,8 @@ class ReviewTrueAndFalse extends Question {
                 if (
                     this.answerOptions[language][index] == this.answer[language]
                 )
-                    answerOption.className = "button tf-answer-option correct-answer";
+                    answerOption.className =
+                        "button tf-answer-option correct-answer";
                 else answerOption.className = "button tf-answer-option";
             }
 
@@ -822,14 +893,32 @@ class ReviewFillInTheBlank extends Question {
     render(language) {
         let question = renderQuestion(this.question[language]);
 
+        super.showMarkButton(() => markCallback(this));
+
+        async function markCallback(that) {
+            const result = await markFITBQuestion(
+                {
+                    question: that.question[language],
+                    marksWorth: that.marksWorth,
+                    hardness: that.hardness,
+                    inputAnswer: that.inputAnswer,
+                    answer: that.answer,
+                },
+                language
+            );
+
+            console.log("async result: ", result);
+
+            that.showMark(result);
+        }
+
         let blankTextContainer = document.createElement("div");
         blankTextContainer.className = "fitb-answer-option-container";
-
-        // blankTextEditableField.setAttribute("contentEditable","true");
 
         let blankTextEditableField = document.createElement("input");
         blankTextEditableField.className = "fitb-answer-input";
         blankTextEditableField.placeholder = "Enter You Answer Here";
+        blankTextEditableField.readOnly = true;
 
         if (this.inputAnswer) {
             blankTextEditableField.className = "fitb-answer-input active";
@@ -845,6 +934,7 @@ class ReviewFillInTheBlank extends Question {
         correctAnswer.className = "fitb-answer-input correct-answer";
         correctAnswer.placeholder = "Correct Answer";
         correctAnswer.value = this.answer[language];
+        correctAnswer.readOnly = true;
 
         console.log("answer: ", this.answer[language]);
 

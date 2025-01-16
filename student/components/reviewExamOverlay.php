@@ -15,8 +15,16 @@
 
         <div class="popup-body exam-popup-body">
 
-            <div class="question-header">
+            <div class="mini-header">
+                <div class="question-header">
 
+                </div>
+                <div class="question-mark-area">
+                    <div class="question-mark">
+                        mark given: 0
+                    </div>
+                    <div class="button remark-button">mark</div>
+                </div>
             </div>
 
             <div class="question-area">
