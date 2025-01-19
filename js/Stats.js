@@ -220,27 +220,31 @@ async function loadGrades(courseObject) {
         console.log("quizObjectArray", quizObjectArray);
         console.log("examObjectArray", examObjectArray);
         console.log("weightObjectArray", weightObjectArray);
+        console.log("hell5");
 
-        console.log("hello", quizObjectArray[0].content);
+        quizObjectArray.forEach((object, i) => {
+            console.log("length: ", object.content.length);
+            for (let index = 0; index < object.content.length; index++) {
+                examObjectArray[i] &&
+                    examObjectArray[i].content.shift();
+            }
+        });
 
-        for (let index = 0; index < quizObjectArray[0].content.length; index++) {
-            examObjectArray[0].content.shift();
-        }
+        console.log("hello3");
+        console.log("hello4");
 
-        console.log("hello2");
+        const obj = examObjectArray.map((examObject, index) => {
 
-        const obj = [
-            {
-                studentID: examObjectArray[0].studentID,
+            console.log("this one: ", examObject.content);
+
+            return {
+                studentID: examObject.studentID,
                 totalMark:
-                    examObjectArray[0].totalMark + quizObjectArray[0].totalMark,
-                details: examObjectArray[0].details,
-                content: [
-                    ...quizObjectArray[0].content,
-                    ...examObjectArray[0].content,
-                ],
-            },
-        ];
+                    examObject.totalMark + quizObjectArray[index].totalMark,
+                details: examObject.details,
+                content: [...quizObjectArray[index].content, ...examObject.content],
+            };
+        });
 
         console.log("obj: ", obj);
 

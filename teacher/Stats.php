@@ -9,7 +9,7 @@
         <?php include '../include/teacherImports.php'; ?>
 
         <link rel="stylesheet" href="../css/grid-table.css?6">
-        <script src="../js/StatsView.js?12" defer></script>
+        <script src="../js/StatsView.js?16" defer></script>
         <script src="../js/Stats.js?6"></script>
 
     </head>
