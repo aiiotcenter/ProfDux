@@ -8,9 +8,9 @@
 
         <?php include '../include/teacherImports.php'; ?>
 
-        <link rel="stylesheet" href="../css/grid-table.css?4">
-        <script src="../js/StatsView.js?3" defer></script>
-        <script src="../js/Stats.js?1"></script>
+        <link rel="stylesheet" href="../css/grid-table.css?6">
+        <script src="../js/StatsView.js?12" defer></script>
+        <script src="../js/Stats.js?6"></script>
 
     </head>
     <body>

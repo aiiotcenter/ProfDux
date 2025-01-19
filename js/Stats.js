@@ -11,6 +11,15 @@ async function loadGrades(courseObject) {
             type: "fetch",
         });
 
+        let examStructure = await AJAXCall({
+            phpFilePath: "../include/exam/getExamStructure.php",
+            rejectMessage: "Getting Structure Failed",
+            params: `id=${id}`,
+            type: "fetch",
+        });
+
+        console.log("examStructure:", examStructure);
+
         let result = await AJAXCall({
             phpFilePath: "../include/quiz/getCourseGrades.php",
             rejectMessage: "Getting Course Grades Failed",
@@ -26,6 +35,9 @@ async function loadGrades(courseObject) {
         });
 
         const quizGrades = result.quizGrades;
+        const examGrades = result.examGrades;
+
+        console.log("grades:", quizGrades, examGrades);
 
         let structureObjectArray =
             quizStructure.length <= 0
@@ -78,6 +90,8 @@ async function loadGrades(courseObject) {
             const studentID = entries[0];
             const quizData = entries[1];
 
+            console.log("quizData: ", quizData);
+
             let details = quizObject.details;
             let content = [];
             let calculatableContent = [];
@@ -124,11 +138,116 @@ async function loadGrades(courseObject) {
             ];
         });
 
+        examStructure.forEach((structureItem) => {
+            let foundWeight;
+
+            weightObjectArray.examArray.forEach((exam) => {
+                if (exam.id == structureItem.id) {
+                    if (exam.weight) {
+                        foundWeight = exam.weight.value;
+                    } else {
+                        foundWeight = null;
+                    }
+
+                    return;
+                }
+            });
+
+            structureObjectArray.push({
+                name: foundWeight
+                    ? `Exam ${structureItem.hierarchy} (${structureItem.totalMarks}) (${foundWeight}%)`
+                    : `Exam ${structureItem.hierarchy} (Not Set)`,
+                id: structureItem.id,
+                totalMarks: structureItem.totalMarks,
+                weight: foundWeight,
+            });
+        });
+
+        examGrades.forEach((examObject) => {
+            const entries = Object.entries(examObject)[0];
+            const studentID = entries[0];
+            const examData = entries[1];
+
+            console.log("examData: ", examData);
+
+            let details = examObject.details;
+            let content = [];
+            let calculatableContent = [];
+            let totalMark;
+            let foundWeight;
+
+            structureObjectArray.forEach((structure) => {
+                let foundExamValue = null;
+
+                examData.forEach((exam) => {
+                    if (structure.id == exam.examID) {
+                        foundExamValue = exam.value;
+                        return;
+                    }
+                });
+
+                let roundedResult = 0;
+                let result;
+
+                if (structure.weight != null && foundExamValue != null) {
+                    calculatedResult =
+                        (foundExamValue / structure.totalMarks) *
+                        structure.weight;
+                    roundedResult = Math.floor(calculatedResult * 100) / 100;
+                    result = foundExamValue;
+                } else {
+                    result = "-";
+                }
+
+                content = [...content, result];
+                calculatableContent = [...calculatableContent, roundedResult];
+            });
+
+            totalMark = calculatableContent.reduce((a, b) => a + b, 0);
+
+            examObjectArray = [
+                ...examObjectArray,
+                {
+                    studentID,
+                    content,
+                    totalMark,
+                    details,
+                },
+            ];
+        });
+
+        console.log("structureObjectArray", structureObjectArray);
+        console.log("quizObjectArray", quizObjectArray);
+        console.log("examObjectArray", examObjectArray);
+        console.log("weightObjectArray", weightObjectArray);
+
+        console.log("hello", quizObjectArray[0].content);
+
+        for (let index = 0; index < quizObjectArray[0].content.length; index++) {
+            examObjectArray[0].content.shift();
+        }
+
+        console.log("hello2");
+
+        const obj = [
+            {
+                studentID: examObjectArray[0].studentID,
+                totalMark:
+                    examObjectArray[0].totalMark + quizObjectArray[0].totalMark,
+                details: examObjectArray[0].details,
+                content: [
+                    ...quizObjectArray[0].content,
+                    ...examObjectArray[0].content,
+                ],
+            },
+        ];
+
+        console.log("obj: ", obj);
+
         let statsView = new StatsView(
             structureObjectArray,
             [],
-            quizObjectArray,
-            examObjectArray,
+            obj,
             weightObjectArray
         );
         statsView.render();
